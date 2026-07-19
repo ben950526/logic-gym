@@ -1,0 +1,275 @@
+[
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "分班分蘋果",
+    "content_json": {
+      "question": "【已知】合作社有 43 顆蘋果，要分給若干班，每班必須剛好 6 顆，不能拆半顆。\n\n【問題】最多能分給幾班？（請填數字）",
+      "unit": "班"
+    },
+    "answer_json": { "answer": 7, "tolerance": 0 },
+    "explanation": "43 ÷ 6 = 7 餘 1，所以最多完整分給 7 班。驗算：7 × 6 = 42 ≤ 43；8 × 6 = 48 > 43。",
+    "explanationSteps": [
+      "每班 6 顆，用除法看能分幾班。",
+      "43 ÷ 6 = 7 餘 1。",
+      "最多 7 班。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "閱讀還差多久",
+    "content_json": {
+      "question": "【已知】小芬今天的閱讀目標是 90 分鐘。她已經讀了 35 分鐘。\n\n【問題】還差幾分鐘才達成目標？（請填數字）",
+      "unit": "分鐘"
+    },
+    "answer_json": { "answer": 55, "tolerance": 0 },
+    "explanation": "90 − 35 = 55 分鐘。驗算：35 + 55 = 90。",
+    "explanationSteps": [
+      "目標 90 分鐘，已讀 35 分鐘。",
+      "90 − 35 = 55。",
+      "還差 55 分鐘。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "正方形花圃",
+    "content_json": {
+      "question": "【已知】校園裡有一個正方形花圃，圍一圈篱笆的總長度（周長）是 48 公尺，四邊一樣長。\n\n【問題】花圃一邊長幾公尺？（請填數字）",
+      "unit": "公尺"
+    },
+    "answer_json": { "answer": 12, "tolerance": 0 },
+    "explanation": "正方形周長 = 邊長 × 4，所以邊長 = 48 ÷ 4 = 12 公尺。驗算：12 × 4 = 48。",
+    "explanationSteps": [
+      "正方形四邊相等。",
+      "48 ÷ 4 = 12。",
+      "一邊 12 公尺。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "果汁毫升",
+    "content_json": {
+      "question": "【已知】1 瓶果汁 350 毫升。運動會預備了 6 瓶同容量的果汁。\n\n【問題】一共有幾毫升？（請填數字）",
+      "unit": "毫升"
+    },
+    "answer_json": { "answer": 2100, "tolerance": 0 },
+    "explanation": "350 × 6 = 2100 毫升。驗算：2100 ÷ 6 = 350。",
+    "explanationSteps": [
+      "每瓶 350 毫升，共 6 瓶。",
+      "350 × 6 = 2100。",
+      "共 2100 毫升。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "茶葉包裝",
+    "content_json": {
+      "question": "【已知】茶葉 1 盒裝 8 包。小杰買了 3 盒，又另外買了 5 包散裝（和盒裝每包一樣多）。\n\n【問題】他總共拿到幾包茶葉？（請填數字）",
+      "unit": "包"
+    },
+    "answer_json": { "answer": 29, "tolerance": 0 },
+    "explanation": "3 盒 = 3 × 8 = 24 包；再加 5 包 = 24 + 5 = 29 包。驗算：29 − 5 = 24，24 ÷ 8 = 3 盒。",
+    "explanationSteps": [
+      "3 盒：3 × 8 = 24 包。",
+      "加散裝 5 包。",
+      "24 + 5 = 29 包。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "找零猜單價",
+    "content_json": {
+      "question": "【已知】小安買 7 件同款貼紙，付 200 元，找回 53 元。沒有其他折扣。\n\n【問題】1 件貼紙幾元？（請填數字）",
+      "unit": "元"
+    },
+    "answer_json": { "answer": 21, "tolerance": 0 },
+    "explanation": "實付 200 − 53 = 147 元。147 ÷ 7 = 21 元/件。驗算：21 × 7 = 147，147 + 53 = 200。",
+    "explanationSteps": [
+      "實付 = 200 − 53 = 147 元。",
+      "147 ÷ 7 = 21。",
+      "每件 21 元。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "紅白彈珠",
+    "content_json": {
+      "question": "【已知】袋裡紅彈珠的數量是白彈珠的 2 倍。紅、白彈珠共有 36 顆。\n\n【問題】紅彈珠有幾顆？（請填數字）",
+      "unit": "顆"
+    },
+    "answer_json": { "answer": 24, "tolerance": 0 },
+    "explanation": "設白彈珠 x 顆，紅彈珠 2x 顆。x + 2x = 36 → 3x = 36 → x = 12，紅 = 24。驗算：24 + 12 = 36，24 是 12 的 2 倍。",
+    "explanationSteps": [
+      "設白 x，紅 2x。",
+      "3x = 36 → x = 12。",
+      "紅彈珠 24 顆。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "公車空位",
+    "content_json": {
+      "question": "【已知】公車限坐 32 人。出發時車上有 18 人。下一站上車 7 人、下車 3 人，之後不再變動。\n\n【問題】還剩幾個空位？（請填數字）",
+      "unit": "個"
+    },
+    "answer_json": { "answer": 10, "tolerance": 0 },
+    "explanation": "車上人數 18 + 7 − 3 = 22 人。空位 32 − 22 = 10 個。驗算：22 + 10 = 32。",
+    "explanationSteps": [
+      "18 + 7 − 3 = 22 人。",
+      "32 − 22 = 10。",
+      "剩 10 個空位。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "種樹問題",
+    "content_json": {
+      "question": "【已知】在一條 40 公尺長的路邊種樹，每隔 5 公尺種 1 棵，**起點與終點都要種**。\n\n【問題】一共要種幾棵樹？（請填數字）",
+      "unit": "棵"
+    },
+    "answer_json": { "answer": 9, "tolerance": 0 },
+    "explanation": "40 ÷ 5 = 8 段，兩端都種 → 8 + 1 = 9 棵。驗算：9 棵樹中間有 8 個 5 公尺間隔，8 × 5 = 40。",
+    "explanationSteps": [
+      "40 ÷ 5 = 8 段。",
+      "兩端都種：棵數 = 段數 + 1。",
+      "8 + 1 = 9 棵。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "幾年後變三倍",
+    "content_json": {
+      "question": "【已知】媽媽今年 36 歲，小華今年 8 歲。幾年後，媽媽的年齡會剛好是小華的 3 倍？\n\n【問題】幾年後？（請填數字）",
+      "unit": "年",
+      "hint": "設 x 年後，兩人年齡都要加 x。"
+    },
+    "answer_json": { "answer": 6, "tolerance": 0 },
+    "explanation": "設 x 年後：36 + x = 3(8 + x) → 36 + x = 24 + 3x → 12 = 2x → x = 6。驗算：6 年後媽媽 42 歲、小華 14 歲，42 = 3 × 14。",
+    "explanationSteps": [
+      "設 x 年後列式。",
+      "36 + x = 3(8 + x)。",
+      "解得 x = 6。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "買二送一",
+    "content_json": {
+      "question": "【已知】文具店「買 2 送 1」：每付 2 件的錢可以拿走 3 件同款（第 3 件免費）。每件原價 45 元，沒有其他折扣。小凱想剛好拿到 9 件。\n\n【問題】他要付幾元？（請填數字）",
+      "unit": "元",
+      "hint": "先想 9 件是幾組「買 2 送 1」。"
+    },
+    "answer_json": { "answer": 270, "tolerance": 0 },
+    "explanation": "每 3 件只需付 2 件的錢。9 ÷ 3 = 3 組，付 3 × 2 = 6 件的钱。6 × 45 = 270 元。驗算：270 ÷ 45 = 6 件付費，拿到 6 ÷ 2 × 3 = 9 件。",
+    "explanationSteps": [
+      "9 件 = 3 組（每組 3 件）。",
+      "每組付 2 件：3 × 2 = 6 件要付錢。",
+      "6 × 45 = 270 元。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "排隊報數",
+    "content_json": {
+      "question": "【已知】體育課排成一列報數。從前面數，小力排第 8；從後面數，他排第 12。每人編號都不同，且這一列沒有人離開隊伍。\n\n【問題】這列共有幾人？（請填數字）",
+      "unit": "人",
+      "hint": "小力被算了兩次，要減 1。"
+    },
+    "answer_json": { "answer": 19, "tolerance": 0 },
+    "explanation": "前面 8 人含小力，後面 12 人含小力，加總多算 1 次小力。8 + 12 − 1 = 19 人。驗算：小力前面 7 人、後面 11 人，7 + 1 + 11 = 19。",
+    "explanationSteps": [
+      "前數 8、後數 12 都含小力。",
+      "總人數 = 8 + 12 − 1。",
+      "= 19 人。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "哪段時間最長",
+    "content_json": {
+      "question": "【問題】下列哪一段時間最長？",
+      "options": [
+        "1 小時 10 分鐘",
+        "75 分鐘",
+        "1 小時 25 分鐘",
+        "80 分鐘"
+      ]
+    },
+    "answer_json": { "correctIndex": 2 },
+    "explanation": "換算成分鐘：A = 70 分、B = 75 分、C = 60 + 25 = 85 分、D = 80 分。最長是 C（85 分鐘）。",
+    "explanationSteps": [
+      "1 小時 10 分 = 70 分。",
+      "1 小時 25 分 = 85 分。",
+      "85 分最長 → 選 C。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "蛋糕剩多少",
+    "content_json": {
+      "question": "【已知】一塊圓形蛋糕平分成 8 等份。生日會上吃了 3 份。\n\n【問題】還剩整塊蛋糕的幾分之幾？",
+      "options": [
+        "3/8",
+        "5/8",
+        "3/5",
+        "5/3"
+      ]
+    },
+    "answer_json": { "correctIndex": 1 },
+    "explanation": "共 8 份，吃了 3 份，剩 8 − 3 = 5 份，即 5/8。",
+    "explanationSteps": [
+      "總共 8 等份。",
+      "剩 8 − 3 = 5 份。",
+      "答案 5/8。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "教室鋪地磚",
+    "content_json": {
+      "question": "【已知】教室地面是長 6 公尺、寬 4 公尺的長方形。要用邊長 1 公尺的正方形磁磚完整鋪滿（不裁切、不重叠）。\n\n【問題】至少需要幾塊磁磚？",
+      "options": [
+        "10 塊",
+        "20 塊",
+        "24 塊",
+        "28 塊"
+      ]
+    },
+    "answer_json": { "correctIndex": 2 },
+    "explanation": "面積 = 6 × 4 = 24 平方公尺。每塊 1×1 = 1 平方公尺，需要 24 塊。驗算：長邊 6 塊、寬邊 4 塊，6 × 4 = 24。",
+    "explanationSteps": [
+      "長方形面積 6 × 4 = 24。",
+      "每塊磁磚面積 1。",
+      "需要 24 塊。"
+    ]
+  }
+]

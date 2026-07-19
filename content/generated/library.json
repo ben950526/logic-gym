@@ -1,0 +1,2656 @@
+[
+  {
+    "type": "multiple_choice",
+    "category": "detective",
+    "difficulty": "easy",
+    "title": "還在冒熱氣的外賣",
+    "content_json": {
+      "question": "【情境】嫌疑人說：「案發前 2 小時，我獨自在家等外賣，送達後就沒再出門。」\n\n【檢驗】警方在案發現場測到餐盒內食物溫度仍超過 60°C（一般室溫下，2 小時後應已明顯變涼）。\n\n【問題】若檢驗結果正確，下列哪一項必為真？",
+      "options": [
+        "嫌疑人一定在說謊",
+        "餐點不可能是 2 小時前送達的",
+        "案發現場一定不是嫌疑人家",
+        "外賣員與嫌疑人共謀"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 1
+    },
+    "explanation": "室溫下 2 小時後食物不應仍維持 60°C 以上。若溫度檢驗正確，則「2 小時前送達」與現場狀態矛盾，故餐點送達時間必晚於嫌疑人所稱。注意：這只能推論時間矛盾，不能直接斷定誰說謊或共謀。",
+    "explanationSteps": [
+      "2 小時後食物應明顯降溫，不可能仍超過 60°C。",
+      "現場溫度與「2 小時前送達」矛盾。",
+      "故餐點不可能是 2 小時前送達。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "detective",
+    "difficulty": "medium",
+    "title": "跳車的破綻",
+    "content_json": {
+      "question": "【情境】走私犯帶著現金搭上一班不停靠站的特快列車。警方上車搜查時，有人跳車當場死亡。警方在車尾後方 100 公尺處發現死者，並在更靠近車尾的位置找到裝滿現金的大旅行袋。\n\n【問題】探長說「真正的走私犯還在車上」。下列哪一項是探長推理的關鍵？",
+      "options": [
+        "死者身上沒有現金",
+        "旅行袋比屍體更靠近車尾，表示旅行袋是列車繼續行駛一段後才被扔下",
+        "特快列車速度太快，一般人不敢跳車",
+        "死者長相與走私犯通緝照不符"
+      ],
+      "hint": "若跳車者就是走私犯，人已離開列車，還能在車上把旅行袋扔下嗎？"
+    },
+    "answer_json": {
+      "correctIndex": 1
+    },
+    "explanation": "旅行袋落在比屍體更靠近車尾處，代表列車繼續前進後才脫離車廂。若死者就是走私犯，跳車後不可能再在車上扔出旅行袋，因此扔包者仍是車上的人，真正的走私犯可能還在車上。",
+    "explanationSteps": [
+      "比較屍體與旅行袋的相對位置。",
+      "旅行袋更靠車尾 → 較晚才離開列車。",
+      "死者已先跳車 → 不可能再扔包 → 車上另有他人。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "detective",
+    "difficulty": "hard",
+    "title": "公休日的燈",
+    "content_json": {
+      "question": "【情境】證人說：「我看見嫌疑人在書店門口，因為書店剛打烊，門口燈還亮著。」\n\n【已知】書店平日 22:00 打烊並關燈；案發日是公休日，書店全天未營業。\n\n【問題】若證人描述的是「書店剛打烊、門口燈亮」這個場景，下列哪一項必為真？",
+      "options": [
+        "證人一定在說謊",
+        "案發日當天不可能發生「書店剛打烊且門口燈亮」這件事",
+        "嫌疑人一定去過書店",
+        "證人只是記錯人，但場景仍可能真實發生"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 1
+    },
+    "explanation": "公休日書店不營業，就不會有打烊流程，也不會出現「剛打烊、門口燈亮」的書店場景。這是從營業規則推論場景不可能，而非直接判定證人動機（說謊或記錯）。",
+    "explanationSteps": [
+      "公休日 → 書店不營業 → 沒有打烊。",
+      "「剛打烊、門口燈亮」是營業結束才有的場景。",
+      "故該場景在案發日不可能發生。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "科普書與故事書",
+    "content_json": {
+      "question": "【已知】圖書館裡科普書和故事書共有 48 本，故事書比科普書多 12 本。\n\n【問題】科普書有幾本？（請填數字）",
+      "unit": "本"
+    },
+    "answer_json": {
+      "answer": 18,
+      "tolerance": 0
+    },
+    "explanation": "設科普書 x 本，故事書 x+12 本。x + (x+12) = 48 → 2x = 36 → x = 18。驗算：18 + 30 = 48。",
+    "explanationSteps": [
+      "設科普書 x 本，故事書 x + 12 本。",
+      "x + (x + 12) = 48。",
+      "解得 x = 18。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "兩管注水",
+    "content_json": {
+      "question": "【已知】甲水管單獨注滿空水池需 6 小時，乙水管單獨注滿需 3 小時。兩管同時對空池注水，效率相加。\n\n【問題】注滿半池需要幾小時？（請填數字，可填小數）",
+      "unit": "小時"
+    },
+    "answer_json": {
+      "answer": 1,
+      "tolerance": 0
+    },
+    "explanation": "甲每小時注滿 1/6 池，乙每小時注滿 1/3 池。合計每小時 1/6 + 1/3 = 1/2 池，因此注滿半池需 1 小時。",
+    "explanationSteps": [
+      "甲效率 1/6 池/小時，乙效率 1/3 池/小時。",
+      "合計效率 1/2 池/小時。",
+      "半池 ÷ 1/2 = 1 小時。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "分組都剩四人",
+    "content_json": {
+      "question": "【已知】某班學生不到 50 人。分成 6 人一組會剩 4 人；分成 8 人一組也剩 4 人。\n\n【問題】全班共有幾人？（請填數字）",
+      "unit": "人"
+    },
+    "answer_json": {
+      "answer": 28,
+      "tolerance": 0
+    },
+    "explanation": "兩種分法都剩 4 人，表示 (人數 − 4) 同時是 6 和 8 的倍數。6 與 8 的最小公倍數是 24，所以人數 − 4 = 24 → 人數 = 28（下一個 48 已超過 50）。",
+    "explanationSteps": [
+      "人數 − 4 必須被 6 和 8 整除。",
+      "6 與 8 的最小公倍數是 24。",
+      "人數 = 24 + 4 = 28。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "pattern",
+    "difficulty": "easy",
+    "title": "交替加減",
+    "content_json": {
+      "question": "【數列】3, 6, 4, 8, 5, 10, ?\n\n【問題】下一個數是多少？",
+      "options": [
+        "6",
+        "7",
+        "11",
+        "12"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 0
+    },
+    "explanation": "規律為交替加減，且每次增減量的絕對值依序 +1：+3、−2、+4、−3、+5、−4… 因此 10 之後應 −4，得 10 − 4 = 6。",
+    "explanationSteps": [
+      "觀察：3→6(+3)，6→4(−2)，4→8(+4)，8→5(−3)，5→10(+5)。",
+      "加減交替，絕對值每次 +1。",
+      "下一項 −4：10 − 4 = 6。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "pattern",
+    "difficulty": "medium",
+    "title": "平方加一",
+    "content_json": {
+      "question": "【數列】2, 5, 10, 17, 26, ?\n\n【問題】下一個數是多少？",
+      "options": [
+        "30",
+        "35",
+        "37",
+        "40"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 2
+    },
+    "explanation": "各項為 n² + 1：1²+1=2，2²+1=5，3²+1=10，4²+1=17，5²+1=26，下一項 6²+1=37。",
+    "explanationSteps": [
+      "相鄰差為 3, 5, 7, 9，差本身等差遞增。",
+      "對照平方數：1, 4, 9, 16, 25 各加 1 得數列。",
+      "下一項 6² + 1 = 37。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "pattern",
+    "difficulty": "hard",
+    "title": "交錯數列",
+    "content_json": {
+      "question": "【數列】1, 4, 2, 5, 3, 6, 4, ?\n\n【問題】下一個數是多少？（提示：可拆成兩條數列）",
+      "options": [
+        "5",
+        "7",
+        "8",
+        "9"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 1
+    },
+    "explanation": "奇數位 1, 2, 3, 4… 遞增 1；偶數位 4, 5, 6, 7… 也遞增 1。第 8 項在偶數位，應為 7。",
+    "explanationSteps": [
+      "奇數位：1, 2, 3, 4（每次 +1）。",
+      "偶數位：4, 5, 6, 7（每次 +1）。",
+      "第 8 項在偶數位 → 7。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "detective",
+    "difficulty": "easy",
+    "title": "乾燥的球鞋",
+    "content_json": {
+      "question": "【情境】嫌疑人說：「案發時我剛從車站冒雨走回家，鞋子都濕了。」\n\n【檢驗】警方檢查其球鞋：鞋面、鞋底皆乾燥，且無泥水痕跡。\n\n【問題】若檢驗正確，下列哪一項必為真？",
+      "options": [
+        "嫌疑人一定在說謊",
+        "球鞋不可能剛在雨中步行後呈現這種狀態",
+        "案發時車站沒有下雨",
+        "警方弄錯了鞋子"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 1
+    },
+    "explanation": "雨中步行通常會弄濕鞋面鞋底並可能帶泥。若檢驗正確，球鞋狀態與「剛冒雨走回家」矛盾，只能推論狀態不符，不能直接判定動機。",
+    "explanationSteps": [
+      "雨中步行 → 鞋通常濕且有泥痕。",
+      "現場球鞋乾且無泥痕。",
+      "與說詞矛盾 → 必為真的是狀態不符。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "detective",
+    "difficulty": "easy",
+    "title": "電影票時間",
+    "content_json": {
+      "question": "【情境】嫌疑人出示電影票根，稱案發時段正在看 19:00 場次。\n\n【查證】戲院當日排片紀錄顯示，該片實際開演時間為 19:30。\n\n【問題】若排片紀錄正確，下列哪一項必為真？",
+      "options": [
+        "嫌疑人沒看這場電影",
+        "票根上的 19:00 與當日實際開演時間不符",
+        "戲院一定偽造紀錄",
+        "嫌疑人買了假票"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 1
+    },
+    "explanation": "排片紀錄若正確，當日該場就是 19:30 開演，與票根標示的 19:00 不一致。這只能推論時間標示矛盾，不能斷定是否進場或票真假。",
+    "explanationSteps": [
+      "紀錄：實際 19:30 開演。",
+      "票根：標 19:00。",
+      "兩者不符 → 必為真。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "detective",
+    "difficulty": "medium",
+    "title": "電梯樓層",
+    "content_json": {
+      "question": "【情境】案發時段大樓電梯只服務甲、乙兩人。電梯紀錄顯示：該時段電梯只停在 3 樓。\n\n【說詞】甲：「我去 5 樓找朋友。」乙：「我去 3 樓拿包裹。」\n\n【問題】若電梯紀錄正確，下列哪一項必為真？",
+      "options": [
+        "甲的說法與紀錄矛盾",
+        "乙的說法與紀錄矛盾",
+        "兩人說法都與紀錄矛盾",
+        "紀錄與兩人說法皆一致"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 0
+    },
+    "explanation": "紀錄顯示只停 3 樓，乙去 3 樓可一致；甲稱去 5 樓，但電梯未停 5 樓，故甲的說法與紀錄矛盾。",
+    "explanationSteps": [
+      "紀錄：只停 3 樓。",
+      "乙去 3 樓 → 可一致。",
+      "甲去 5 樓 → 與紀錄矛盾。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "detective",
+    "difficulty": "medium",
+    "title": "窗外的玻璃",
+    "content_json": {
+      "question": "【情境】房間從內側反鎖。嫌疑人稱：「我進房後門就鎖了，沒再開過窗。」\n\n【現場】窗玻璃破碎，調查員在窗户外側地面發現大量玻璃碎片。\n\n【問題】下列哪一項是推理的關鍵線索？",
+      "options": [
+        "房門從內反鎖，外人無法進入",
+        "碎片落在外側，表示玻璃是從室內向外打破的",
+        "窗框沒有破損",
+        "嫌疑人有窗戶鑰匙"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 1
+    },
+    "explanation": "玻璃從哪側受力，碎片多落在哪一側。碎片在外側地面 → 從室內向外打破，表示房內有人打破窗戶，與「進房後沒再開窗」的說法可能矛盾。",
+    "explanationSteps": [
+      "碎片在窗户外側。",
+      "表示由內向外破窗。",
+      "房內必有人打破玻璃。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "detective",
+    "difficulty": "medium",
+    "title": "沒被收走的信",
+    "content_json": {
+      "question": "【情境】嫌疑人說：「下午 3 點我從家寄出 alibi 信件，郵差可以證明。」\n\n【查證】郵局確認：當天該地址沒有任何待收走的 outgoing 郵件。\n\n【問題】若郵局紀錄正確，下列哪一項必為真？",
+      "options": [
+        "郵差與嫌疑人共謀",
+        "該信件不可能是當天下午從該地址寄出",
+        "嫌疑人一定沒在家",
+        "郵局紀錄一定錯誤"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 1
+    },
+    "explanation": "若當天沒有從該地址收走 outgoing 郵件，就不可能「下午 3 點從家寄出」並被郵差收走。這是時間與流程矛盾，非直接判斷共謀。",
+    "explanationSteps": [
+      "紀錄：當日無 outgoing 郵件被收走。",
+      "說詞：下午 3 點從家寄出。",
+      "兩者矛盾 → 必為真。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "detective",
+    "difficulty": "hard",
+    "title": "北端月台",
+    "content_json": {
+      "question": "【情境】嫌疑人說：「案發時我在車站北端月台等車。」\n\n【已知】當天北端月台攝影機全天維修無畫面；南端月台攝影機正常，顯示嫌疑人 15:00 在南端月台。\n\n【問題】若南端畫面正確，下列哪一項必為真？",
+      "options": [
+        "嫌疑人 15:00 不在北端月台",
+        "北端攝影機被人破壞",
+        "嫌疑人一定在說謊",
+        "南端畫面一定偽造"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 0
+    },
+    "explanation": "南端畫面若正確，15:00 嫌疑人在南端，同一時刻不可能同時在北端，故「在北端等車」不成立。這是位置矛盾，不等於直接判定說謊動機。",
+    "explanationSteps": [
+      "南端 15:00 有嫌疑人。",
+      "同一時刻不能南北兩地。",
+      "故 15:00 不在北端。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "detective",
+    "difficulty": "hard",
+    "title": "收據與監視器",
+    "content_json": {
+      "question": "【情境】三人稱案發當晚 18:00～20:00 一起在餐廳用餐。\n\n【證據】收據列印時間 17:45；餐廳入口監視器顯示三人 20:10 才進店。\n\n【問題】若收據時間與監視器畫面皆正確，下列哪一項必為真？",
+      "options": [
+        "三人整段時間都在店內",
+        "「18:00～20:00 一直在店內」的說法不可能為真",
+        "收據一定是偽造",
+        "監視器時間設定錯誤"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 1
+    },
+    "explanation": "20:10 才進店，就不可能 18:00 已在店內。收據 17:45 也早於聲稱時段。故「18:00～20:00 一直在店內」與證據矛盾。",
+    "explanationSteps": [
+      "監視器：20:10 進店。",
+      "18:00 已在店內 → 不可能。",
+      "故該時段 alibi 不成立。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "第三科成績",
+    "content_json": {
+      "question": "【已知】小華三次段考平均 88 分。第一次 85 分，第二次 90 分。\n\n【問題】第三次考幾分？（請填數字）",
+      "unit": "分"
+    },
+    "answer_json": {
+      "answer": 89,
+      "tolerance": 0
+    },
+    "explanation": "三次總分 88×3=264。264−85−90=89。驗算：(85+90+89)÷3=88。",
+    "explanationSteps": [
+      "總分 = 88 × 3 = 264。",
+      "264 − 85 − 90 = 89。",
+      "驗算平均 88。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "買文具找零",
+    "content_json": {
+      "question": "【已知】小安買 3 件同款文具，每件 47 元。付 200 元。\n\n【問題】應找回幾元？（請填數字）",
+      "unit": "元"
+    },
+    "answer_json": {
+      "answer": 59,
+      "tolerance": 0
+    },
+    "explanation": "總價 47×3=141 元。200−141=59 元。",
+    "explanationSteps": [
+      "47 × 3 = 141。",
+      "200 − 141 = 59。",
+      "驗算：141 + 59 = 200。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "雞兔同籠",
+    "content_json": {
+      "question": "【已知】農場裡雞和兔共 35 隻，總腳數 94 隻。\n\n【問題】兔有幾隻？（請填數字）",
+      "unit": "隻"
+    },
+    "answer_json": {
+      "answer": 12,
+      "tolerance": 0
+    },
+    "explanation": "設兔 x 隻，雞 35−x 隻。4x + 2(35−x) = 94 → 2x = 24 → x = 12。驗算：12×4 + 23×2 = 94。",
+    "explanationSteps": [
+      "設兔 x 隻。",
+      "4x + 2(35−x) = 94。",
+      "x = 12。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "連續打折",
+    "content_json": {
+      "question": "【已知】某商品原價 400 元，先打 8 折，再在折後價上打 9 折。\n\n【問題】最後價格幾元？（請填數字）",
+      "unit": "元"
+    },
+    "answer_json": {
+      "answer": 288,
+      "tolerance": 0
+    },
+    "explanation": "400×0.8=320；320×0.9=288。驗算：288 為原價的 72%。",
+    "explanationSteps": [
+      "400 × 0.8 = 320。",
+      "320 × 0.9 = 288。",
+      "驗算合理。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "合作修路",
+    "content_json": {
+      "question": "【已知】甲隊單獨修完需 12 天，乙隊單獨修完需 4 天。兩隊合作，效率相加。\n\n【問題】修完整條路需幾天？（請填數字）",
+      "unit": "天"
+    },
+    "answer_json": {
+      "answer": 3,
+      "tolerance": 0
+    },
+    "explanation": "甲每天 1/12，乙每天 1/4。合計 1/12+1/4=1/3，需 3 天。",
+    "explanationSteps": [
+      "甲 1/12/天，乙 1/4/天。",
+      "合計 1/3/天。",
+      "1 ÷ 1/3 = 3 天。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "位數對調",
+    "content_json": {
+      "question": "【已知】一個兩位數，十位與個位數字和為 9。把數字對調後，新數比原數小 27。\n\n【問題】原數的個位數字是幾？（請填數字）",
+      "unit": "無"
+    },
+    "answer_json": {
+      "answer": 3,
+      "tolerance": 0
+    },
+    "explanation": "設原數 10a+b，對調 10b+a。差 (10a+b)−(10b+a)=9(a−b)=27 → a−b=3。又 a+b=9 → a=6,b=3，原數 63，個位 3。",
+    "explanationSteps": [
+      "9(a−b)=27 → a−b=3。",
+      "a+b=9。",
+      "解得 b 為 3。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "三人分蘋果",
+    "content_json": {
+      "question": "【已知】43 顆蘋果分給甲、乙、丙。甲比乙多 3 顆，乙比丙多 2 顆，全部分完。\n\n【問題】丙分到幾顆？（請填數字）",
+      "unit": "顆"
+    },
+    "answer_json": {
+      "answer": 12,
+      "tolerance": 0
+    },
+    "explanation": "設丙 x 顆，乙 x+2，甲 x+5。x+(x+2)+(x+5)=43 → 3x=36 → x=12。驗算：12+14+17=43。",
+    "explanationSteps": [
+      "設丙 x 顆。",
+      "3x+7=43。",
+      "x=12。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "pattern",
+    "difficulty": "easy",
+    "title": "三角數列",
+    "content_json": {
+      "question": "【數列】1, 3, 6, 10, 15, ?\n\n【問題】下一個數是多少？",
+      "options": [
+        "18",
+        "20",
+        "21",
+        "24"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 2
+    },
+    "explanation": "相鄰差為 2, 3, 4, 5，每次 +1，下一差 6 → 15+6=21。也可視為三角數 n(n+1)/2，下一項 6×7/2=21。",
+    "explanationSteps": [
+      "差：2, 3, 4, 5。",
+      "下一差 6。",
+      "15 + 6 = 21。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "pattern",
+    "difficulty": "easy",
+    "title": "月日相同",
+    "content_json": {
+      "question": "【數列】1/1, 2/2, 3/3, 4/4, ?\n\n【規律】斜線前後數字相同，依序遞增。\n\n【問題】下一項是？",
+      "options": [
+        "4/5",
+        "5/5",
+        "5/6",
+        "6/6"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 1
+    },
+    "explanation": "規律為 n/n，n 每次 +1。下一項 5/5。",
+    "explanationSteps": [
+      "分子分母相同。",
+      "n 依序 1,2,3,4,5。",
+      "下一項 5/5。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "pattern",
+    "difficulty": "medium",
+    "title": "字母跳號",
+    "content_json": {
+      "question": "【數列】A, C, F, J, ?\n\n【問題】下一個字母是？（依英文字母順序）",
+      "options": [
+        "M",
+        "N",
+        "O",
+        "P"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 2
+    },
+    "explanation": "A(1)→C(3) 跳 2；C→F(6) 跳 3；F→J(10) 跳 4；J→O(15) 跳 5。",
+    "explanationSteps": [
+      "位置：1, 3, 6, 10。",
+      "跳過數 +2,+3,+4,+5。",
+      "下一字母 O。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "pattern",
+    "difficulty": "medium",
+    "title": "前兩項相乘",
+    "content_json": {
+      "question": "【數列】1, 2, 2, 4, 8, ?\n\n【問題】下一個數是多少？",
+      "options": [
+        "16",
+        "24",
+        "32",
+        "64"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 2
+    },
+    "explanation": "從第三項起，每項 = 前兩項相乘：1×2=2，2×2=4，2×4=8，4×8=32。",
+    "explanationSteps": [
+      "驗證：1×2=2, 2×2=4, 2×4=8。",
+      "規律：前兩項相乘。",
+      "4 × 8 = 32。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "pattern",
+    "difficulty": "medium",
+    "title": "差遞增規律",
+    "content_json": {
+      "question": "【數列】2, 3, 6, 11, 18, ?\n\n【問題】下一個數是多少？",
+      "options": [
+        "24",
+        "25",
+        "27",
+        "29"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 2
+    },
+    "explanation": "相鄰差 1, 3, 5, 7，差本身 +2，下一差 9 → 18+9=27。",
+    "explanationSteps": [
+      "差：1, 3, 5, 7。",
+      "差每次 +2 → 下一差 9。",
+      "18 + 9 = 27。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "pattern",
+    "difficulty": "hard",
+    "title": "數與平方",
+    "content_json": {
+      "question": "【數列】3, 9, 4, 16, 5, 25, ?\n\n【提示】可拆成兩項一組。\n\n【問題】下一個數是多少？",
+      "options": [
+        "6",
+        "30",
+        "36",
+        "49"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 0
+    },
+    "explanation": "每組 (n, n²)：3,3²；4,4²；5,5²；下一組 6,6²。題目問下一「個」數，已給到 25=5²，下一項是下一組的 n，即 6。",
+    "explanationSteps": [
+      "分組：3,9 | 4,16 | 5,25。",
+      "每組 n 與 n²。",
+      "下一組從 6 開始 → 6。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "pattern",
+    "difficulty": "hard",
+    "title": "倒序字母",
+    "content_json": {
+      "question": "【數列】Z, X, V, T, ?\n\n【問題】下一個字母是？（依英文字母順序）",
+      "options": [
+        "P",
+        "Q",
+        "R",
+        "S"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 2
+    },
+    "explanation": "Z(26)→X(24) 退 2；X→V(22) 退 2；V→T(20) 退 2；T→R(18) 退 2。",
+    "explanationSteps": [
+      "位置：26, 24, 22, 20。",
+      "每次 −2。",
+      "下一字母 R。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "分班分蘋果",
+    "content_json": {
+      "question": "【已知】合作社有 43 顆蘋果，要分給若干班，每班必須剛好 6 顆，不能拆半顆。\n\n【問題】最多能分給幾班？（請填數字）",
+      "unit": "班"
+    },
+    "answer_json": {
+      "answer": 7,
+      "tolerance": 0
+    },
+    "explanation": "43 ÷ 6 = 7 餘 1，所以最多完整分給 7 班。驗算：7 × 6 = 42 ≤ 43；8 × 6 = 48 > 43。",
+    "explanationSteps": [
+      "每班 6 顆，用除法看能分幾班。",
+      "43 ÷ 6 = 7 餘 1。",
+      "最多 7 班。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "閱讀還差多久",
+    "content_json": {
+      "question": "【已知】小芬今天的閱讀目標是 90 分鐘。她已經讀了 35 分鐘。\n\n【問題】還差幾分鐘才達成目標？（請填數字）",
+      "unit": "分鐘"
+    },
+    "answer_json": {
+      "answer": 55,
+      "tolerance": 0
+    },
+    "explanation": "90 − 35 = 55 分鐘。驗算：35 + 55 = 90。",
+    "explanationSteps": [
+      "目標 90 分鐘，已讀 35 分鐘。",
+      "90 − 35 = 55。",
+      "還差 55 分鐘。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "正方形花圃",
+    "content_json": {
+      "question": "【已知】校園裡有一個正方形花圃，圍一圈篱笆的總長度（周長）是 48 公尺，四邊一樣長。\n\n【問題】花圃一邊長幾公尺？（請填數字）",
+      "unit": "公尺"
+    },
+    "answer_json": {
+      "answer": 12,
+      "tolerance": 0
+    },
+    "explanation": "正方形周長 = 邊長 × 4，所以邊長 = 48 ÷ 4 = 12 公尺。驗算：12 × 4 = 48。",
+    "explanationSteps": [
+      "正方形四邊相等。",
+      "48 ÷ 4 = 12。",
+      "一邊 12 公尺。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "果汁毫升",
+    "content_json": {
+      "question": "【已知】1 瓶果汁 350 毫升。運動會預備了 6 瓶同容量的果汁。\n\n【問題】一共有幾毫升？（請填數字）",
+      "unit": "毫升"
+    },
+    "answer_json": {
+      "answer": 2100,
+      "tolerance": 0
+    },
+    "explanation": "350 × 6 = 2100 毫升。驗算：2100 ÷ 6 = 350。",
+    "explanationSteps": [
+      "每瓶 350 毫升，共 6 瓶。",
+      "350 × 6 = 2100。",
+      "共 2100 毫升。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "茶葉包裝",
+    "content_json": {
+      "question": "【已知】茶葉 1 盒裝 8 包。小杰買了 3 盒，又另外買了 5 包散裝（和盒裝每包一樣多）。\n\n【問題】他總共拿到幾包茶葉？（請填數字）",
+      "unit": "包"
+    },
+    "answer_json": {
+      "answer": 29,
+      "tolerance": 0
+    },
+    "explanation": "3 盒 = 3 × 8 = 24 包；再加 5 包 = 24 + 5 = 29 包。驗算：29 − 5 = 24，24 ÷ 8 = 3 盒。",
+    "explanationSteps": [
+      "3 盒：3 × 8 = 24 包。",
+      "加散裝 5 包。",
+      "24 + 5 = 29 包。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "找零猜單價",
+    "content_json": {
+      "question": "【已知】小安買 7 件同款貼紙，付 200 元，找回 53 元。沒有其他折扣。\n\n【問題】1 件貼紙幾元？（請填數字）",
+      "unit": "元"
+    },
+    "answer_json": {
+      "answer": 21,
+      "tolerance": 0
+    },
+    "explanation": "實付 200 − 53 = 147 元。147 ÷ 7 = 21 元/件。驗算：21 × 7 = 147，147 + 53 = 200。",
+    "explanationSteps": [
+      "實付 = 200 − 53 = 147 元。",
+      "147 ÷ 7 = 21。",
+      "每件 21 元。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "紅白彈珠",
+    "content_json": {
+      "question": "【已知】袋裡紅彈珠的數量是白彈珠的 2 倍。紅、白彈珠共有 36 顆。\n\n【問題】紅彈珠有幾顆？（請填數字）",
+      "unit": "顆"
+    },
+    "answer_json": {
+      "answer": 24,
+      "tolerance": 0
+    },
+    "explanation": "設白彈珠 x 顆，紅彈珠 2x 顆。x + 2x = 36 → 3x = 36 → x = 12，紅 = 24。驗算：24 + 12 = 36，24 是 12 的 2 倍。",
+    "explanationSteps": [
+      "設白 x，紅 2x。",
+      "3x = 36 → x = 12。",
+      "紅彈珠 24 顆。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "公車空位",
+    "content_json": {
+      "question": "【已知】公車限坐 32 人。出發時車上有 18 人。下一站上車 7 人、下車 3 人，之後不再變動。\n\n【問題】還剩幾個空位？（請填數字）",
+      "unit": "個"
+    },
+    "answer_json": {
+      "answer": 10,
+      "tolerance": 0
+    },
+    "explanation": "車上人數 18 + 7 − 3 = 22 人。空位 32 − 22 = 10 個。驗算：22 + 10 = 32。",
+    "explanationSteps": [
+      "18 + 7 − 3 = 22 人。",
+      "32 − 22 = 10。",
+      "剩 10 個空位。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "種樹問題",
+    "content_json": {
+      "question": "【已知】在一條 40 公尺長的路邊種樹，每隔 5 公尺種 1 棵，**起點與終點都要種**。\n\n【問題】一共要種幾棵樹？（請填數字）",
+      "unit": "棵"
+    },
+    "answer_json": {
+      "answer": 9,
+      "tolerance": 0
+    },
+    "explanation": "40 ÷ 5 = 8 段，兩端都種 → 8 + 1 = 9 棵。驗算：9 棵樹中間有 8 個 5 公尺間隔，8 × 5 = 40。",
+    "explanationSteps": [
+      "40 ÷ 5 = 8 段。",
+      "兩端都種：棵數 = 段數 + 1。",
+      "8 + 1 = 9 棵。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "幾年後變三倍",
+    "content_json": {
+      "question": "【已知】媽媽今年 36 歲，小華今年 8 歲。幾年後，媽媽的年齡會剛好是小華的 3 倍？\n\n【問題】幾年後？（請填數字）",
+      "unit": "年",
+      "hint": "設 x 年後，兩人年齡都要加 x。"
+    },
+    "answer_json": {
+      "answer": 6,
+      "tolerance": 0
+    },
+    "explanation": "設 x 年後：36 + x = 3(8 + x) → 36 + x = 24 + 3x → 12 = 2x → x = 6。驗算：6 年後媽媽 42 歲、小華 14 歲，42 = 3 × 14。",
+    "explanationSteps": [
+      "設 x 年後列式。",
+      "36 + x = 3(8 + x)。",
+      "解得 x = 6。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "買二送一",
+    "content_json": {
+      "question": "【已知】文具店「買 2 送 1」：每付 2 件的錢可以拿走 3 件同款（第 3 件免費）。每件原價 45 元，沒有其他折扣。小凱想剛好拿到 9 件。\n\n【問題】他要付幾元？（請填數字）",
+      "unit": "元",
+      "hint": "先想 9 件是幾組「買 2 送 1」。"
+    },
+    "answer_json": {
+      "answer": 270,
+      "tolerance": 0
+    },
+    "explanation": "每 3 件只需付 2 件的錢。9 ÷ 3 = 3 組，付 3 × 2 = 6 件的钱。6 × 45 = 270 元。驗算：270 ÷ 45 = 6 件付費，拿到 6 ÷ 2 × 3 = 9 件。",
+    "explanationSteps": [
+      "9 件 = 3 組（每組 3 件）。",
+      "每組付 2 件：3 × 2 = 6 件要付錢。",
+      "6 × 45 = 270 元。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "排隊報數",
+    "content_json": {
+      "question": "【已知】體育課排成一列報數。從前面數，小力排第 8；從後面數，他排第 12。每人編號都不同，且這一列沒有人離開隊伍。\n\n【問題】這列共有幾人？（請填數字）",
+      "unit": "人",
+      "hint": "小力被算了兩次，要減 1。"
+    },
+    "answer_json": {
+      "answer": 19,
+      "tolerance": 0
+    },
+    "explanation": "前面 8 人含小力，後面 12 人含小力，加總多算 1 次小力。8 + 12 − 1 = 19 人。驗算：小力前面 7 人、後面 11 人，7 + 1 + 11 = 19。",
+    "explanationSteps": [
+      "前數 8、後數 12 都含小力。",
+      "總人數 = 8 + 12 − 1。",
+      "= 19 人。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "哪段時間最長",
+    "content_json": {
+      "question": "【問題】下列哪一段時間最長？",
+      "options": [
+        "1 小時 10 分鐘",
+        "75 分鐘",
+        "1 小時 25 分鐘",
+        "80 分鐘"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 2
+    },
+    "explanation": "換算成分鐘：A = 70 分、B = 75 分、C = 60 + 25 = 85 分、D = 80 分。最長是 C（85 分鐘）。",
+    "explanationSteps": [
+      "1 小時 10 分 = 70 分。",
+      "1 小時 25 分 = 85 分。",
+      "85 分最長 → 選 C。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "蛋糕剩多少",
+    "content_json": {
+      "question": "【已知】一塊圓形蛋糕平分成 8 等份。生日會上吃了 3 份。\n\n【問題】還剩整塊蛋糕的幾分之幾？",
+      "options": [
+        "3/8",
+        "5/8",
+        "3/5",
+        "5/3"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 1
+    },
+    "explanation": "共 8 份，吃了 3 份，剩 8 − 3 = 5 份，即 5/8。",
+    "explanationSteps": [
+      "總共 8 等份。",
+      "剩 8 − 3 = 5 份。",
+      "答案 5/8。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "教室鋪地磚",
+    "content_json": {
+      "question": "【已知】教室地面是長 6 公尺、寬 4 公尺的長方形。要用邊長 1 公尺的正方形磁磚完整鋪滿（不裁切、不重叠）。\n\n【問題】至少需要幾塊磁磚？",
+      "options": [
+        "10 塊",
+        "20 塊",
+        "24 塊",
+        "28 塊"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 2
+    },
+    "explanation": "面積 = 6 × 4 = 24 平方公尺。每塊 1×1 = 1 平方公尺，需要 24 塊。驗算：長邊 6 塊、寬邊 4 塊，6 × 4 = 24。",
+    "explanationSteps": [
+      "長方形面積 6 × 4 = 24。",
+      "每塊磁磚面積 1。",
+      "需要 24 塊。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "貼紙公平換",
+    "content_json": {
+      "question": "【已知】小安有 18 張貼紙，小樂有 6 張貼紙。兩人想交換後，各自貼紙數量要一樣多（只由小安拿給小樂，不拆半張）。\n\n【問題】小安要給小樂幾張貼紙？（請填數字）",
+      "unit": "張"
+    },
+    "answer_json": {
+      "answer": 6,
+      "tolerance": 0
+    },
+    "explanation": "兩人共有 18 + 6 = 24 張，公平分配各 12 張。小安需給出 18 − 12 = 6 張。驗算：小安 18 − 6 = 12，小樂 6 + 6 = 12。",
+    "explanationSteps": [
+      "總數 18 + 6 = 24 張，平分各 12 張。",
+      "小安需給出 18 − 12 = 6 張。",
+      "交換後兩人各 12 張。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "連續三頁",
+    "content_json": {
+      "question": "【已知】小芬依序撕下連續三頁的頁碼，三頁頁碼加總是 54。\n\n【問題】中間那一頁的頁碼是幾？（請填數字）",
+      "unit": "頁"
+    },
+    "answer_json": {
+      "answer": 18,
+      "tolerance": 0
+    },
+    "explanation": "設中間頁為 x，三頁為 x−1、x、x+1。和為 (x−1)+x+(x+1)=3x=54，x=18。驗算：17+18+19=54。",
+    "explanationSteps": [
+      "連續三頁可設為 x−1、x、x+1。",
+      "3x = 54 → x = 18。",
+      "中間頁碼是 18。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "校車上下人",
+    "content_json": {
+      "question": "【已知】校車出發時有 28 人。第一站下車 5 人、上車 8 人；第二站下車 6 人、上車 4 人，之後不再變動。\n\n【問題】現在車上有幾人？（請填數字）",
+      "unit": "人"
+    },
+    "answer_json": {
+      "answer": 29,
+      "tolerance": 0
+    },
+    "explanation": "28 − 5 + 8 − 6 + 4 = 29 人。驗算：第一站後 31 人，第二站後 29 人。",
+    "explanationSteps": [
+      "第一站：28 − 5 + 8 = 31 人。",
+      "第二站：31 − 6 + 4 = 29 人。",
+      "現在車上 29 人。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "math",
+    "difficulty": "easy",
+    "title": "補給站密碼",
+    "content_json": {
+      "question": "【已知】遊戲補給站的兩位數密碼 AB（A 是十位、B 是個位）須同時符合：\n① 十位數加個位數等於 9\n② 十位數減個位數等於 1\n\n【問題】這個密碼是幾？",
+      "options": [
+        "54",
+        "45",
+        "63",
+        "72"
+      ]
+    },
+    "answer_json": {
+      "correctIndex": 0
+    },
+    "explanation": "A + B = 9 且 A − B = 1。兩式相加得 2A = 10，A = 5，B = 4，密碼 54。驗算：5 + 4 = 9，5 − 4 = 1。",
+    "explanationSteps": [
+      "設十位 A、個位 B，列 A + B = 9。",
+      "再列 A − B = 1，解得 A = 5、B = 4。",
+      "密碼是 54。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "籃球總分",
+    "content_json": {
+      "question": "【已知】籃球賽分四節計分。第一節 21 分、第二節 19 分、第三節 24 分，全場總分 88 分。\n\n【問題】第四節得幾分？（請填數字）",
+      "unit": "分"
+    },
+    "answer_json": {
+      "answer": 24,
+      "tolerance": 0
+    },
+    "explanation": "前三節 21 + 19 + 24 = 64 分。第四節 88 − 64 = 24 分。驗算：64 + 24 = 88。",
+    "explanationSteps": [
+      "前三節合計 21 + 19 + 24 = 64 分。",
+      "第四節 = 88 − 64 = 24 分。",
+      "驗算總分 88 分。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "能源塔三層",
+    "content_json": {
+      "question": "【已知】能源塔有三層。第一層儲存 180 單位，第二層 240 單位，三層平均儲存 220 單位。\n\n【問題】第三層儲存幾單位？（請填數字）",
+      "unit": "單位"
+    },
+    "answer_json": {
+      "answer": 240,
+      "tolerance": 0
+    },
+    "explanation": "三層總量 = 220 × 3 = 660。第三層 = 660 − 180 − 240 = 240。驗算：(180 + 240 + 240) ÷ 3 = 220。",
+    "explanationSteps": [
+      "三層總量 220 × 3 = 660 單位。",
+      "第三層 = 660 − 180 − 240 = 240。",
+      "平均 (180 + 240 + 240) ÷ 3 = 220。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "借還圖書",
+    "content_json": {
+      "question": "【已知】書架原本有 360 本書在架上。這週借出 95 本，還回 58 本，其餘書未動。\n\n【問題】目前還有多少本書仍被借走、不在書架上？（請填數字）",
+      "unit": "本"
+    },
+    "answer_json": {
+      "answer": 37,
+      "tolerance": 0
+    },
+    "explanation": "借出比還回多 95 − 58 = 37 本，即仍有 37 本不在架上。驗算：架上 360 − 95 + 58 = 323 本，360 − 323 = 37。",
+    "explanationSteps": [
+      "借出 95 本，還回 58 本。",
+      "仍在外 95 − 58 = 37 本。",
+      "架上 360 − 37 = 323 本，驗算正確。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "年齡差不變",
+    "content_json": {
+      "question": "【已知】爸爸今年 35 歲，兒子今年 5 歲。年齡差永遠不變。\n\n【問題】再過幾年，爸爸年齡剛好是兒子的 4 倍？（請填數字）",
+      "unit": "年"
+    },
+    "answer_json": {
+      "answer": 5,
+      "tolerance": 0
+    },
+    "explanation": "設再過 y 年：35 + y = 4(5 + y) → 35 + y = 20 + 4y → 15 = 3y → y = 5。驗算：5 年後爸爸 40 歲、兒子 10 歲，40 = 4 × 10。",
+    "explanationSteps": [
+      "設再過 y 年，列 35 + y = 4(5 + y)。",
+      "35 + y = 20 + 4y → 15 = 3y → y = 5。",
+      "5 年後 40 歲是 10 歲的 4 倍。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "摺紙厚度",
+    "content_json": {
+      "question": "【已知】一張紙厚度 1 毫米。每對摺一次，厚度變成原來的 2 倍。小凱連續對摺 4 次。\n\n【問題】摺完後厚度是幾毫米？（請填數字）",
+      "unit": "毫米"
+    },
+    "answer_json": {
+      "answer": 16,
+      "tolerance": 0
+    },
+    "explanation": "每摺一次乘 2，摺 4 次：1 × 2⁴ = 1 × 16 = 16 毫米。驗算：1→2→4→8→16。",
+    "explanationSteps": [
+      "每對摺一次厚度 × 2。",
+      "摺 4 次：1 × 2 × 2 × 2 × 2 = 16。",
+      "厚度 16 毫米。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "跳繩總數",
+    "content_json": {
+      "question": "【已知】跳繩測驗分三組進行。第一組跳 85 下、第二組 102 下、第三組 93 下。\n\n【問題】三組一共跳幾下？（請填數字）",
+      "unit": "下"
+    },
+    "answer_json": {
+      "answer": 280,
+      "tolerance": 0
+    },
+    "explanation": "85 + 102 + 93 = 280 下。驗算：85 + 102 = 187，187 + 93 = 280。",
+    "explanationSteps": [
+      "第一、二組 85 + 102 = 187 下。",
+      "加上第三組 187 + 93 = 280 下。",
+      "三組共 280 下。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "接力賽程",
+    "content_json": {
+      "question": "【已知】400 公尺接力賽，四人各跑 100 公尺。前三棒成績依序 55 秒、58 秒、54 秒，四棒總計 3 分 45 秒（225 秒）。\n\n【問題】第四棒跑了幾秒？（請填數字）",
+      "unit": "秒"
+    },
+    "answer_json": {
+      "answer": 58,
+      "tolerance": 0
+    },
+    "explanation": "前三棒 55 + 58 + 54 = 167 秒。第四棒 225 − 167 = 58 秒。驗算：167 + 58 = 225 秒 = 3 分 45 秒。",
+    "explanationSteps": [
+      "前三棒合計 55 + 58 + 54 = 167 秒。",
+      "第四棒 = 225 − 167 = 58 秒。",
+      "驗算總時間 225 秒。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "圖書和差綜合",
+    "content_json": {
+      "question": "【已知】圖書館裡科普書和故事書共有 120 本，故事書比科普書多 28 本。\n\n【問題】科普書有幾本？（請填數字）",
+      "unit": "本"
+    },
+    "answer_json": {
+      "answer": 46,
+      "tolerance": 0
+    },
+    "explanation": "設科普書 x 本，故事書 x + 28 本。x + (x + 28) = 120 → 2x = 92 → x = 46。驗算：46 + 74 = 120，74 − 46 = 28。",
+    "explanationSteps": [
+      "設科普書 x 本，故事書 x + 28 本。",
+      "2x + 28 = 120 → x = 46。",
+      "科普書 46 本，故事書 74 本。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "遲到幾分鐘",
+    "content_json": {
+      "question": "【已知】早自修 8:25 開始。小華今天 8:42 才進教室。\n\n【問題】小華遲到了幾分鐘？（請填數字）",
+      "unit": "分鐘"
+    },
+    "answer_json": {
+      "answer": 17,
+      "tolerance": 0
+    },
+    "explanation": "8:42 比 8:25 晚 42 − 25 = 17 分鐘。驗算：8:25 加 17 分鐘是 8:42。",
+    "explanationSteps": [
+      "開始時間 8:25，到達 8:42。",
+      "42 − 25 = 17 分鐘。",
+      "遲到 17 分鐘。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "繩子平均分",
+    "content_json": {
+      "question": "【已知】4 條繩子各長 15 公尺。再加入 1 條新繩後，5 條繩平均長度變成 16 公尺。\n\n【問題】新加入的繩子長幾公尺？（請填數字）",
+      "unit": "公尺"
+    },
+    "answer_json": {
+      "answer": 20,
+      "tolerance": 0
+    },
+    "explanation": "原 4 條共 4 × 15 = 60 公尺。5 條總長 5 × 16 = 80 公尺。新繩 80 − 60 = 20 公尺。驗算：(60 + 20) ÷ 5 = 16。",
+    "explanationSteps": [
+      "原 4 條總長 4 × 15 = 60 公尺。",
+      "5 條總長 5 × 16 = 80 公尺。",
+      "新繩 80 − 60 = 20 公尺。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "水費分段",
+    "content_json": {
+      "question": "【已知】水費分段計價：前 8 噸每噸 6 元，超過 8 噸的部分每噸 9 元。本月用水 14 噸。\n\n【問題】本月水費共幾元？（請填數字）",
+      "unit": "元"
+    },
+    "answer_json": {
+      "answer": 102,
+      "tolerance": 0
+    },
+    "explanation": "前 8 噸 8 × 6 = 48 元；超過 6 噸 6 × 9 = 54 元。合計 48 + 54 = 102 元。驗算：48 + 54 = 102。",
+    "explanationSteps": [
+      "前 8 噸：8 × 6 = 48 元。",
+      "超過 6 噸：6 × 9 = 54 元。",
+      "合計 48 + 54 = 102 元。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "郵票組合",
+    "content_json": {
+      "question": "【已知】要貼滿 23 元郵資，只能用 5 元和 3 元的郵票，且希望用的郵票枚數最少。\n\n【問題】最少要用幾枚郵票？（請填數字）",
+      "unit": "枚"
+    },
+    "answer_json": {
+      "answer": 5,
+      "tolerance": 0
+    },
+    "explanation": "盡量多用 5 元：4 枚 5 元 = 20 元，再加 1 枚 3 元 = 23 元，共 5 枚。若 3 枚 5 元需 8 枚 3 元共 11 枚，更多。驗算：4×5 + 1×3 = 23。",
+    "explanationSteps": [
+      "優先用 5 元郵票湊大面額。",
+      "4 枚 5 元 + 1 枚 3 元 = 23 元。",
+      "最少 5 枚。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "長方形周長",
+    "content_json": {
+      "question": "【已知】一個長方形花圃，長 22 公尺，寬比長短 8 公尺。\n\n【問題】花圃周長是幾公尺？（請填數字）",
+      "unit": "公尺"
+    },
+    "answer_json": {
+      "answer": 72,
+      "tolerance": 0
+    },
+    "explanation": "寬 = 22 − 8 = 14 公尺。周長 = 2 × (22 + 14) = 2 × 36 = 72 公尺。驗算：22 + 14 + 22 + 14 = 72。",
+    "explanationSteps": [
+      "寬 = 22 − 8 = 14 公尺。",
+      "周長 = 2 × (22 + 14) = 72 公尺。",
+      "驗算四邊相加 72 公尺。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "medium",
+    "title": "雙倍返還",
+    "content_json": {
+      "question": "【已知】小琪有一些零用錢，先花去一半後剩下 42 元。媽媽再把「剩下的部分再給一倍」（補給與剩下相同數目）。\n\n【問題】現在小琪共有幾元？（請填數字）",
+      "unit": "元"
+    },
+    "answer_json": {
+      "answer": 84,
+      "tolerance": 0
+    },
+    "explanation": "剩下 42 元，媽媽再給 42 元，共有 42 + 42 = 84 元。驗算：84 − 42 = 42，42 是花去一半後的剩餘。",
+    "explanationSteps": [
+      "花去一半後剩 42 元。",
+      "媽媽再補 42 元。",
+      "現在共有 42 + 42 = 84 元。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "交易綜合題",
+    "content_json": {
+      "question": "【已知】小杰進貨 4 本筆記本，每本成本 15 元。賣出 2 本每本 25 元，剩下 2 本每本 18 元全部賣完。\n\n【問題】這次交易總獲利幾元？（請填數字）",
+      "unit": "元",
+      "hint": "先算總成本，再算總收入，獲利 = 收入 − 成本。"
+    },
+    "answer_json": {
+      "answer": 26,
+      "tolerance": 0
+    },
+    "explanation": "成本 4 × 15 = 60 元。收入 2 × 25 + 2 × 18 = 50 + 36 = 86 元。獲利 86 − 60 = 26 元。驗算：86 − 60 = 26。",
+    "explanationSteps": [
+      "成本 4 × 15 = 60 元。",
+      "收入 50 + 36 = 86 元。",
+      "獲利 86 − 60 = 26 元。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "注水又排水",
+    "content_json": {
+      "question": "【已知】空水池容量 900 公升。注水管每分鐘注入 45 公升，排水管每分鐘排出 20 公升。兩管同時開啟，池子一開始是空的。\n\n【問題】幾分鐘後水池注滿？（請填數字）",
+      "unit": "分鐘",
+      "hint": "同時開啟時，每分鐘實際增加的水量 = 注入量 − 排出量。"
+    },
+    "answer_json": {
+      "answer": 36,
+      "tolerance": 0
+    },
+    "explanation": "每分鐘淨增加 45 − 20 = 25 公升。注滿時間 900 ÷ 25 = 36 分鐘。驗算：36 × 25 = 900。",
+    "explanationSteps": [
+      "淨增加 45 − 20 = 25 公升/分鐘。",
+      "900 ÷ 25 = 36 分鐘。",
+      "36 分鐘注滿 900 公升。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "相向而行",
+    "content_json": {
+      "question": "【已知】甲、乙兩人從相距 1200 公尺的兩地同時出發，相向而行。甲每分鐘走 120 公尺，乙每分鐘走 80 公尺。\n\n【問題】幾分鐘後兩人相遇？（請填數字）",
+      "unit": "分鐘",
+      "hint": "相向而行時，每分鐘兩人靠近的距離 = 兩人速度之和。"
+    },
+    "answer_json": {
+      "answer": 6,
+      "tolerance": 0
+    },
+    "explanation": "每分鐘靠近 120 + 80 = 200 公尺。相遇時間 1200 ÷ 200 = 6 分鐘。驗算：6 × 200 = 1200。",
+    "explanationSteps": [
+      "相向速度合計 120 + 80 = 200 公尺/分。",
+      "1200 ÷ 200 = 6 分鐘。",
+      "6 分鐘後相遇。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "追及問題",
+    "content_json": {
+      "question": "【已知】甲先從同一地點出發，以每分鐘 60 公尺的速度向前走。5 分鐘後，乙從同一地點同向出發，以每分鐘 90 公尺的速度追甲。\n\n【問題】乙出發後幾分鐘會追上甲？（請填數字）",
+      "unit": "分鐘",
+      "hint": "乙出發時，甲已領先一段距離；追及時間 = 領先距離 ÷ 速度差。"
+    },
+    "answer_json": {
+      "answer": 10,
+      "tolerance": 0
+    },
+    "explanation": "乙出發時甲已走 60 × 5 = 300 公尺。速度差 90 − 60 = 30 公尺/分。追及時間 300 ÷ 30 = 10 分鐘。驗算：10 分鐘後甲走 600+300=900，乙走 90×10=900。",
+    "explanationSteps": [
+      "甲先走 60 × 5 = 300 公尺。",
+      "速度差 90 − 60 = 30 公尺/分。",
+      "300 ÷ 30 = 10 分鐘追上。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "列表推理",
+    "content_json": {
+      "question": "【已知】四名選手小華、小美、小杰、小珍參加競賽，名次為 1 到 4 名（無並列）。\n① 小珍是第 2 名\n② 小華不是第 1 名，也不是第 4 名\n③ 小美比小杰名次高（數字越小名次越好）\n\n【問題】小華是第幾名？",
+      "options": [
+        "第 1 名",
+        "第 2 名",
+        "第 3 名",
+        "第 4 名"
+      ],
+      "hint": "先把確定的名次填入，再用排除法分配剩下名次。"
+    },
+    "answer_json": {
+      "correctIndex": 2
+    },
+    "explanation": "小珍第 2 名。小華不是 1 或 4，故為第 3 名。剩下 1、4 名由小美、小杰取得，且小美比小杰高，所以小美第 1、小杰第 4。小華是第 3 名。",
+    "explanationSteps": [
+      "小珍固定第 2 名。",
+      "小華不是 1、4 → 第 3 名。",
+      "小美第 1、小杰第 4，驗算條件成立。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "逆推原數",
+    "content_json": {
+      "question": "【已知】某數先加 7，再乘 3，再減 12，最後得到 57。\n\n【問題】原來的數是幾？（請填數字）",
+      "hint": "從結果 57 開始，依運算順序反向操作。"
+    },
+    "answer_json": {
+      "answer": 16,
+      "tolerance": 0
+    },
+    "explanation": "逆推：57 + 12 = 69，69 ÷ 3 = 23，23 − 7 = 16。驗算：(16 + 7) × 3 − 12 = 23 × 3 − 12 = 69 − 12 = 57。",
+    "explanationSteps": [
+      "57 + 12 = 69。",
+      "69 ÷ 3 = 23。",
+      "23 − 7 = 16，驗算得 57。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "工程綜合題",
+    "content_json": {
+      "question": "【已知】甲單獨完成一項工程需 4 天，乙單獨完成需 12 天。兩人合作，每天各做固定進度，且效率不變。\n\n【問題】兩人合作完成整項工程要幾天？（請填數字）",
+      "unit": "天",
+      "hint": "甲每天完成 1/4，乙每天完成 1/12，合作效率可相加。"
+    },
+    "answer_json": {
+      "answer": 3,
+      "tolerance": 0
+    },
+    "explanation": "甲每天 1/4，乙每天 1/12，合作每天 1/4 + 1/12 = 3/12 + 1/12 = 4/12 = 1/3。完成需 1 ÷ 1/3 = 3 天。驗算：3 × (1/4 + 1/12) = 3 × 1/3 = 1。",
+    "explanationSteps": [
+      "甲效率 1/4，乙效率 1/12。",
+      "合作效率 1/4 + 1/12 = 1/3。",
+      "1 ÷ 1/3 = 3 天完成。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "比例分配",
+    "content_json": {
+      "question": "【已知】120 顆糖果按 2 : 3 : 5 分配給三位同學。\n\n【問題】分到最多那份的同學拿到幾顆？（請填數字）",
+      "unit": "顆",
+      "hint": "先算總份數，再求每一份有多少顆。"
+    },
+    "answer_json": {
+      "answer": 60,
+      "tolerance": 0
+    },
+    "explanation": "總份數 2 + 3 + 5 = 10 份。每份 120 ÷ 10 = 12 顆。最多那份 5 × 12 = 60 顆。驗算：24 + 36 + 60 = 120。",
+    "explanationSteps": [
+      "總份數 2 + 3 + 5 = 10 份。",
+      "每份 120 ÷ 10 = 12 顆。",
+      "最多 5 × 12 = 60 顆。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "糖水混合",
+    "content_json": {
+      "question": "【已知】15% 的糖水 200 公克，再加入 50 公克純糖（不含水）。\n\n【問題】混合後含糖率是百分之幾？（請填數字，不含 % 符號）",
+      "unit": "%",
+      "hint": "先算兩部分的糖總公克數，再除以混合後總重量。"
+    },
+    "answer_json": {
+      "answer": 32,
+      "tolerance": 0
+    },
+    "explanation": "原糖 200 × 15% = 30 公克。加入 50 公克純糖，共 80 公克。總重 200 + 50 = 250 公克。含糖率 80 ÷ 250 = 32%。驗算：250 × 32% = 80。",
+    "explanationSteps": [
+      "原糖 200 × 15% = 30 公克。",
+      "總糖 30 + 50 = 80 公克，總重 250 公克。",
+      "含糖率 80 ÷ 250 = 32%。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "折扣疊加",
+    "content_json": {
+      "question": "【已知】某商品原價 800 元，先打八折，再在折後價上打九五折。\n\n【問題】最後現價幾元？（請填數字）",
+      "unit": "元",
+      "hint": "兩次折扣要依序計算，不能直接把 80% 和 95% 相加。"
+    },
+    "answer_json": {
+      "answer": 608,
+      "tolerance": 0
+    },
+    "explanation": "第一次 800 × 0.8 = 640 元。第二次 640 × 0.95 = 608 元。驗算：608 ÷ 0.95 = 640，640 ÷ 0.8 = 800。",
+    "explanationSteps": [
+      "八折後 800 × 0.8 = 640 元。",
+      "九五折後 640 × 0.95 = 608 元。",
+      "最後現價 608 元。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "盈虧問題",
+    "content_json": {
+      "question": "【已知】水果店進了若干袋蘋果，每袋成本 48 元。若每袋以 60 元全部售完，共賺 240 元。\n\n【問題】蘋果共有幾袋？（請填數字）",
+      "unit": "袋",
+      "hint": "先算每袋賺多少元，再用總利潤去除。"
+    },
+    "answer_json": {
+      "answer": 20,
+      "tolerance": 0
+    },
+    "explanation": "每袋利潤 60 − 48 = 12 元。袋數 240 ÷ 12 = 20 袋。驗算：20 × 12 = 240，20 × 48 = 960 成本，20 × 60 = 1200 收入。",
+    "explanationSteps": [
+      "每袋利潤 60 − 48 = 12 元。",
+      "240 ÷ 12 = 20 袋。",
+      "驗算 20 袋賺 240 元。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "年齡和",
+    "content_json": {
+      "question": "【已知】哥哥和妹妹的年齡和是 32 歲，哥哥比妹妹大 6 歲。\n\n【問題】妹妹今年幾歲？（請填數字）",
+      "unit": "歲",
+      "hint": "若兩人年齡一樣大，年齡和會少掉相差的 6 歲。"
+    },
+    "answer_json": {
+      "answer": 13,
+      "tolerance": 0
+    },
+    "explanation": "設妹妹 x 歲，哥哥 x + 6 歲。x + (x + 6) = 32 → 2x = 26 → x = 13。驗算：13 + 19 = 32，19 − 13 = 6。",
+    "explanationSteps": [
+      "設妹妹 x 歲，哥哥 x + 6 歲。",
+      "2x + 6 = 32 → x = 13。",
+      "妹妹 13 歲，哥哥 19 歲。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "方陣最外圈",
+    "content_json": {
+      "question": "【已知】運動會排成 9 × 9 的實心方陣，只算最外一圈的人（每個位置都有人）。\n\n【問題】最外圈共有幾人？（請填數字）",
+      "unit": "人",
+      "hint": "最外圈人數 = 大方陣總人數 − 內部小方陣人數。"
+    },
+    "answer_json": {
+      "answer": 32,
+      "tolerance": 0
+    },
+    "explanation": "9 × 9 = 81 人。內部 7 × 7 = 49 人。最外圈 81 − 49 = 32 人。驗算：每邊 9 人算 4 邊得 36，減去 4 個重複角落 36 − 4 = 32。",
+    "explanationSteps": [
+      "全體 9 × 9 = 81 人。",
+      "內部 7 × 7 = 49 人。",
+      "最外圈 81 − 49 = 32 人。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "環形植樹",
+    "content_json": {
+      "question": "【已知】環形花壇周長 48 公尺，每隔 4 公尺種 1 棵樹（環形上首尾相接，不重複計算起點）。\n\n【問題】一共要種幾棵樹？（請填數字）",
+      "unit": "棵",
+      "hint": "環形植樹時，棵數 = 周長 ÷ 間距。"
+    },
+    "answer_json": {
+      "answer": 12,
+      "tolerance": 0
+    },
+    "explanation": "環形植樹棵數 = 48 ÷ 4 = 12 棵。驗算：12 棵樹圍成一圈，12 × 4 = 48 公尺。",
+    "explanationSteps": [
+      "環形：棵數 = 周長 ÷ 間距。",
+      "48 ÷ 4 = 12 棵。",
+      "12 × 4 = 48 公尺，驗算正確。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "流水行船",
+    "content_json": {
+      "question": "【已知】船在靜水中每小時行 20 公里，河水流速每小時 4 公里。船從 A 地逆流上行到 B 地，全程 96 公里。\n\n【問題】上行共需幾小時？（請填數字）",
+      "unit": "小時",
+      "hint": "逆流速度 = 靜水速度 − 水流速度。"
+    },
+    "answer_json": {
+      "answer": 6,
+      "tolerance": 0
+    },
+    "explanation": "逆流速度 20 − 4 = 16 公里/小時。時間 96 ÷ 16 = 6 小時。驗算：6 × 16 = 96 公里。",
+    "explanationSteps": [
+      "逆流速度 20 − 4 = 16 公里/小時。",
+      "96 ÷ 16 = 6 小時。",
+      "6 小時行 96 公里。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "數字謎",
+    "content_json": {
+      "question": "【已知】一個兩位數，十位數字與個位數字之和是 13，且個位數字比十位數字大 5。\n\n【問題】這個兩位數是幾？",
+      "options": [
+        "49",
+        "94",
+        "58",
+        "76"
+      ],
+      "hint": "設十位為 a、個位為 b，列 a + b = 13 與 b − a = 5。"
+    },
+    "answer_json": {
+      "correctIndex": 0
+    },
+    "explanation": "設十位 a、個位 b。a + b = 13，b − a = 5。相加得 2b = 18，b = 9，a = 4。這個數是 49。驗算：4 + 9 = 13，9 − 4 = 5。",
+    "explanationSteps": [
+      "列 a + b = 13 與 b − a = 5。",
+      "解得 a = 4、b = 9。",
+      "這個兩位數是 49。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "比例綜合題",
+    "content_json": {
+      "question": "【已知】某班男、女生人數比是 5 : 4，全班共 36 人。後來調走 2 名女生，男生人數不變。\n\n【問題】調走後，女生還剩幾人？（請填數字）",
+      "unit": "人",
+      "hint": "先依比例求出原本男、女生人數，再減去調走的女生。"
+    },
+    "answer_json": {
+      "answer": 14,
+      "tolerance": 0
+    },
+    "explanation": "總份數 5 + 4 = 9 份。每份 36 ÷ 9 = 4 人。女生原本 4 × 4 = 16 人。調走 2 名後剩 16 − 2 = 14 人。驗算：男生 20 人，20 + 14 = 34 = 36 − 2。",
+    "explanationSteps": [
+      "每份 36 ÷ 9 = 4 人，女生 16 人。",
+      "調走 2 名女生。",
+      "女生剩 16 − 2 = 14 人。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "公倍數分組",
+    "content_json": {
+      "question": "【已知】遊戲裡三盞警示燈同時亮起後，甲燈每 6 秒閃一次、乙燈每 8 秒閃一次、丙燈每 10 秒閃一次（各自週期不變）。\n\n【問題】下一次三燈同時閃爍，至少要再過幾秒？（請填數字）",
+      "unit": "秒",
+      "hint": "同時閃爍的間隔是三個週期的最小公倍數。"
+    },
+    "answer_json": {
+      "answer": 120,
+      "tolerance": 0
+    },
+    "explanation": "6 = 2 × 3，8 = 2³，10 = 2 × 5。最小公倍數 = 2³ × 3 × 5 = 120 秒。驗算：120 ÷ 6 = 20、120 ÷ 8 = 15、120 ÷ 10 = 12，皆為整數。",
+    "explanationSteps": [
+      "分解 6、8、10 的質因數。",
+      "取最高次幂相乘得 LCM = 120。",
+      "120 秒後三燈再次同時閃爍。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "公因數分組",
+    "content_json": {
+      "question": "【已知】紅色積木 60 塊、藍色積木 84 塊，要分成若干組，每組紅、藍數量相同且剛好分完，組數要盡可能多。\n\n【問題】每組有幾塊積木（紅藍合計）？（請填數字）",
+      "unit": "塊",
+      "hint": "每組紅、藍數量相同，等於兩數的最大公因數。"
+    },
+    "answer_json": {
+      "answer": 12,
+      "tolerance": 0
+    },
+    "explanation": "GCD(60, 84) = 12。每組紅 60 ÷ 12 = 5 塊、藍 84 ÷ 12 = 7 塊，合計 12 塊，共 12 組。驗算：12 × 5 = 60，12 × 7 = 84。",
+    "explanationSteps": [
+      "求 60 與 84 的最大公因數 = 12。",
+      "每組紅 5 塊、藍 7 塊。",
+      "每組合計 12 塊，共 12 組。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "餘數週期",
+    "content_json": {
+      "question": "【已知】某正整數除以 4 餘 3，除以 5 餘 2。\n\n【問題】符合條件的最小正整數是幾？（請填數字）",
+      "hint": "列出除以 4 餘 3 的數，再逐一檢查除以 5 的餘數。"
+    },
+    "answer_json": {
+      "answer": 27,
+      "tolerance": 0
+    },
+    "explanation": "除以 4 餘 3 的數：3、7、11、15、19、23、27…。27 ÷ 5 = 5 餘 2，符合。驗算：27 = 4 × 6 + 3 = 5 × 5 + 2。",
+    "explanationSteps": [
+      "除以 4 餘 3 的數列：3、7、11、15…",
+      "逐一檢查除以 5 的餘數。",
+      "27 是最小符合條件的數。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "奇偶分析",
+    "content_json": {
+      "question": "【已知】五個連續整數的和是 115。\n\n【問題】中間那個整數是幾？（請填數字）",
+      "hint": "五個連續整數可設為 n−2、n−1、n、n+1、n+2，和為 5n。"
+    },
+    "answer_json": {
+      "answer": 23,
+      "tolerance": 0
+    },
+    "explanation": "設中間數為 n，五數和 = (n−2)+(n−1)+n+(n+1)+(n+2) = 5n = 115，n = 23。驗算：21+22+23+24+25 = 115。",
+    "explanationSteps": [
+      "設中間數 n，五數和 = 5n。",
+      "5n = 115 → n = 23。",
+      "驗算 21 到 25 的和為 115。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "抽屜原理",
+    "content_json": {
+      "question": "【已知】暗箱裡有 6 種顏色的球各若干顆，每次隨機取 1 顆（看不到顏色）。\n\n【問題】至少取幾顆，才能保證其中有 3 顆同色？（請填數字）",
+      "unit": "顆",
+      "hint": "最不利情況是每種顏色各取 2 顆，再取 1 顆必使某色達到 3 顆。"
+    },
+    "answer_json": {
+      "answer": 13,
+      "tolerance": 0
+    },
+    "explanation": "6 種顏色，最不利各取 2 顆共 12 顆，仍可能沒有 3 同色。再取 1 顆必使某色 ≥ 3。故至少 6 × 2 + 1 = 13 顆。",
+    "explanationSteps": [
+      "最不利：6 色各 2 顆，共 12 顆。",
+      "第 13 顆必與某色湊成 3 顆。",
+      "答案 13 顆。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "和倍問題",
+    "content_json": {
+      "question": "【已知】爸爸與兒子的年齡和是 56 歲，爸爸年齡是兒子的 3 倍。\n\n【問題】兒子今年幾歲？（請填數字）",
+      "unit": "歲",
+      "hint": "把兒子年齡看作 1 份，爸爸是 3 份，年齡和是 4 份。"
+    },
+    "answer_json": {
+      "answer": 14,
+      "tolerance": 0
+    },
+    "explanation": "兒子 1 份、爸爸 3 份，共 4 份 = 56 歲。兒子 = 56 ÷ 4 = 14 歲，爸爸 = 42 歲。驗算：14 + 42 = 56，42 = 3 × 14。",
+    "explanationSteps": [
+      "年齡和 4 份 = 56 歲。",
+      "1 份 = 56 ÷ 4 = 14 歲。",
+      "兒子 14 歲，爸爸 42 歲。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "差倍問題",
+    "content_json": {
+      "question": "【已知】兩個正整數相差 27，較大的數是較小數的 4 倍。\n\n【問題】較小的數是幾？（請填數字）",
+      "hint": "較大數比較小數多 3 份，這 3 份對應差 27。"
+    },
+    "answer_json": {
+      "answer": 9,
+      "tolerance": 0
+    },
+    "explanation": "設較小數 s，較大數 4s。4s − s = 27 → 3s = 27 → s = 9。驗算：9 與 36 相差 27，36 = 4 × 9。",
+    "explanationSteps": [
+      "設較小數 s，較大數 4s。",
+      "3s = 27 → s = 9。",
+      "驗算 9 與 36 符合條件。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "代換問題",
+    "content_json": {
+      "question": "【已知】1 顆蘋果的價錢等於 2 顆橘子的價錢。買 3 顆蘋果和 5 顆橘子共需 44 元。\n\n【問題】1 顆蘋果幾元？（請填數字）",
+      "unit": "元",
+      "hint": "把 5 顆橘子換成蘋果：5 橘 = 2.5 顆蘋果的價錢。"
+    },
+    "answer_json": {
+      "answer": 8,
+      "tolerance": 0
+    },
+    "explanation": "設蘋果 a 元、橘子 o 元。a = 2o。3a + 5o = 3(2o) + 5o = 11o = 44，o = 4，a = 8。驗算：3 × 8 + 5 × 4 = 24 + 20 = 44。",
+    "explanationSteps": [
+      "1 蘋果 = 2 橘子，設橘子 4 元。",
+      "3 蘋果 + 5 橘子 = 6 橘 + 5 橘 = 11 橘 = 44 元。",
+      "橘子 4 元，蘋果 8 元。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "假設法",
+    "content_json": {
+      "question": "【已知】籠裡雞兔共 26 隻，腳共 68 隻。\n\n【問題】雞有幾隻？（請填數字）",
+      "unit": "隻",
+      "hint": "假設全是雞，每隻 2 腳，比實際少算的腳數來換算兔子。"
+    },
+    "answer_json": {
+      "answer": 18,
+      "tolerance": 0
+    },
+    "explanation": "設雞 x、兔 y。x + y = 26，2x + 4y = 68。化簡 y = 26 − x，2x + 4(26−x) = 68 → −2x = −36 → x = 18。驗算：18 雞 36 腳 + 8 兔 32 腳 = 68 腳。",
+    "explanationSteps": [
+      "列 x + y = 26 與 2x + 4y = 68。",
+      "代入得 x = 18。",
+      "18 雞、8 兔，共 68 腳。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "餘數綜合題",
+    "content_json": {
+      "question": "【已知】某正整數除以 3 餘 1、除以 4 餘 2、除以 5 餘 3，且介於 100 到 200 之間。\n\n【問題】這個數是幾？（請填數字）",
+      "hint": "觀察規律：此數加 2 後，可同時被 3、4、5 整除。"
+    },
+    "answer_json": {
+      "answer": 118,
+      "tolerance": 0
+    },
+    "explanation": "若 n + 2 可被 3、4、5 整除，則 n + 2 = LCM(3,4,5) = 60 的倍數。n = 58、118、178…。100 到 200 間為 118。驗算：118÷3 餘 1，118÷4 餘 2，118÷5 餘 3。",
+    "explanationSteps": [
+      "n + 2 是 3、4、5 的公倍數。",
+      "LCM = 60，n = 60k − 2。",
+      "100 到 200 間 n = 118。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "天平稱重",
+    "content_json": {
+      "question": "【已知】9 枚外觀相同的硬幣中有 1 枚假幣（較輕），其餘為真幣。有一架天平，每次可將硬幣分成兩邊比較輕重。\n\n【問題】最少要稱幾次，才能保證找出假幣？（請填數字）",
+      "unit": "次",
+      "hint": "每次稱重最多排除 2/3 的可能；9 = 3²，故最多需 2 次。"
+    },
+    "answer_json": {
+      "answer": 2,
+      "tolerance": 0
+    },
+    "explanation": "第一次：9 枚分 3 組各 3 枚比較。若平衡，假幣在沒稱的 3 枚；若不平衡，假幣在較輕的 3 枚。第二次：從 3 枚中任取 2 枚比較即可確定。故最少 2 次。",
+    "explanationSteps": [
+      "9 枚分三組各 3 枚，第一次稱重。",
+      "鎖定 3 枚候選。",
+      "第二次從 3 枚中找出假幣。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "邏輯排除",
+    "content_json": {
+      "question": "【已知】四名選手小安、小樂、小凱、小芬參加競賽，名次為 1 到 4 名（無並列）。\n① 小芬是第 1 名\n② 小安不是第 3 名\n③ 小樂的名次比小凱高（數字越小名次越好）\n④ 小凱不是第 4 名\n\n【問題】小安是第幾名？",
+      "options": [
+        "第 1 名",
+        "第 2 名",
+        "第 3 名",
+        "第 4 名"
+      ],
+      "hint": "先固定小芬第 1 名，再用排除法分配剩下名次。"
+    },
+    "answer_json": {
+      "correctIndex": 3
+    },
+    "explanation": "小芬第 1 名。小凱不是第 4 名，剩 2、3 名給小安、小樂、小凱。小樂比小凱高，若小凱第 3 則小樂第 2。小安不是第 3，故小安第 4、小樂第 2、小凱第 3。小安是第 4 名。",
+    "explanationSteps": [
+      "小芬固定第 1 名。",
+      "小凱第 3、小樂第 2（小樂名次較高）。",
+      "小安不是第 3 → 小安第 4 名。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "最值問題",
+    "content_json": {
+      "question": "【已知】有一條 48 公分長的繩子，圍成一個長、寬皆為正整數的長方形（繩子全部用完）。\n\n【問題】圍成的長方形最大面積是幾平方公分？（請填數字）",
+      "unit": "平方公分",
+      "hint": "周長固定時，長寬越接近，面積越大。"
+    },
+    "answer_json": {
+      "answer": 144,
+      "tolerance": 0
+    },
+    "explanation": "長 + 寬 = 48 ÷ 2 = 24。列舉：1×23=23、2×22=44…12×12=144 最大。驗算：12 + 12 = 24，周長 48，面積 144。",
+    "explanationSteps": [
+      "長 + 寬 = 24。",
+      "長寬相等時面積最大：12 × 12。",
+      "最大面積 144 平方公分。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "數陣圖",
+    "content_json": {
+      "question": "【已知】3 × 3 數陣圖每行、每列、兩條對角線的數字和都相等（魔術和）。第一行是 8、1、6，第二行是 3、5、?。\n\n【問題】問號處應填幾？（請填數字）",
+      "hint": "先由第一行求出魔術和，再算第二行第三格。"
+    },
+    "answer_json": {
+      "answer": 7,
+      "tolerance": 0
+    },
+    "explanation": "第一行和 = 8 + 1 + 6 = 15，魔術和 = 15。第二行 3 + 5 + ? = 15，? = 7。驗算完整數陣：8+1+6=15，3+5+7=15，4+9+2=15，各列、對角線亦為 15。",
+    "explanationSteps": [
+      "第一行和 8+1+6 = 15。",
+      "第二行 3+5+? = 15。",
+      "? = 7。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "過河問題",
+    "content_json": {
+      "question": "【已知】農夫要帶狼、羊、菜過河。船每次最多載農夫與其中 1 樣。若無農夫在場，狼會吃羊、羊會吃菜。\n\n【問題】農夫至少來回幾趟（單程算 1 趟），才能讓三者都安全到對岸？",
+      "options": [
+        "5 趟",
+        "6 趟",
+        "7 趟",
+        "8 趟"
+      ],
+      "hint": "先帶羊過河，回來再帶狼或菜，注意不能把羊和狼（或菜）單獨留在一起。"
+    },
+    "answer_json": {
+      "correctIndex": 2
+    },
+    "explanation": "經典解法共 7 趟：①帶羊過河 ②農夫回 ③帶狼過河 ④帶羊回 ⑤帶菜過河 ⑥農夫回 ⑦帶羊過河。驗算每步後兩岸皆安全。",
+    "explanationSteps": [
+      "先帶羊過河，狼與菜可同留。",
+      "帶狼過河後，把羊帶回。",
+      "帶菜過河，再回來帶羊，共 7 趟。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "還原問題",
+    "content_json": {
+      "question": "【已知】某數先減 8，再乘 3，再加 15，最後得到 60。\n\n【問題】原來的數是幾？（請填數字）",
+      "hint": "從 60 開始，依運算順序反向操作。"
+    },
+    "answer_json": {
+      "answer": 23,
+      "tolerance": 0
+    },
+    "explanation": "逆推：60 − 15 = 45，45 ÷ 3 = 15，15 + 8 = 23。驗算：(23 − 8) × 3 + 15 = 15 × 3 + 15 = 45 + 15 = 60。",
+    "explanationSteps": [
+      "60 − 15 = 45。",
+      "45 ÷ 3 = 15。",
+      "15 + 8 = 23，驗算得 60。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "錯中求解",
+    "content_json": {
+      "question": "【已知】小華計算時，應把某數乘以 8，卻誤加成 45，得到 173。\n\n【問題】正確的計算結果應該是幾？（請填數字）",
+      "hint": "先由錯誤算式求出原數，再乘以 8。"
+    },
+    "answer_json": {
+      "answer": 1024,
+      "tolerance": 0
+    },
+    "explanation": "原數 x + 45 = 173，x = 128。正確結果 = 128 × 8 = 1024。驗算：128 + 45 = 173，128 × 8 = 1024。",
+    "explanationSteps": [
+      "173 − 45 = 128（原數）。",
+      "128 × 8 = 1024。",
+      "正確結果 1024。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "統計圖解讀",
+    "content_json": {
+      "question": "【已知】某班一週閱讀頁數長條圖如下：週一 12 頁、週二 18 頁、週三 15 頁、週四 20 頁、週五 25 頁。\n\n【問題】這五天平均每天閱讀幾頁？",
+      "options": [
+        "16 頁",
+        "18 頁",
+        "20 頁",
+        "22 頁"
+      ],
+      "hint": "先加總五天頁數，再除以 5。"
+    },
+    "answer_json": {
+      "correctIndex": 1
+    },
+    "explanation": "總頁數 = 12 + 18 + 15 + 20 + 25 = 90 頁。平均 = 90 ÷ 5 = 18 頁。驗算：18 × 5 = 90。",
+    "explanationSteps": [
+      "五天合計 12+18+15+20+25 = 90 頁。",
+      "90 ÷ 5 = 18 頁。",
+      "平均每天 18 頁。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "邏輯推理",
+    "content_json": {
+      "question": "【已知】甲、乙、丙三人，只有一人說實話。\n甲：「今天是星期一。」\n乙：「昨天是星期日。」\n丙：「明天是星期三。」\n\n【問題】今天是星期幾？",
+      "options": [
+        "星期一",
+        "星期二",
+        "星期三",
+        "星期四"
+      ],
+      "hint": "逐一假設今天是星期幾，檢查是否恰有一人說實話。"
+    },
+    "answer_json": {
+      "correctIndex": 1
+    },
+    "explanation": "若今天星期二：甲說「星期一」→ 假；乙說「昨天星期日」→ 假（昨天是星期一）；丙說「明天星期三」→ 真。恰一人說實話。驗算其他日期均無法使恰一人說實話。",
+    "explanationSteps": [
+      "假設今天星期二。",
+      "甲、乙皆假，丙真。",
+      "恰一人說實話，今天是星期二。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "推理綜合題",
+    "content_json": {
+      "question": "【已知】甲、乙、丙三個數的和是 60。甲是乙的 2 倍，乙與丙的和是 42。\n\n【問題】甲是幾？（請填數字）",
+      "hint": "先由乙 + 丙 = 42 得丙，再代入三數和求乙，最後算甲。"
+    },
+    "answer_json": {
+      "answer": 18,
+      "tolerance": 0
+    },
+    "explanation": "乙 + 丙 = 42，甲 + 42 = 60 → 甲 = 18。又甲 = 2 乙 → 乙 = 9，丙 = 33。驗算：18 + 9 + 33 = 60，18 = 2 × 9，9 + 33 = 42。",
+    "explanationSteps": [
+      "甲 + 42 = 60 → 甲 = 18。",
+      "甲 = 2 乙 → 乙 = 9，丙 = 33。",
+      "驗算三數和與條件。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "綜合應用一",
+    "content_json": {
+      "question": "【已知】甲、乙兩城相距 420 公里，兩車同時相向出發。甲車每小時 60 公里，乙車每小時 80 公里。\n\n【問題】幾小時後兩車相遇？（請填數字）",
+      "unit": "小時",
+      "hint": "相向而行時，每小時兩車靠近的距離 = 兩車速度之和。"
+    },
+    "answer_json": {
+      "answer": 3,
+      "tolerance": 0
+    },
+    "explanation": "每小時靠近 60 + 80 = 140 公里。相遇時間 420 ÷ 140 = 3 小時。驗算：3 × 140 = 420 公里。",
+    "explanationSteps": [
+      "相向速度合計 60 + 80 = 140 公里/小時。",
+      "420 ÷ 140 = 3 小時。",
+      "3 小時後相遇。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "綜合應用二",
+    "content_json": {
+      "question": "【已知】某班男、女生人數比是 5 : 4，全班共 45 人。\n\n【問題】男生有幾人？（請填數字）",
+      "unit": "人",
+      "hint": "先算總份數，再求每一份有多少人。"
+    },
+    "answer_json": {
+      "answer": 25,
+      "tolerance": 0
+    },
+    "explanation": "總份數 5 + 4 = 9 份。每份 45 ÷ 9 = 5 人。男生 5 × 5 = 25 人，女生 20 人。驗算：25 + 20 = 45，25 : 20 = 5 : 4。",
+    "explanationSteps": [
+      "總份數 9 份，每份 5 人。",
+      "男生 5 × 5 = 25 人。",
+      "驗算比例與總人數。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "綜合應用三",
+    "content_json": {
+      "question": "【已知】空水池容量 360 公升。注水管每分鐘注入 30 公升，排水管每分鐘排出 10 公升。兩管同時開啟，池子一開始是空的。\n\n【問題】幾分鐘後水池注滿？（請填數字）",
+      "unit": "分鐘",
+      "hint": "同時開啟時，每分鐘實際增加的水量 = 注入量 − 排出量。"
+    },
+    "answer_json": {
+      "answer": 18,
+      "tolerance": 0
+    },
+    "explanation": "每分鐘淨增加 30 − 10 = 20 公升。注滿時間 360 ÷ 20 = 18 分鐘。驗算：18 × 20 = 360 公升。",
+    "explanationSteps": [
+      "淨增加 30 − 10 = 20 公升/分鐘。",
+      "360 ÷ 20 = 18 分鐘。",
+      "18 分鐘注滿。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "綜合應用四",
+    "content_json": {
+      "question": "【已知】某商品進價 120 元，店家以成本加 25% 作為售價全部賣完。\n\n【問題】售價是幾元？（請填數字）",
+      "unit": "元",
+      "hint": "售價 = 進價 × (1 + 25%)。"
+    },
+    "answer_json": {
+      "answer": 150,
+      "tolerance": 0
+    },
+    "explanation": "售價 = 120 × 1.25 = 150 元。驗算：150 − 120 = 30 元，30 ÷ 120 = 25%。",
+    "explanationSteps": [
+      "加價 25%：120 × 0.25 = 30 元。",
+      "售價 120 + 30 = 150 元。",
+      "驗算利潤率 25%。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "綜合應用五",
+    "content_json": {
+      "question": "【已知】媽媽今年 36 歲，女兒今年 6 歲。年齡差永遠不變。\n\n【問題】再過幾年，媽媽年齡是女兒的 3 倍？（請填數字）",
+      "unit": "年",
+      "hint": "設再過 y 年，列 36 + y = 3(6 + y)。"
+    },
+    "answer_json": {
+      "answer": 9,
+      "tolerance": 0
+    },
+    "explanation": "設再過 y 年：36 + y = 3(6 + y) → 36 + y = 18 + 3y → 18 = 2y → y = 9。驗算：9 年後媽媽 45 歲、女兒 15 歲，45 = 3 × 15。",
+    "explanationSteps": [
+      "列 36 + y = 3(6 + y)。",
+      "36 + y = 18 + 3y → y = 9。",
+      "9 年後 45 歲是 15 歲的 3 倍。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "綜合應用六",
+    "content_json": {
+      "question": "【已知】長方形長 15 公分、寬 8 公分。\n\n【問題】這個長方形的周長是幾公分？（請填數字）",
+      "unit": "公分",
+      "hint": "長方形周長 = (長 + 寬) × 2。"
+    },
+    "answer_json": {
+      "answer": 46,
+      "tolerance": 0
+    },
+    "explanation": "周長 = (15 + 8) × 2 = 23 × 2 = 46 公分。驗算：15 + 8 + 15 + 8 = 46。",
+    "explanationSteps": [
+      "長 + 寬 = 15 + 8 = 23 公分。",
+      "周長 = 23 × 2 = 46 公分。",
+      "驗算四邊相加得 46。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "綜合應用七",
+    "content_json": {
+      "question": "【已知】101 路和 202 路公車都在上午 9:00 同時到站。101 路每 15 分鐘一班，202 路每 20 分鐘一班。\n\n【問題】下一次兩路公車同時到站，至少要再過幾分鐘？（請填數字）",
+      "unit": "分鐘",
+      "hint": "同時到站的間隔是 15 和 20 的最小公倍數。"
+    },
+    "answer_json": {
+      "answer": 60,
+      "tolerance": 0
+    },
+    "explanation": "LCM(15, 20) = 60 分鐘。驗算：60 ÷ 15 = 4、60 ÷ 20 = 3，兩路皆在 10:00 同時到站。",
+    "explanationSteps": [
+      "15 = 3 × 5，20 = 2² × 5。",
+      "LCM = 2² × 3 × 5 = 60 分鐘。",
+      "60 分鐘後再次同時到站。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "綜合應用八",
+    "content_json": {
+      "question": "【已知】圖書館有 96 本書要排上書架，每層放 12 本，每層都放滿。\n\n【問題】需要幾層書架？（請填數字）",
+      "unit": "層",
+      "hint": "層數 = 總本數 ÷ 每層本數。"
+    },
+    "answer_json": {
+      "answer": 8,
+      "tolerance": 0
+    },
+    "explanation": "96 ÷ 12 = 8 層。驗算：8 × 12 = 96 本。",
+    "explanationSteps": [
+      "96 ÷ 12 = 8 層。",
+      "每層 12 本。",
+      "8 層共 96 本。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "遠征綜合題",
+    "content_json": {
+      "question": "【已知】遠征隊第一天走 28 公里，第二天走 32 公里，第三天走剩下路程的一半後紮營。全程共 120 公里。\n\n【問題】扎營時距離終點還有幾公里？（請填數字）",
+      "unit": "公里",
+      "hint": "先算前兩天後剩餘路程，第三天走一半，另一半就是距終點的距離。"
+    },
+    "answer_json": {
+      "answer": 30,
+      "tolerance": 0
+    },
+    "explanation": "前兩天走 28 + 32 = 60 公里，剩 120 − 60 = 60 公里。第三天走 60 ÷ 2 = 30 公里，距終點 60 − 30 = 30 公里。驗算：28 + 32 + 30 = 90，距終點 30，共 120 公里。",
+    "explanationSteps": [
+      "前兩天後剩 120 − 60 = 60 公里。",
+      "第三天走 30 公里。",
+      "距終點 30 公里。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "核心試煉一",
+    "content_json": {
+      "question": "【已知】兩數和是 72，大數是小數的 5 倍。\n\n【問題】小數是幾？（請填數字）",
+      "hint": "小數 1 份、大數 5 份，和為 6 份。"
+    },
+    "answer_json": {
+      "answer": 12,
+      "tolerance": 0
+    },
+    "explanation": "小數 1 份、大數 5 份，共 6 份 = 72。小數 = 72 ÷ 6 = 12，大數 = 60。驗算：12 + 60 = 72，60 = 5 × 12。",
+    "explanationSteps": [
+      "和為 6 份 = 72。",
+      "1 份 = 12。",
+      "小數 12，大數 60。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "核心試煉二",
+    "content_json": {
+      "question": "【已知】大數比小數多 42，大數是小數的 4 倍。\n\n【問題】大數是幾？（請填數字）",
+      "hint": "大數比小數多 3 份，3 份 = 42。"
+    },
+    "answer_json": {
+      "answer": 56,
+      "tolerance": 0
+    },
+    "explanation": "大數 4 份、小數 1 份，差 3 份 = 42，1 份 = 14。大數 = 4 × 14 = 56。驗算：56 − 14 = 42，56 = 4 × 14。",
+    "explanationSteps": [
+      "差 3 份 = 42，1 份 = 14。",
+      "大數 = 4 × 14 = 56。",
+      "驗算差與倍數關係。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "核心試煉三",
+    "content_json": {
+      "question": "【已知】2 支鉛筆和 3 支原子筆共 39 元，1 支鉛筆比 1 支原子筆便宜 3 元。\n\n【問題】1 支原子筆幾元？（請填數字）",
+      "unit": "元",
+      "hint": "把 2 支鉛筆換成原子筆：2 鉛筆 = 2 原子筆 − 6 元。"
+    },
+    "answer_json": {
+      "answer": 9,
+      "tolerance": 0
+    },
+    "explanation": "設原子筆 p 元，鉛筆 p − 3 元。2(p−3) + 3p = 39 → 5p − 6 = 39 → 5p = 45 → p = 9。驗算：鉛筆 6 元，2×6 + 3×9 = 12 + 27 = 39。",
+    "explanationSteps": [
+      "設原子筆 p 元，鉛筆 p − 3 元。",
+      "2(p−3) + 3p = 39 → p = 9。",
+      "原子筆 9 元，鉛筆 6 元。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "核心試煉四",
+    "content_json": {
+      "question": "【已知】五、六年級共 240 人，五年級比六年級少 40 人。\n\n【問題】五年級有幾人？（請填數字）",
+      "unit": "人",
+      "hint": "若兩年級人數相同，總數會多出 40 人。"
+    },
+    "answer_json": {
+      "answer": 100,
+      "tolerance": 0
+    },
+    "explanation": "設五年級 x 人，六年級 x + 40 人。x + (x + 40) = 240 → 2x = 200 → x = 100。驗算：五年級 100、六年級 140，100 + 140 = 240，140 − 100 = 40。",
+    "explanationSteps": [
+      "設五年級 x，六年級 x + 40。",
+      "2x + 40 = 240 → x = 100。",
+      "五年級 100 人。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "核心試煉五",
+    "content_json": {
+      "question": "【已知】某數先加 12，再除以 4，再減 5，得到 10。\n\n【問題】原來的數是幾？（請填數字）",
+      "hint": "從 10 開始，依運算順序反向操作。"
+    },
+    "answer_json": {
+      "answer": 48,
+      "tolerance": 0
+    },
+    "explanation": "逆推：10 + 5 = 15，15 × 4 = 60，60 − 12 = 48。驗算：(48 + 12) ÷ 4 − 5 = 60 ÷ 4 − 5 = 15 − 5 = 10。",
+    "explanationSteps": [
+      "10 + 5 = 15。",
+      "15 × 4 = 60。",
+      "60 − 12 = 48，驗算得 10。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "核心試煉六",
+    "content_json": {
+      "question": "【已知】甲單獨完成工程需 6 天，乙單獨完成需 3 天。兩人合作，每天各做固定進度。\n\n【問題】兩人合作完成整項工程要幾天？（請填數字）",
+      "unit": "天",
+      "hint": "甲每天完成 1/6，乙每天完成 1/3，合作效率可相加。"
+    },
+    "answer_json": {
+      "answer": 2,
+      "tolerance": 0
+    },
+    "explanation": "甲每天 1/6，乙每天 1/3 = 2/6，合作每天 1/6 + 2/6 = 3/6 = 1/2。完成需 1 ÷ 1/2 = 2 天。驗算：2 × (1/6 + 1/3) = 2 × 1/2 = 1。",
+    "explanationSteps": [
+      "甲效率 1/6，乙效率 1/3。",
+      "合作效率 1/2。",
+      "1 ÷ 1/2 = 2 天完成。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "核心試煉七",
+    "content_json": {
+      "question": "【已知】環形跑道周長 400 公尺。甲每分鐘跑 250 公尺，乙每分鐘跑 150 公尺。兩人從同一起點同時同向出發。\n\n【問題】乙第一次追上甲要幾分鐘？（請填數字）",
+      "unit": "分鐘",
+      "hint": "同向追及時，每分鐘靠近的距離 = 速度差；追上一圈需時間 = 周長 ÷ 速度差。"
+    },
+    "answer_json": {
+      "answer": 4,
+      "tolerance": 0
+    },
+    "explanation": "速度差 250 − 150 = 100 公尺/分。乙追上甲需多跑一整圈 400 公尺，時間 400 ÷ 100 = 4 分鐘。驗算：4 分鐘甲走 1000 公尺、乙走 600 公尺，乙比甲多 400 公尺（一圈）。",
+    "explanationSteps": [
+      "速度差 250 − 150 = 100 公尺/分。",
+      "追及一圈需 400 ÷ 100 = 4 分鐘。",
+      "4 分鐘後乙第一次追上甲。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "核心試煉八",
+    "content_json": {
+      "question": "【已知】有 24 顆和 30 顆兩堆糖果（不混合），各自要分成若干袋，每袋顆數相同且剛好分完，兩堆的「每袋顆數」要相同。\n\n【問題】每袋最多裝幾顆？（請填數字）",
+      "unit": "顆",
+      "hint": "每袋顆數須同時整除 24 和 30，即求最大公因數。"
+    },
+    "answer_json": {
+      "answer": 6,
+      "tolerance": 0
+    },
+    "explanation": "每袋顆數須整除 24 和 30，GCD(24, 30) = 6。驗算：24 ÷ 6 = 4 袋，30 ÷ 6 = 5 袋，皆為整數。",
+    "explanationSteps": [
+      "每袋顆數須為 24 和 30 的公因數。",
+      "GCD(24, 30) = 6。",
+      "每袋最多 6 顆。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "最終試煉",
+    "content_json": {
+      "question": "【已知】三個數 A、B、C 的和是 90。A 是 B 的 2 倍，B 比 C 多 6。\n\n【問題】A 是幾？（請填數字）",
+      "hint": "設 C 為 1 份，則 B = C + 6，A = 2B，三者相加得 90。"
+    },
+    "answer_json": {
+      "answer": 48,
+      "tolerance": 0
+    },
+    "explanation": "設 C = c，B = c + 6，A = 2(c + 6) = 2c + 12。和 (2c + 12) + (c + 6) + c = 4c + 18 = 90 → 4c = 72 → c = 18。A = 2 × 24 = 48。驗算：A=48、B=24、C=18，48+24+18=90，48=2×24，24−18=6。",
+    "explanationSteps": [
+      "設 C = 18，B = 24，A = 48。",
+      "48 + 24 + 18 = 90。",
+      "A = 48。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "計算之王",
+    "content_json": {
+      "question": "【已知】爸爸與兒子的年齡和是 35 歲。5 年前，爸爸年齡是兒子的 4 倍；5 年後，爸爸年齡是兒子的 2 倍。\n\n【問題】爸爸今年幾歲？（請填數字）",
+      "unit": "歲",
+      "hint": "設兒子今年 s 歲，列兩個年齡關係式：5 年前與 5 年後。"
+    },
+    "answer_json": {
+      "answer": 25,
+      "tolerance": 0
+    },
+    "explanation": "設兒子 s 歲，爸爸 35 − s 歲。5 年前：35 − s − 5 = 4(s − 5) → 30 − s = 4s − 20 → 50 = 5s → s = 10，爸爸 = 25。驗算：5 年前 20 與 5（20 = 4×5）；5 年後 30 與 15（30 = 2×15）；10 + 25 = 35。",
+    "explanationSteps": [
+      "設兒子 10 歲，爸爸 25 歲。",
+      "5 年前 20 = 4 × 5，5 年後 30 = 2 × 15。",
+      "爸爸今年 25 歲。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "燒繩計時",
+    "content_json": {
+      "question": "【背景】有多根繩子，每根從一端點燃到燒完恰好 1 小時（各段燃速可能不同，但整根總時長 1 小時）。可同時點多根、可從一端或兩端點火。\n\n【問題】要量出「1 小時 15 分鐘」，至少要用幾根繩子？（請填數字）",
+      "unit": "根"
+    },
+    "answer_json": {
+      "answer": 3,
+      "tolerance": 0
+    },
+    "explanation": "至少 3 根。0 分：A 雙端、B 單端點火；30 分 A 燒完，點 B 另一端；45 分 B 燒完（已過 45 分）；45 分起 C 雙端點火，30 分後（75 分＝1 小時 15 分）C 燒完。2 根無法同時處理「45 分里程碑」與「再延 30 分」。",
+    "explanationSteps": [
+      "雙端點火一根 → 30 分鐘燒完。",
+      "A 雙端 + B 單端 → 45 分鐘時 B 燒完。",
+      "45 分起第三根 C 雙端點火 → 75 分鐘 C 燒完。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "年齡和問題",
+    "content_json": {
+      "question": "【已知】哥哥和妹妹的年齡和是 32 歲，哥哥比妹妹大 6 歲。\n\n【問題】妹妹今年幾歲？（請填數字）",
+      "unit": "歲",
+      "hint": "若兩人年齡一樣大，年齡和會少掉相差的 6 歲。"
+    },
+    "answer_json": {
+      "answer": 13,
+      "tolerance": 0
+    },
+    "explanation": "設妹妹 x 歲，哥哥 x + 6 歲。x + (x + 6) = 32 → 2x = 26 → x = 13。驗算：13 + 19 = 32，19 − 13 = 6。",
+    "explanationSteps": [
+      "設妹妹 x 歲，哥哥 x + 6 歲。",
+      "2x + 6 = 32 → x = 13。",
+      "妹妹 13 歲，哥哥 19 歲。"
+    ]
+  },
+  {
+    "type": "multiple_choice",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "數字謎題",
+    "content_json": {
+      "question": "【已知】一個兩位數，十位數字與個位數字之和是 13，且個位數字比十位數字大 5。\n\n【問題】這個兩位數是幾？",
+      "options": [
+        "49",
+        "94",
+        "58",
+        "76"
+      ],
+      "hint": "設十位為 a、個位為 b，列 a + b = 13 與 b − a = 5。"
+    },
+    "answer_json": {
+      "correctIndex": 0
+    },
+    "explanation": "設十位 a、個位 b。a + b = 13，b − a = 5。相加得 2b = 18，b = 9，a = 4。這個數是 49。驗算：4 + 9 = 13，9 − 4 = 5。",
+    "explanationSteps": [
+      "列 a + b = 13 與 b − a = 5。",
+      "解得 a = 4、b = 9。",
+      "這個兩位數是 49。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "假設法推理",
+    "content_json": {
+      "question": "【已知】籠裡雞兔共 26 隻，腳共 68 隻。\n\n【問題】雞有幾隻？（請填數字）",
+      "unit": "隻",
+      "hint": "假設全是雞，每隻 2 腳，比實際少算的腳數來換算兔子。"
+    },
+    "answer_json": {
+      "answer": 18,
+      "tolerance": 0
+    },
+    "explanation": "設雞 x、兔 y。x + y = 26，2x + 4y = 68。化簡 y = 26 − x，2x + 4(26−x) = 68 → −2x = −36 → x = 18。驗算：18 雞 36 腳 + 8 兔 32 腳 = 68 腳。",
+    "explanationSteps": [
+      "列 x + y = 26 與 2x + 4y = 68。",
+      "代入得 x = 18。",
+      "18 雞、8 兔，共 68 腳。"
+    ]
+  },
+  {
+    "type": "numeric_fill",
+    "category": "math",
+    "difficulty": "hard",
+    "title": "數陣圖解鎖",
+    "content_json": {
+      "question": "【已知】3 × 3 數陣圖每行、每列、兩條對角線的數字和都相等（魔術和）。第一行是 8、1、6，第二行是 3、5、?。\n\n【問題】問號處應填幾？（請填數字）",
+      "hint": "先由第一行求出魔術和，再算第二行第三格。"
+    },
+    "answer_json": {
+      "answer": 7,
+      "tolerance": 0
+    },
+    "explanation": "第一行和 = 8 + 1 + 6 = 15，魔術和 = 15。第二行 3 + 5 + ? = 15，? = 7。驗算完整數陣：8+1+6=15，3+5+7=15，4+9+2=15，各列、對角線亦為 15。",
+    "explanationSteps": [
+      "第一行和 8+1+6 = 15。",
+      "第二行 3+5+? = 15。",
+      "? = 7。"
+    ]
+  }
+]

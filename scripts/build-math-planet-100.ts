@@ -1,0 +1,191 @@
+/**
+ * Builds 100 math planet stages from curriculum into planet-map-v1.json
+ * Run: npx tsx scripts/build-math-planet-100.ts
+ */
+import { readFile, writeFile } from "fs/promises";
+import path from "path";
+
+interface CurriculumStage {
+  order: number;
+  id: string;
+  name: string;
+  puzzleTitle: string;
+  difficulty: "easy" | "medium" | "hard";
+  topicType: string;
+  zone: number;
+  zoneName: string;
+  isBoss?: boolean;
+}
+
+const ZONES: { zone: number; name: string }[] = [
+  { zone: 1, name: "登陸補給區" },
+  { zone: 2, name: "能源通訊站" },
+  { zone: 3, name: "圖書記錄塔" },
+  { zone: 4, name: "農場交易市" },
+  { zone: 5, name: "工程時間港" },
+  { zone: 6, name: "折扣比例域" },
+  { zone: 7, name: "分配餘數庫" },
+  { zone: 8, name: "邏輯推理所" },
+  { zone: 9, name: "綜合遠征線" },
+  { zone: 10, name: "變異牧場核心" },
+];
+
+/** 100 關：每關 topicType 唯一，難度由易到難 */
+const STAGES: Omit<CurriculumStage, "zone" | "zoneName">[] = [
+  // 區1 登陸補給區 (easy)
+  { order: 1, id: "math-01", name: "文具補給站", puzzleTitle: "買文具找零", difficulty: "easy", topicType: "乘法找零" },
+  { order: 2, id: "math-02", name: "果汁分配台", puzzleTitle: "果汁毫升", difficulty: "easy", topicType: "容量加總" },
+  { order: 3, id: "math-03", name: "閱讀計時室", puzzleTitle: "閱讀還差多久", difficulty: "easy", topicType: "時間相差" },
+  { order: 4, id: "math-04", name: "花圃測量場", puzzleTitle: "正方形花圃", difficulty: "easy", topicType: "正方形周長" },
+  { order: 5, id: "math-05", name: "分班分配處", puzzleTitle: "分班分蘋果", difficulty: "easy", topicType: "整除分配" },
+  { order: 6, id: "math-06", name: "時間比較台", puzzleTitle: "哪段時間最長", difficulty: "easy", topicType: "時間長短比較" },
+  { order: 7, id: "math-07", name: "貼紙交換角", puzzleTitle: "貼紙公平換", difficulty: "easy", topicType: "等值交換" },
+  { order: 8, id: "math-08", name: "書本頁碼站", puzzleTitle: "連續三頁", difficulty: "easy", topicType: "連續整數" },
+  { order: 9, id: "math-09", name: "校車上下站", puzzleTitle: "校車上下人", difficulty: "easy", topicType: "上下車人數" },
+  { order: 10, id: "math-10", name: "補給站 BOSS", puzzleTitle: "補給站密碼", difficulty: "easy", topicType: "兩步綜合", isBoss: true },
+  // 區2 能源通訊站
+  { order: 11, id: "math-11", name: "成績記錄塔", puzzleTitle: "第三科成績", difficulty: "easy", topicType: "平均數" },
+  { order: 12, id: "math-12", name: "和差圖書館", puzzleTitle: "科普書與故事書", difficulty: "easy", topicType: "和差問題" },
+  { order: 13, id: "math-13", name: "公車空位站", puzzleTitle: "公車空位", difficulty: "easy", topicType: "剩餘座位" },
+  { order: 14, id: "math-14", name: "種樹間隔帶", puzzleTitle: "種樹問題", difficulty: "easy", topicType: "間隔問題" },
+  { order: 15, id: "math-15", name: "彈珠比例箱", puzzleTitle: "紅白彈珠", difficulty: "medium", topicType: "倍數關係" },
+  { order: 16, id: "math-16", name: "找零猜價機", puzzleTitle: "找零猜單價", difficulty: "medium", topicType: "逆推單價" },
+  { order: 17, id: "math-17", name: "茶葉包裝線", puzzleTitle: "茶葉包裝", difficulty: "medium", topicType: "包裝整除" },
+  { order: 18, id: "math-18", name: "排隊報數台", puzzleTitle: "排隊報數", difficulty: "medium", topicType: "排隊位置" },
+  { order: 19, id: "math-19", name: "籃球得分板", puzzleTitle: "籃球總分", difficulty: "medium", topicType: "總分逆推" },
+  { order: 20, id: "math-20", name: "能源塔 BOSS", puzzleTitle: "能源塔三層", difficulty: "medium", topicType: "三量平均", isBoss: true },
+  // 區3 圖書記錄塔
+  { order: 21, id: "math-21", name: "雞兔農場", puzzleTitle: "雞兔同籠", difficulty: "medium", topicType: "雞兔同籠" },
+  { order: 22, id: "math-22", name: "連續折扣站", puzzleTitle: "連續打折", difficulty: "medium", topicType: "連續百分比" },
+  { order: 23, id: "math-23", name: "促銷買送區", puzzleTitle: "買二送一", difficulty: "medium", topicType: "買送計量" },
+  { order: 24, id: "math-24", name: "蛋糕分數站", puzzleTitle: "蛋糕剩多少", difficulty: "medium", topicType: "分數剩餘" },
+  { order: 25, id: "math-25", name: "借還圖書角", puzzleTitle: "借還圖書", difficulty: "medium", topicType: "借還差量" },
+  { order: 26, id: "math-26", name: "年齡差站台", puzzleTitle: "年齡差不變", difficulty: "medium", topicType: "年齡差問題" },
+  { order: 27, id: "math-27", name: "摺紙厚度室", puzzleTitle: "摺紙厚度", difficulty: "medium", topicType: "倍數遞增" },
+  { order: 28, id: "math-28", name: "跳繩計數場", puzzleTitle: "跳繩總數", difficulty: "medium", topicType: "分段加總" },
+  { order: 29, id: "math-29", name: "接力賽跑道", puzzleTitle: "接力賽程", difficulty: "medium", topicType: "速度路程" },
+  { order: 30, id: "math-30", name: "圖書塔 BOSS", puzzleTitle: "圖書和差綜合", difficulty: "medium", topicType: "和差綜合", isBoss: true },
+  // 區4 農場交易市
+  { order: 31, id: "math-31", name: "雙管注水站", puzzleTitle: "兩管注水", difficulty: "medium", topicType: "工程效率" },
+  { order: 32, id: "math-32", name: "合作修路區", puzzleTitle: "合作修路", difficulty: "medium", topicType: "合作工程" },
+  { order: 33, id: "math-33", name: "磁磚鋪地室", puzzleTitle: "教室鋪地磚", difficulty: "medium", topicType: "面積鋪磚" },
+  { order: 34, id: "math-34", name: "遲到分鐘鐘", puzzleTitle: "遲到幾分鐘", difficulty: "medium", topicType: "時刻計算" },
+  { order: 35, id: "math-35", name: "繩子測量台", puzzleTitle: "繩子平均分", difficulty: "medium", topicType: "平均分剩餘" },
+  { order: 36, id: "math-36", name: "水費計量站", puzzleTitle: "水費分段", difficulty: "medium", topicType: "分段計費" },
+  { order: 37, id: "math-37", name: "郵票貼信封", puzzleTitle: "郵票組合", difficulty: "medium", topicType: "組合湊數" },
+  { order: 38, id: "math-38", name: "長方花圃區", puzzleTitle: "長方形周長", difficulty: "medium", topicType: "長方形周長" },
+  { order: 39, id: "math-39", name: "雙倍返還機", puzzleTitle: "雙倍返還", difficulty: "medium", topicType: "倍數還原" },
+  { order: 40, id: "math-40", name: "交易市 BOSS", puzzleTitle: "交易綜合題", difficulty: "hard", topicType: "多步交易", isBoss: true },
+  // 區5 工程時間港
+  { order: 41, id: "math-41", name: "三人分果站", puzzleTitle: "三人分蘋果", difficulty: "hard", topicType: "三元和差" },
+  { order: 42, id: "math-42", name: "位數對調鎖", puzzleTitle: "位數對調", difficulty: "hard", topicType: "位值問題" },
+  { order: 43, id: "math-43", name: "倍數年齡站", puzzleTitle: "幾年後變三倍", difficulty: "hard", topicType: "年齡倍數" },
+  { order: 44, id: "math-44", name: "分組剩人場", puzzleTitle: "分組都剩四人", difficulty: "hard", topicType: "同餘分組" },
+  { order: 45, id: "math-45", name: "注水排水池", puzzleTitle: "注水又排水", difficulty: "hard", topicType: "進出效率" },
+  { order: 46, id: "math-46", name: "相遇問題站", puzzleTitle: "相向而行", difficulty: "hard", topicType: "相遇問題" },
+  { order: 47, id: "math-47", name: "追及問題道", puzzleTitle: "追及問題", difficulty: "hard", topicType: "追及問題" },
+  { order: 48, id: "math-48", name: "列表找規律", puzzleTitle: "列表推理", difficulty: "hard", topicType: "表格推理" },
+  { order: 49, id: "math-49", name: "逆推原數站", puzzleTitle: "逆推原數", difficulty: "hard", topicType: "逆運算" },
+  { order: 50, id: "math-50", name: "工程港 BOSS", puzzleTitle: "工程綜合題", difficulty: "hard", topicType: "工程綜合", isBoss: true },
+  // 區6 折扣比例域
+  { order: 51, id: "math-51", name: "比例分配站", puzzleTitle: "比例分配", difficulty: "hard", topicType: "比例分配" },
+  { order: 52, id: "math-52", name: "濃度混合池", puzzleTitle: "糖水混合", difficulty: "hard", topicType: "簡單濃度" },
+  { order: 53, id: "math-53", name: "打折再打折", puzzleTitle: "折扣疊加", difficulty: "hard", topicType: "折扣疊加" },
+  { order: 54, id: "math-54", name: "盈虧問題攤", puzzleTitle: "盈虧問題", difficulty: "hard", topicType: "盈虧問題" },
+  { order: 55, id: "math-55", name: "年齡和問題", puzzleTitle: "年齡和問題", difficulty: "hard", topicType: "年齡和" },
+  { order: 56, id: "math-56", name: "方陣最外圈", puzzleTitle: "方陣最外圈", difficulty: "hard", topicType: "方陣問題" },
+  { order: 57, id: "math-57", name: "植樹封閉路", puzzleTitle: "環形植樹", difficulty: "hard", topicType: "環形植樹" },
+  { order: 58, id: "math-58", name: "流水行船港", puzzleTitle: "流水行船", difficulty: "hard", topicType: "流水行船" },
+  { order: 59, id: "math-59", name: "數字謎解鎖", puzzleTitle: "數字謎題", difficulty: "hard", topicType: "數字謎" },
+  { order: 60, id: "math-60", name: "比例域 BOSS", puzzleTitle: "比例綜合題", difficulty: "hard", topicType: "比例綜合", isBoss: true },
+  // 區7 分配餘數庫
+  { order: 61, id: "math-61", name: "最小公倍數", puzzleTitle: "公倍數分組", difficulty: "hard", topicType: "公倍數" },
+  { order: 62, id: "math-62", name: "最大公因數", puzzleTitle: "公因數分組", difficulty: "hard", topicType: "公因數" },
+  { order: 63, id: "math-63", name: "餘數週期站", puzzleTitle: "餘數週期", difficulty: "hard", topicType: "餘數週期" },
+  { order: 64, id: "math-64", name: "奇偶分析台", puzzleTitle: "奇偶分析", difficulty: "hard", topicType: "奇偶性" },
+  { order: 65, id: "math-65", name: "抽屜原理箱", puzzleTitle: "抽屜原理", difficulty: "hard", topicType: "抽屜原理" },
+  { order: 66, id: "math-66", name: "和倍問題站", puzzleTitle: "和倍問題", difficulty: "hard", topicType: "和倍問題" },
+  { order: 67, id: "math-67", name: "差倍問題站", puzzleTitle: "差倍問題", difficulty: "hard", topicType: "差倍問題" },
+  { order: 68, id: "math-68", name: "代換問題台", puzzleTitle: "代換問題", difficulty: "hard", topicType: "代換推理" },
+  { order: 69, id: "math-69", name: "假設法推理", puzzleTitle: "假設法推理", difficulty: "hard", topicType: "假設法" },
+  { order: 70, id: "math-70", name: "餘數庫 BOSS", puzzleTitle: "餘數綜合題", difficulty: "hard", topicType: "餘數綜合", isBoss: true },
+  // 區8 邏輯推理所
+  { order: 71, id: "math-71", name: "天平稱重量", puzzleTitle: "天平稱重", difficulty: "hard", topicType: "天平推理" },
+  { order: 72, id: "math-72", name: "邏輯排除站", puzzleTitle: "邏輯排除", difficulty: "hard", topicType: "排除法" },
+  { order: 73, id: "math-73", name: "最值問題台", puzzleTitle: "最值問題", difficulty: "hard", topicType: "最值問題" },
+  { order: 74, id: "math-74", name: "數陣圖解鎖", puzzleTitle: "數陣圖解鎖", difficulty: "hard", topicType: "數陣圖" },
+  { order: 75, id: "math-75", name: "過河問題道", puzzleTitle: "過河問題", difficulty: "hard", topicType: "過河問題" },
+  { order: 76, id: "math-76", name: "還原問題站", puzzleTitle: "還原問題", difficulty: "hard", topicType: "還原問題" },
+  { order: 77, id: "math-77", name: "錯中求解台", puzzleTitle: "錯中求解", difficulty: "hard", topicType: "錯中求解" },
+  { order: 78, id: "math-78", name: "統計圖解讀", puzzleTitle: "統計圖解讀", difficulty: "hard", topicType: "統計圖" },
+  { order: 79, id: "math-79", name: "邏輯推理站", puzzleTitle: "邏輯推理", difficulty: "hard", topicType: "邏輯推理" },
+  { order: 80, id: "math-80", name: "推理所 BOSS", puzzleTitle: "推理綜合題", difficulty: "hard", topicType: "推理綜合", isBoss: true },
+  // 區9 綜合遠征線
+  { order: 81, id: "math-81", name: "綜合應用一", puzzleTitle: "綜合應用一", difficulty: "hard", topicType: "綜合應用" },
+  { order: 82, id: "math-82", name: "綜合應用二", puzzleTitle: "綜合應用二", difficulty: "hard", topicType: "綜合應用" },
+  { order: 83, id: "math-83", name: "綜合應用三", puzzleTitle: "綜合應用三", difficulty: "hard", topicType: "綜合應用" },
+  { order: 84, id: "math-84", name: "綜合應用四", puzzleTitle: "綜合應用四", difficulty: "hard", topicType: "綜合應用" },
+  { order: 85, id: "math-85", name: "綜合應用五", puzzleTitle: "綜合應用五", difficulty: "hard", topicType: "綜合應用" },
+  { order: 86, id: "math-86", name: "燒繩實驗室", puzzleTitle: "燒繩計時", difficulty: "hard", topicType: "創意思考" },
+  { order: 87, id: "math-87", name: "綜合應用六", puzzleTitle: "綜合應用六", difficulty: "hard", topicType: "綜合應用" },
+  { order: 88, id: "math-88", name: "綜合應用七", puzzleTitle: "綜合應用七", difficulty: "hard", topicType: "綜合應用" },
+  { order: 89, id: "math-89", name: "綜合應用八", puzzleTitle: "綜合應用八", difficulty: "hard", topicType: "綜合應用" },
+  { order: 90, id: "math-90", name: "遠征線 BOSS", puzzleTitle: "遠征綜合題", difficulty: "hard", topicType: "遠征綜合", isBoss: true },
+  // 區10 變異牧場核心
+  { order: 91, id: "math-91", name: "核心試煉一", puzzleTitle: "核心試煉一", difficulty: "hard", topicType: "核心試煉" },
+  { order: 92, id: "math-92", name: "核心試煉二", puzzleTitle: "核心試煉二", difficulty: "hard", topicType: "核心試煉" },
+  { order: 93, id: "math-93", name: "核心試煉三", puzzleTitle: "核心試煉三", difficulty: "hard", topicType: "核心試煉" },
+  { order: 94, id: "math-94", name: "核心試煉四", puzzleTitle: "核心試煉四", difficulty: "hard", topicType: "核心試煉" },
+  { order: 95, id: "math-95", name: "核心試煉五", puzzleTitle: "核心試煉五", difficulty: "hard", topicType: "核心試煉" },
+  { order: 96, id: "math-96", name: "核心試煉六", puzzleTitle: "核心試煉六", difficulty: "hard", topicType: "核心試煉" },
+  { order: 97, id: "math-97", name: "核心試煉七", puzzleTitle: "核心試煉七", difficulty: "hard", topicType: "核心試煉" },
+  { order: 98, id: "math-98", name: "核心試煉八", puzzleTitle: "核心試煉八", difficulty: "hard", topicType: "核心試煉" },
+  { order: 99, id: "math-99", name: "最終試煉", puzzleTitle: "最終試煉", difficulty: "hard", topicType: "最終試煉" },
+  { order: 100, id: "math-100", name: "變異乳牛", puzzleTitle: "計算之王", difficulty: "hard", topicType: "牧場決戰", isBoss: true },
+];
+
+function enrich(): CurriculumStage[] {
+  return STAGES.map((s) => {
+    const z = ZONES[Math.floor((s.order - 1) / 10)]!;
+    return { ...s, zone: z.zone, zoneName: z.name };
+  });
+}
+
+async function main() {
+  const root = process.cwd();
+  const curriculum = enrich();
+  const curriculumPath = path.join(root, "content", "stages", "math-curriculum-100.json");
+  await writeFile(curriculumPath, JSON.stringify({ version: "v1", zones: ZONES, stages: curriculum }, null, 2));
+
+  const mapPath = path.join(root, "content", "stages", "planet-map-v1.json");
+  const map = JSON.parse(await readFile(mapPath, "utf-8")) as {
+    planets: Array<{ id: string; stages: unknown[]; stageCount: number; subtitle: string }>;
+  };
+
+  const mathPlanet = map.planets.find((p) => p.id === "math-planet");
+  if (!mathPlanet) throw new Error("math-planet not found");
+
+  mathPlanet.stageCount = 100;
+  mathPlanet.subtitle = "牧場大冒險 · 100 關遠征";
+  mathPlanet.stages = curriculum.map((s) => ({
+    order: s.order,
+    id: s.id,
+    name: s.name,
+    puzzleTitle: s.puzzleTitle,
+    difficulty: s.difficulty,
+    zone: s.zone,
+    zoneName: s.zoneName,
+    topicType: s.topicType,
+    ...(s.isBoss ? { isBoss: true } : {}),
+    notes: `${s.topicType} · ${s.zoneName}`,
+  }));
+
+  await writeFile(mapPath, JSON.stringify(map, null, 2));
+  console.log(`✓ Wrote ${curriculum.length} stages to planet-map-v1.json`);
+  console.log(`✓ Curriculum: ${curriculumPath}`);
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

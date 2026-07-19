@@ -1,0 +1,58 @@
+{
+  "panelDialogue": {
+    "aspectRatio": "1232 / 928",
+    "inset": "24.4% 23.2% 34.6% 25.5%",
+    "raw": {
+      "top": 24.353448275862068,
+      "right": 23.214285714285715,
+      "bottom": 34.59051724137931,
+      "left": 25.5
+    },
+    "sampleScore": 0.8888888888888888
+  },
+  "chapterBanner": {
+    "aspectRatio": "1904 / 640",
+    "inset": "24.1% 31.4% 37.7% 32.1%",
+    "raw": {
+      "top": 24.0625,
+      "right": 31.407563025210084,
+      "bottom": 37.65625,
+      "left": 32.142857142857146
+    },
+    "sampleScore": 0.7777777777777778
+  },
+  "panelPuzzle": {
+    "aspectRatio": "928 / 1232",
+    "inset": "21.3% 26.0% 19.2% 26.4%",
+    "raw": {
+      "top": 21.266233766233768,
+      "right": 26,
+      "bottom": 19.237012987012985,
+      "left": 26.40086206896552
+    },
+    "sampleScore": 0.8888888888888888
+  },
+  "panelMission": {
+    "aspectRatio": "2176 / 544",
+    "inset": "25.0% 27.3% 30.0% 26.0%",
+    "raw": {
+      "top": 25,
+      "right": 27.34375,
+      "bottom": 30,
+      "left": 26
+    },
+    "sampleScore": 0.6666666666666666,
+    "fluidMinHeight": "5.75rem"
+  },
+  "panelExpedition": {
+    "aspectRatio": "960 / 1200",
+    "inset": "31.0% 28.7% 29.0% 21.1%",
+    "raw": {
+      "top": 31,
+      "right": 28.749999999999996,
+      "bottom": 29,
+      "left": 21.145833333333332
+    },
+    "sampleScore": 0.7777777777777778
+  }
+}
