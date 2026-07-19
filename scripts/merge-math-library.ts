@@ -37,7 +37,7 @@ async function main() {
 
   const map = JSON.parse(
     await readFile(path.join(ROOT, "content", "stages", "planet-map-v1.json"), "utf-8")
-  ) as { planets: Array<{ stages: Array<{ puzzleTitle: string }> }> };
+  ) as { planets: Array<{ id: string; stages: Array<{ puzzleTitle: string }> }> };
   const mathStages = map.planets.find((p) => p.id === "math-planet")!.stages;
   const missing = mathStages
     .map((s) => s.puzzleTitle)
