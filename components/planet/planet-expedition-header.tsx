@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { Planet } from "@/types/stage";
 import { GameButton } from "@/components/game/game-button";
@@ -66,28 +65,5 @@ export function PlanetExpeditionHeader({
         </GameButton>
       )}
     </ShellArtPanel>
-  );
-}
-
-interface PlanetStoryLinksProps {
-  slug: string;
-}
-
-export function PlanetStoryLinks({ slug }: PlanetStoryLinksProps) {
-  if (slug !== "math") return null;
-
-  return (
-    <div className="expedition-story-links">
-      <Link href="/story/math-planet" className="expedition-story-link">
-        完整主線劇情
-      </Link>
-      <span className="expedition-story-sep">·</span>
-      <Link
-        href="/story/math-planet/stages"
-        className="expedition-story-link expedition-story-link-strong"
-      >
-        逐關檢查劇情
-      </Link>
-    </div>
   );
 }

@@ -18,7 +18,6 @@ import {
   isStageProgressTableReady,
 } from "@/lib/stages/progress";
 import { isSupabaseConfigured } from "@/lib/puzzles-local";
-import { MATH_PLANET_NAME } from "@/lib/world/planet-names";
 import {
   getCharacterTier,
   getActForStage,
@@ -134,12 +133,6 @@ export default async function GalaxyPage() {
             )}
           </StoryBubble>
         )}
-
-        <div className="mb-5 text-center">
-          <GameButton href="/story/math-planet" variant="ghost">
-            📖 {MATH_PLANET_NAME} · 完整劇情
-          </GameButton>
-        </div>
 
         <div className="mb-6 text-center">
           <p className="text-xs font-medium text-[var(--game-text-muted)]">

@@ -6,10 +6,7 @@ import { GameHud } from "@/components/game/game-hud";
 import { GameButton } from "@/components/game/game-button";
 import { GamePanel } from "@/components/game/game-panel";
 import { ChapterBanner } from "@/components/story/chapter-banner";
-import {
-  PlanetExpeditionHeader,
-  PlanetStoryLinks,
-} from "@/components/planet/planet-expedition-header";
+import { PlanetExpeditionHeader } from "@/components/planet/planet-expedition-header";
 import { getCurrentUserProfile } from "@/lib/daily-limit";
 import {
   getPlanetBySlug,
@@ -129,8 +126,6 @@ export default async function PlanetPage({
           totalStages={planet.stages.length}
           currentStage={currentStage ?? null}
         />
-
-        <PlanetStoryLinks slug={slug} />
 
         {planetAct && (
           <ChapterBanner act={planetAct} theme="adventure" className="mb-4 mt-4" />
