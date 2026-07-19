@@ -13,7 +13,11 @@
     "build:math-planet": "tsx scripts/build-math-planet-100.ts",
     "merge:math-library": "tsx scripts/merge-math-library.ts",
     "analyze:shell-insets": "tsx scripts/analyze-shell-insets.ts",
-    "verify:shell-ui": "tsx scripts/verify-shell-ui.ts"
+    "verify:shell-ui": "tsx scripts/verify-shell-ui.ts",
+    "verify:math-100": "tsx scripts/verify-math-100-stages.ts",
+    "verify:pattern-8": "tsx scripts/verify-pattern-8-stages.ts",
+    "verify:stages-v1": "tsx scripts/verify-math-100-stages.ts && tsx scripts/verify-pattern-8-stages.ts",
+    "check:mvp": "tsx scripts/check-mvp-status.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

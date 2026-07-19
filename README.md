@@ -1,21 +1,21 @@
 # Logic Gym · 邏輯思考練功平台
 
-Step 1：題庫管線 + Admin 後台（離線 AI 出題，非即時生成）
+**V2 MVP（目前上線方向）**：登入 → 邏輯星系 → 乳牛星球 100 關 → 規律星球 8 關
+
+> 舊版「練功 / 積分賽 / 付費」程式仍保留，但 `V2_GALAXY_MODE = true` 時對玩家隱藏。
 
 ## 功能範圍
 
-- ✅ Supabase `puzzles` schema
-- ✅ 12 題本地樣本（4 類別 × 3 難度）
-- ✅ AI 批次出題 script（Claude Sonnet）
-- ✅ Seed script 匯入 Supabase
-- ✅ Admin 題庫列表 + 狀態切換
-- ✅ Step 2：使用者登入 + 練功解題 + 每日 5 題限制
-- ⏳ MVP-B：競賽 + 付費
+- ✅ Supabase 題庫 + 使用者 + 關卡進度
+- ✅ V2 破關地圖（100 math + 8 pattern）
+- ✅ 劇情 / 任務 / Admin 審題
+- ✅ 題庫管線（Cursor 出題 → validate → seed）
+- ⏳ MVP-B：競賽 + 付費（程式已有，V2 下未開放）
 
 ## 環境需求
 
 - Node.js 20+
-- Supabase 專案（可選，未設定時 Admin 使用本地 samples 預覽）
+- Supabase 專案（**V2 上線必要**）
 
 ## 快速開始
 
@@ -32,32 +32,46 @@ npm install
 cp .env.example .env.local
 ```
 
-編輯 `.env.local`：
+| 變數 | 用途 | V2 必要 |
+|------|------|---------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase 專案 URL | ✅ |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | 前端讀取 | ✅ |
+| `SUPABASE_SERVICE_ROLE_KEY` | seed / verify script | ✅ |
+| `ADMIN_SECRET` | 後台登入 | ✅ |
+| `NEXT_PUBLIC_APP_URL` | 正式站網址（OAuth 回調） | ✅ 部署時 |
+| `ANTHROPIC_API_KEY` | API 自動出題 | 可選 |
+| `MANUAL_PAYMENT_*` | 人工收款（MVP-B） | 可選 |
+| `STRIPE_*` | Stripe 訂閱（MVP-B） | 可選 |
 
-| 變數 | 用途 |
-|------|------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase 專案 URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | 前端讀取 |
-| `SUPABASE_SERVICE_ROLE_KEY` | seed script 寫入 |
-| `ADMIN_SECRET` | 後台登入密鑰 |
-| `ANTHROPIC_API_KEY` | 可選：API 自動出題（不用 Cursor 時才填） |
+### 3. 建立資料表（V2 最少跑這三個）
 
-### 3. 建立資料表
-
-在 [Supabase SQL Editor](https://supabase.com/dashboard) 依序執行：
+在 [Supabase SQL Editor](https://supabase.com/dashboard) **依序**執行：
 
 ```
-supabase/migrations/001_puzzles_full_ascii.sql
-supabase/migrations/002_user_practice_ascii.sql
+supabase/migrations/001_puzzles_full_ascii.sql   ← 題庫表
+supabase/migrations/002_user_practice_ascii.sql  ← 使用者 / 作答
+supabase/migrations/008_stage_progress_ascii.sql ← 關卡進度（V2 必須）
 ```
 
-### 4. 匯入樣本題目
+若之後要開練功 / EXP / 競賽 / 付費，再補跑 `003`～`007`。
+
+### 4. 108 關題目上架（verified）
 
 ```bash
-npm run seed:puzzles
-# 僅驗證不寫入
-npm run seed:puzzles -- --dry-run
+# 數學 100 關：補匯入 + 全部設 verified
+npm run verify:math-100
+
+# 規律 8 關
+npm run verify:pattern-8
+
+# 或一次跑完
+npm run verify:stages-v1
+
+# 檢查 P0 是否就緒（stage_progress + 108 題）
+npm run check:mvp
 ```
+
+預期輸出：`✓ P0 後端就緒，可進行煙霧測試`
 
 ### 5. 啟動開發伺服器
 
@@ -65,16 +79,41 @@ npm run seed:puzzles -- --dry-run
 npm run dev
 ```
 
-- 首頁：http://localhost:3000
-- 練功：http://localhost:3000/practice（需登入）
-- 登入：http://localhost:3000/login
-- 後台：http://localhost:3000/admin/puzzles
+| 頁面 | URL |
+|------|-----|
+| 首頁 / 星系 | http://localhost:3000/galaxy |
+| 乳牛星球 | http://localhost:3000/planet/math |
+| 第一關 | http://localhost:3000/stage/math-01 |
+| 登入 | http://localhost:3000/login |
+| 後台審題 | http://localhost:3000/admin/puzzles |
+| Shell 預覽 | http://localhost:3000/dev/shell-preview |
+
+### 6. Vercel 部署
+
+1. GitHub 連動 Vercel，Root Directory = `logic-gym`
+2. Environment Variables 設 **Production + Preview**（同上表必要項）
+3. Supabase → Authentication → URL Configuration：
+   - Site URL：`https://你的網域.vercel.app`
+   - Redirect URLs：`https://你的網域.vercel.app/auth/callback`
+4. Push 到 `main` 後自動部署
+
+## P0 煙霧測試清單
+
+用**新帳號**或無進度帳號，在本地或正式站逐項打勾：
+
+1. [ ] 註冊 / 登入成功 → 進入 `/galaxy`
+2. [ ] 星系頁**沒有**「關卡進度尚未啟用」警告
+3. [ ] 進 `/planet/math` → `math-01` 可點，`math-02` 鎖住
+4. [ ] `/stage/math-01` 有題目（**不是**「題目尚未上架」）
+5. [ ] 答對 → 顯示過關 → `math-02` 解鎖
+6. [ ] **重新整理** `/planet/math` → 進度仍在
+7. [ ] （可選，需測試帳號）在 Supabase 手動標記 math-01～math-99 過關後，確認 `/planet/pattern` 解鎖
+
+快速測第 4～6 步：只需玩完 math-01 一關即可。
 
 ## 出題方式（推薦：Cursor）
 
-**不需 Anthropic API**，用 Cursor 聊天出題即可。詳見：
-
-`content/prompts/CURSOR出題流程.md`
+詳見 `content/prompts/CURSOR出題流程.md`
 
 ```text
 1. 複製 content/prompts/ 模板 → 貼到 Cursor 聊天
@@ -84,51 +123,34 @@ npm run dev
 5. Admin 審題 → 已上架
 ```
 
-## AI API 自動出題（可選）
+## npm scripts 一覽
 
-有 `ANTHROPIC_API_KEY` 時：
-
-```bash
-npm run generate:puzzles -- --template detective-multiple-choice --difficulty easy --count 3
-```
-
-輸出至 `content/generated/batch-*.json`，人工審核後再 seed：
-
-```bash
-npm run seed:puzzles -- --file content/generated/batch-xxx.json --status pending
-```
-
-## Prompt 模板
-
-| 檔案 | 類別 | 題型 |
-|------|------|------|
-| `content/prompts/detective-multiple-choice.md` | 偵探推理 | 選擇題 |
-| `content/prompts/math-numeric-fill.md` | 數學推理 | 數字填空 |
-| `content/prompts/pattern-multiple-choice.md` | 找規律 | 選擇題 |
-
-完整題庫（30 題）：`content/generated/library.json`
+| Script | 用途 |
+|--------|------|
+| `npm run dev` | 開發伺服器 |
+| `npm run check:mvp` | P0 後端健康檢查 |
+| `npm run verify:math-100` | 100 關 math 上架 |
+| `npm run verify:pattern-8` | 8 關 pattern 上架 |
+| `npm run verify:stages-v1` | 108 關一次上架 |
+| `npm run seed:puzzles` | 匯入 JSON 題庫 |
+| `npm run validate:puzzles` | 驗證 JSON 格式 |
+| `npm run build:math-planet` | 重建 100 關地圖 JSON |
 
 ## 專案結構
 
 ```
 logic-gym/
-├── app/                    # Next.js 頁面
-├── components/admin/       # 後台元件
+├── app/                    # Next.js 頁面（galaxy / planet / stage）
+├── components/             # UI 元件
 ├── content/
-│   ├── prompts/            # AI 出題模板
-│   └── generated/          # 生成結果 + samples.json
-├── lib/                    # Supabase、驗證、auth
-├── scripts/                # generate / seed
-├── supabase/migrations/    # SQL
-└── types/puzzle.ts         # 型別定義
+│   ├── stages/             # 關卡表 planet-map-v1.json
+│   ├── story/              # 劇情 math-zones.json / season-1.json
+│   └── generated/          # library.json 題庫
+├── lib/stages/             # 關卡進度、解鎖邏輯
+├── scripts/                # seed / verify / check:mvp
+└── supabase/migrations/    # SQL（001 + 002 + 008 為 V2 最少）
 ```
-
-## 推薦出題策略
-
-1. **主力**：Cursor 聊天 + `content/prompts/` 模板（不需 API key）
-2. **品質**：小批量出題 → 人工審 → Admin 標 verified
-3. **可選**：Anthropic API 自動批次（`npm run generate:puzzles`）
 
 ## 未設定 Supabase 時
 
-Admin 會自動讀取 `content/generated/samples.json` 預覽 12 題（狀態切換需先接 Supabase）。
+Admin 會讀取 `content/generated/samples.json` 預覽 12 題；**關卡模式無法存進度**。
