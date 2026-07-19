@@ -254,8 +254,12 @@ body {
 }
 
 .shell-art-panel--fluid {
-  min-height: var(--shell-min-height, 5.75rem);
+  min-height: var(--shell-min-height, 9rem);
   height: auto;
+}
+
+.shell-art-panel--fluid .shell-art-panel__bg {
+  object-fit: fill;
 }
 
 .shell-art-panel__bg {
@@ -287,8 +291,26 @@ body {
 
 .mission-prompt-adventure__content {
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.4rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0.28rem 0.35rem 0.2rem 0.15rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(93, 64, 55, 0.45) transparent;
+}
+
+.mission-prompt-adventure__content::-webkit-scrollbar {
+  width: 5px;
+}
+
+.mission-prompt-adventure__content::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(93, 64, 55, 0.4);
+}
+
+.mission-prompt-adventure__content::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .expedition-header.expedition-header--art {
@@ -889,11 +911,14 @@ body {
 
 .mission-prompt-adventure .mission-icon {
   flex-shrink: 0;
+  margin-top: 0.15rem;
   font-size: 1rem;
   line-height: 1;
 }
 
 .mission-prompt-adventure .mission-label {
+  margin: 0;
+  padding-top: 0.05rem;
   font-size: 0.62rem;
   font-weight: 900;
   line-height: 1.2;

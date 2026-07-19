@@ -34,15 +34,15 @@
   },
   "panelMission": {
     "aspectRatio": "2176 / 544",
-    "inset": "25.0% 27.3% 30.0% 26.0%",
+    "inset": "23.5% 27.3% 21.0% 26.0%",
     "raw": {
-      "top": 25,
+      "top": 23.5,
       "right": 27.34375,
-      "bottom": 30,
+      "bottom": 21,
       "left": 26
     },
     "sampleScore": 0.6666666666666666,
-    "fluidMinHeight": "5.75rem"
+    "fluidMinHeight": "9rem"
   },
   "panelExpedition": {
     "aspectRatio": "960 / 1200",

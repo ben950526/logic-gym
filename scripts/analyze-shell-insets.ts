@@ -273,7 +273,7 @@ const puzzle = runOne("ui-panel-puzzle.png", "parchment", (i) =>
 );
 
 const mission = runOne("ui-panel-mission.png", "parchment", (i) =>
-  clampInset(i, { left: 26 }, { top: 26, right: 28, bottom: 30 })
+  clampInset(i, { left: 26 }, { top: 24, right: 28, bottom: 21 })
 );
 
 const expeditionRaw = runOne("ui-panel-expedition.png", "parchment");
@@ -329,7 +329,7 @@ const output: Record<string, LayoutOutput> = {
     inset: formatInset(mission.inset),
     raw: mission.inset,
     sampleScore: scoreInset(mission.png, mission.inset, "parchment"),
-    fluidMinHeight: "5.75rem",
+    fluidMinHeight: "9rem",
   },
   panelExpedition: {
     aspectRatio: `${expedition.png.width} / ${expedition.png.height}`,
