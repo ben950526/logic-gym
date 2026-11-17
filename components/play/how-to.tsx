@@ -1,4 +1,7 @@
+"use client";
+
 import type { GameKind } from "@/lib/puzzles/save";
+import { speak } from "@/lib/puzzles/speech";
 
 function DemoRow({ label, cells }: { label: string; cells: string }) {
   return (
@@ -62,10 +65,21 @@ const BODY: Record<GameKind, React.ReactNode> = {
   ),
 };
 
-export function HowTo({ game, open }: { game: GameKind; open: boolean }) {
+/** 給語音朗讀用的口語版說明 */
+const SPOKEN: Record<GameKind, string> = {
+  nono: "把對的格子塗滿，就會拼出一張圖。左邊的數字是這一排要塗幾格，上面的數字是這一行要塗幾格。有兩個數字，就是兩段，中間要空開。點格子就會塗滿，再點一次就取消。",
+  stroke: "像拿一支筆畫圖，筆不離開紙，把每一條線都畫過一次。先點一個圓點當起點，再點有線連著的圓點。畫過的線不能再畫。走不下去就按重來。",
+  sudoku: "把空格填滿一、二、三、四。每一排、每一行、每一個粗線框起來的小方塊，一、二、三、四都只能出現一次。先點空格，再點下面的數字。",
+};
+
+export function HowTo({ game, open, onDemo }: { game: GameKind; open: boolean; onDemo?: () => void }) {
   return (
     <details className="lgp-howto" open={open}>
       <summary>怎麼玩？（點這裡打開／收起）</summary>
+      <div className="lgp-keys" style={{ justifyContent: "flex-start", margin: "8px 0 2px" }}>
+        {onDemo && <button className="lgp-key" onClick={onDemo}>👀 看示範</button>}
+        <button className="lgp-key" onClick={() => speak(SPOKEN[game])}>🔊 念給我聽</button>
+      </div>
       {BODY[game]}
     </details>
   );

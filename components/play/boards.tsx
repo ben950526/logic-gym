@@ -20,6 +20,7 @@ interface BoardProps {
   howtoOpen: boolean;
   onWin: (w: WinInfo) => void;
   onOops: () => void;
+  onDemo: () => void;
 }
 
 const reducedMotion = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -36,7 +37,7 @@ function shake(el: Element | null) {
 export function NonogramBoard(props: BoardProps & { picture?: Picture; dexIndex: number; dexTotal: number }) {
   // 題目在這一題開始時就固定，過關後進度更新也不會換題
   const [{ level, picture, dexIndex, dexTotal }] = useState(() => props);
-  const { howtoOpen, onWin } = props;
+  const { howtoOpen, onWin, onDemo } = props;
   const [puzzle] = useState<NonogramPuzzle>(() => {
     if (picture) return picturePuzzle(picture);
     const n = 5 + Math.min(2, Math.floor(Math.max(0, level - 1) / 4));
@@ -85,7 +86,7 @@ export function NonogramBoard(props: BoardProps & { picture?: Picture; dexIndex:
         <h2>🧩 數織</h2>
         <span className="lgp-qno">{picture ? `圖鑑 ${dexIndex}/${dexTotal}` : `挑戰題 ${level}`} · {n}×{n}</span>
       </div>
-      <HowTo game="nono" open={howtoOpen} />
+      <HowTo game="nono" open={howtoOpen} onDemo={onDemo} />
       <div className={done ? "lgp-nono solved" : "lgp-nono"} style={{ "--cs": `${cs}px`, "--pic": picture?.color ?? "#7c5cff", gridTemplateColumns: `auto repeat(${n}, var(--cs))` } as React.CSSProperties}>
         <div />
         {puzzle.colClues.map((clue, c) => (
@@ -120,7 +121,7 @@ export function NonogramBoard(props: BoardProps & { picture?: Picture; dexIndex:
 }
 
 /* ───────── 一筆畫 ───────── */
-export function StrokeBoard({ level: levelProp, howtoOpen, onWin, onOops }: BoardProps) {
+export function StrokeBoard({ level: levelProp, howtoOpen, onWin, onOops, onDemo }: BoardProps) {
   const [level] = useState(levelProp);
   const [puzzle] = useState(() => makeStroke(level));
   const ok = useMemo(() => hasEulerPath(puzzle.nodes, puzzle.edges), [puzzle]);
@@ -158,7 +159,7 @@ export function StrokeBoard({ level: levelProp, howtoOpen, onWin, onOops }: Boar
   return (
     <>
       <div className="lgp-head"><h2>✏️ 一筆畫</h2><span className="lgp-qno">第 {level} 題 · {puzzle.edges.length} 條線</span></div>
-      <HowTo game="stroke" open={howtoOpen} />
+      <HowTo game="stroke" open={howtoOpen} onDemo={onDemo} />
       <svg className="lgp-stroke" viewBox={`0 0 ${vw} ${vh}`} role="img" aria-label="一筆畫圖形">
         {puzzle.edges.map(([a, b], k) => {
           const [x1, y1] = pos(a), [x2, y2] = pos(b);
@@ -189,7 +190,7 @@ export function StrokeBoard({ level: levelProp, howtoOpen, onWin, onOops }: Boar
 }
 
 /* ───────── 4×4 數獨 ───────── */
-export function SudokuBoard({ level: levelProp, howtoOpen, onWin, onOops }: BoardProps) {
+export function SudokuBoard({ level: levelProp, howtoOpen, onWin, onOops, onDemo }: BoardProps) {
   const [level] = useState(levelProp);
   const [puzzle] = useState(() => makeSudoku(level));
   const unique = useMemo(() => countSolutions(puzzle.givens) === 1, [puzzle]);
@@ -221,7 +222,7 @@ export function SudokuBoard({ level: levelProp, howtoOpen, onWin, onOops }: Boar
   return (
     <>
       <div className="lgp-head"><h2>🔢 數獨</h2><span className="lgp-qno">第 {level} 題 · 提示 {puzzle.givens.filter(Boolean).length} 格</span></div>
-      <HowTo game="sudoku" open={howtoOpen} />
+      <HowTo game="sudoku" open={howtoOpen} onDemo={onDemo} />
       <div className="lgp-sudoku" style={{ "--ss": `${ss}px` } as React.CSSProperties}>
         {state.map((v, i) => {
           const r = Math.floor(i / 4), c = i % 4, given = !!puzzle.givens[i];

@@ -163,6 +163,48 @@
 .lgp-win .lgp-pixel { width: 120px; height: 120px; gap: 2px; }
 @keyframes lgp-rise { from { transform: translateY(40px) scale(.8); opacity: 0; } to { transform: none; opacity: 1; } }
 .lgp-confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 60; }
+/* 寵物可以點 */
+.lgp-pet-btn { border: 0; background: none; padding: 0; cursor: pointer; border-radius: 16px; }
+.lgp-bubble { position: relative; padding-right: 34px; }
+.lgp-say { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); border: 0; background: none; cursor: pointer; font-size: 1rem; }
+
+/* 今日任務 */
+.lgp-daily { padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
+.lgp-daily-main { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-weight: 900; }
+.lgp-daily-title { font-size: .95rem; }
+.lgp-pips { display: inline-flex; gap: 5px; }
+.lgp-pips i { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--ink); background: var(--cell); }
+.lgp-pips i.on { background: var(--mint); }
+.lgp-streak { margin-left: auto; font: 800 .95rem var(--font-display); color: var(--ink-soft); }
+.lgp-streak.on { color: #ff7a1a; }
+.lgp-daily-actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.lgp-chest-wait { font-size: .85rem; font-weight: 700; color: var(--ink-soft); }
+.lgp-chest-btn { animation: lgp-nudge 1.2s ease-in-out infinite; }
+@keyframes lgp-nudge { 0%,100% { transform: rotate(0); } 10% { transform: rotate(-4deg); } 20% { transform: rotate(4deg); } 30% { transform: rotate(0); } }
+.lgp-win-daily { color: var(--sun-deep); }
+.lgp-chest { font-size: 3.4rem; line-height: 1; animation: lgp-chest-open .8s cubic-bezier(.3,1.6,.5,1); }
+@keyframes lgp-chest-open { 0% { transform: scale(.4) rotate(-20deg); } 60% { transform: scale(1.3) rotate(8deg); } 100% { transform: scale(1) rotate(0); } }
+
+/* 衣櫃 */
+.lgp-closet { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+.lgp-closet-label { font-weight: 900; font-size: .9rem; color: var(--ink-soft); }
+.lgp-closet-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 8px; }
+.lgp-item { border: 2px solid var(--ink); border-radius: 12px; background: var(--cell); padding: 6px 2px 4px; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; color: var(--ink); }
+.lgp-item span { font-size: .78rem; font-weight: 900; }
+.lgp-item.on { background: var(--sun); color: #23305a; box-shadow: 0 3px 0 var(--ink); }
+.lgp-item:disabled { cursor: default; opacity: .7; }
+
+/* 示範 */
+.lgp-demo-card { width: min(100%, 380px); }
+.lgp-demo-board { position: relative; margin: 4px auto; }
+.lgp-demo-say { min-height: 3.2em; font-size: 1.05rem; }
+.lgp-hand { position: absolute; left: 50%; top: 55%; font-size: 1.9rem; pointer-events: none; z-index: 2; animation: lgp-tap 1s ease-in-out infinite; transition: left .5s, top .5s; filter: drop-shadow(0 2px 0 rgba(0,0,0,.25)); }
+@keyframes lgp-tap { 0%,100% { transform: translate(-30%, 0) scale(1); } 50% { transform: translate(-30%, -8px) scale(.92); } }
+.lgp-clue.hi, .lgp-scell.hi { background: color-mix(in srgb, var(--sun) 45%, transparent); border-radius: 6px; }
+.lgp-dots { display: flex; gap: 6px; }
+.lgp-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-soft); opacity: .35; }
+.lgp-dots i.on { opacity: 1; background: var(--grape); }
+
 .lgp-footer { font-size: .8rem; color: var(--ink-soft); text-align: center; }
 .lgp-footer a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
