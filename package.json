@@ -24,7 +24,8 @@
     "verify:math-100": "tsx scripts/verify-math-100-stages.ts",
     "verify:pattern-8": "tsx scripts/verify-pattern-8-stages.ts",
     "verify:stages-v1": "tsx scripts/verify-math-100-stages.ts && tsx scripts/verify-pattern-8-stages.ts",
-    "check:mvp": "tsx scripts/check-mvp-status.ts"
+    "check:mvp": "tsx scripts/check-mvp-status.ts",
+    "verify:puzzle-engine": "tsx scripts/verify-puzzle-engine.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

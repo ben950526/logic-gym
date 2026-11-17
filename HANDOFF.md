@@ -1,5 +1,16 @@
 # Logic Gym 交接文件（Cursor → Claude Code）
 
+> **2026-11-17 方向更新（V3）**：放棄「劇情破關＋人工美術」，改做「互動謎題本」：
+> 程式產生、驗算過唯一解的數織／一筆畫／數獨，加上寵物「腦腦」與圖鑑。
+> - 新遊戲頁：`/play`（首頁 `/` 直接導過去；舊首頁在 `/old-home`，舊星球地圖程式都還在）
+> - 謎題引擎：`lib/puzzles/`；驗證：`npm run verify:puzzle-engine`
+> - 介面：`components/play/`、`app/play/play.css`
+> - 規劃：`docs/roadmap-2026-11.md`；設計：`docs/design-direction.md`；市場：`docs/market-research-2026-11.md`
+> - 分支：`v3-puzzle-book`（尚未合併、尚未部署）
+> - 進度目前只存在瀏覽器（訪客模式），還沒接 Supabase。
+>
+> 以下第 1～9 節是 11/16 接手時的盤點，部分內容（產品定位、下一步）已被上面取代。
+
 > 寫於 2026-11-16。上一次在 Cursor 開發是 2026-07-20 深夜，中間停了約四個月。
 > 程式就在 `C:\邏輯思考網站\logic-gym` 原地，Cursor 和 Claude Code 都能開。
 
