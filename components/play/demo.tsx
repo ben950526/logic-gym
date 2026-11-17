@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { GameKind } from "@/lib/puzzles/save";
 import { speak, stopSpeaking } from "@/lib/puzzles/speech";
 
@@ -132,16 +132,30 @@ export function DemoOverlay({ game, onClose }: { game: GameKind; onClose: () => 
   const [i, setI] = useState(0);
   const [voice, setVoice] = useState(false);
   const last = i === frames.length - 1;
+  // 按下「念給我聽」時已經在點擊當下念了（iOS 規定），下一次 effect 就不要重念
+  const spokenByClick = useRef(-1);
+  const pendingNext = useRef<(() => void) | null>(null);
 
   useEffect(() => {
-    if (last) return;
-    // 開了朗讀就放慢，讓一句話念完再換下一步
-    const t = setTimeout(() => setI((x) => x + 1), voice ? 4200 : 2600);
-    return () => clearTimeout(t);
-  }, [i, last, voice]);
-  useEffect(() => {
-    if (voice) speak(frames[i].say);
-  }, [i, voice, frames]);
+    let cancelled = false;
+    let t: ReturnType<typeof setTimeout> | undefined;
+    const next = (delay: number) => {
+      if (cancelled || last) return;
+      t = setTimeout(() => { if (!cancelled) setI((x) => x + 1); }, delay);
+    };
+    if (voice) {
+      // 念完這一句才換下一步，不會講到一半被切掉
+      if (spokenByClick.current === i) {
+        spokenByClick.current = -1;
+        pendingNext.current = () => next(700);
+      } else {
+        speak(frames[i].say, () => next(700));
+      }
+    } else {
+      next(2600);
+    }
+    return () => { cancelled = true; if (t) clearTimeout(t); pendingNext.current = null; };
+  }, [i, voice, last, frames]);
   useEffect(() => () => stopSpeaking(), []);
 
   return (
@@ -154,10 +168,17 @@ export function DemoOverlay({ game, onClose }: { game: GameKind; onClose: () => 
         <p className="lgp-demo-say">{frames[i].say}</p>
         <div className="lgp-dots" aria-hidden="true">{frames.map((_, k) => <i key={k} className={k === i ? "on" : ""} />)}</div>
         <div className="lgp-keys">
-          <button className="lgp-key" aria-pressed={voice} onClick={() => { const v = !voice; setVoice(v); if (v) speak(frames[i].say); else stopSpeaking(); }}>
+          <button className="lgp-key" aria-pressed={voice} onClick={() => {
+            const v = !voice;
+            setVoice(v);
+            if (v) {
+              spokenByClick.current = i;
+              speak(frames[i].say, () => pendingNext.current?.());
+            } else stopSpeaking();
+          }}>
             🔊 {voice ? "朗讀中" : "念給我聽"}
           </button>
-          <button className="lgp-key" onClick={() => setI(0)}>↺ 再看一次</button>
+          <button className="lgp-key" onClick={() => { stopSpeaking(); setI(0); }}>↺ 再看一次</button>
           <button className="lgp-key go" onClick={() => { stopSpeaking(); onClose(); }}>我會了！</button>
         </div>
       </div>
