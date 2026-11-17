@@ -7,7 +7,9 @@
 > - 介面：`components/play/`、`app/play/play.css`
 > - 規劃：`docs/roadmap-2026-11.md`；設計：`docs/design-direction.md`；市場：`docs/market-research-2026-11.md`
 > - 分支：`v3-puzzle-book` 已合併到 `main`，2026-11-17 部署到正式網址 https://logic-gym-khaki.vercel.app
-> - 已加入：每日任務（3 題）、連續天數、寶箱、腦腦衣櫃（12 件）、「看我做一次」示範、語音朗讀
+> - 已加入：每日任務（3 題）、連續天數、寶箱、「看我做一次」示範、語音朗讀、冒險路線圖（每章 10 關、寶箱、BOSS）
+> - **腦腦的花園**（`lib/garden/`、`components/play/garden.tsx`，規格見 `docs/garden-design.md`）：解題得種子 → 種植澆水 → 真實時間成長 → 收成餵腦腦 → 吸引 8 種小動物拍照收集。測試快轉：網址加 `?fast=1`
+> - 衣櫃（`lib/puzzles/wardrobe.ts`）已不再發放新衣服，入口已移除；已擁有的裝扮仍會顯示
 > - 進度目前只存在瀏覽器（訪客模式），還沒接 Supabase。
 >
 > 以下第 1～9 節是 11/16 接手時的盤點，部分內容（產品定位、下一步）已被上面取代。

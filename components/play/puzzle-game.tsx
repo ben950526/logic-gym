@@ -2,35 +2,46 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { AdventureMap } from "@/components/play/adventure-map";
 import { NonogramBoard, StrokeBoard, SudokuBoard, type WinInfo } from "@/components/play/boards";
 import { DemoOverlay } from "@/components/play/demo";
+import { Garden, NEW_VISITOR_STARS, useTimeScale, type GardenEvent } from "@/components/play/garden";
 import { PixelPicture } from "@/components/play/pixel-picture";
-import { AdventureMap } from "@/components/play/adventure-map";
+import { plantById, seedPacketSvg, visitorById, visitorSvg, type VisitorId } from "@/lib/garden/catalog";
+import {
+  attention, dailyChestReward, ensureStarted, grant, pathChestReward, puzzleReward, STARTER_SEEDS, type SeedReward,
+} from "@/lib/garden/logic";
 import { BOSS_BONUS_STARS, nodeAt } from "@/lib/puzzles/adventure";
-import { canOpenChest, CHEST_BONUS_STARS, currentStreak, DAILY_GOAL, grantReward, openChest, recordSolve, rollDay } from "@/lib/puzzles/daily";
+import { canOpenChest, currentStreak, DAILY_GOAL, recordSolve, rollDay } from "@/lib/puzzles/daily";
 import { CHEERS, OOPS_LINES, PET_INTRO, PET_STAGES, petSvg, stageOf, type PetMood } from "@/lib/puzzles/pet";
 import { PICTURES } from "@/lib/puzzles/pictures";
 import { randInt } from "@/lib/puzzles/random";
 import { loadSave, writeSave, type GameKind, type PlaySave } from "@/lib/puzzles/save";
 import { setMuted, sfx } from "@/lib/puzzles/sound";
 import { speak } from "@/lib/puzzles/speech";
-import { WARDROBE, type ItemSlot, type Look, type WardrobeItem } from "@/lib/puzzles/wardrobe";
+import type { Look } from "@/lib/puzzles/wardrobe";
 
-type Tab = "map" | GameKind | "dex" | "wardrobe";
+type Tab = "map" | "garden" | GameKind | "dex";
+const isGame = (t: Tab): t is GameKind => t === "nono" || t === "stroke" || t === "sudoku";
 
 const TABS: { id: Tab; icon: string; label: string }[] = [
   { id: "map", icon: "🗺️", label: "冒險" },
-  { id: "nono", icon: "🧩", label: "數織" },
-  { id: "stroke", icon: "✏️", label: "一筆畫" },
-  { id: "sudoku", icon: "🔢", label: "數獨" },
+  { id: "garden", icon: "🌱", label: "花園" },
+  { id: "nono", icon: "🧩", label: "練習" },
   { id: "dex", icon: "📖", label: "圖鑑" },
 ];
-
-const SLOT_LABEL: Record<ItemSlot, string> = { color: "顏色", hat: "帽子", face: "配件" };
+const PRACTICE: { id: GameKind; label: string }[] = [
+  { id: "nono", label: "🧩 數織" },
+  { id: "stroke", label: "✏️ 一筆畫" },
+  { id: "sudoku", label: "🔢 數獨" },
+];
 
 type Overlay =
-  | { kind: "win"; info: WinInfo; evolvedTo?: number; dailyDone: boolean; gain: number; boss: boolean; fromMap: boolean }
-  | { kind: "chest"; item: WardrobeItem | null; source: "daily" | "adventure" }
+  | { kind: "win"; info: WinInfo; evolvedTo?: number; dailyDone: boolean; gain: number; boss: boolean; fromMap: boolean; loot: SeedReward }
+  | { kind: "chest"; loot: SeedReward; source: "daily" | "adventure" }
+  | { kind: "visitor"; v: VisitorId; evolvedTo?: number }
+  | { kind: "gift" }
+  | { kind: "evolve"; to: number }
   | { kind: "demo"; game: GameKind }
   | null;
 
@@ -71,6 +82,22 @@ function PetSvg({ stage, stars, mood, look, size = 112 }: { stage: number; stars
   );
 }
 
+/** 獎勵的種子（同種合併顯示） */
+function Loot({ loot }: { loot: SeedReward }) {
+  const counts = loot.seeds.reduce<Record<string, number>>((m, s) => ({ ...m, [s]: (m[s] ?? 0) + 1 }), {});
+  return (
+    <div className="lgp-loot">
+      {Object.entries(counts).map(([id, n]) => (
+        <span key={id}>
+          <svg viewBox="0 0 100 100" aria-hidden="true" dangerouslySetInnerHTML={{ __html: seedPacketSvg(id as never) }} />
+          {plantById(id as never).name}種子{n > 1 ? ` ×${n}` : ""}
+        </span>
+      ))}
+      {loot.fertilizer > 0 && <span>🧪 肥料 ×{loot.fertilizer}</span>}
+    </div>
+  );
+}
+
 export function PuzzleGame() {
   const [save, setSave] = useState<PlaySave | null>(null);
   const [tab, setTab] = useState<Tab>("map");
@@ -81,13 +108,15 @@ export function PuzzleGame() {
   const [overlay, setOverlay] = useState<Overlay>(null);
   const moodTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const primaryBtn = useRef<HTMLButtonElement>(null);
+  const scale = useTimeScale();
 
   useEffect(() => {
     const s = rollDay(loadSave());
     setMuted(s.muted);
     setSave(s);
     writeSave(s);
-    setBubble(s.stars ? "今天也一起動腦吧！" : "點地圖上發亮的那一關，我們出發吧！");
+    const att = attention(s.garden, Date.now());
+    setBubble(att.ready ? `花園裡有 ${att.ready} 株植物可以收成了！` : s.stars ? "今天也一起動腦吧！" : "點地圖上發亮的那一關，我們出發吧！");
   }, []);
   useEffect(() => { if (overlay && overlay.kind !== "demo") primaryBtn.current?.focus(); }, [overlay]);
 
@@ -106,10 +135,11 @@ export function PuzzleGame() {
   const pct = nextStage ? ((save.stars - info.at) / (nextStage.at - info.at)) * 100 : 100;
   const nextPicture = PICTURES.find((p) => !save.dex.includes(p.name));
   const mapNode = tab === "map" && playing !== null ? nodeAt(playing) : null;
-  const game: GameKind | null = mapNode?.game ?? (tab === "nono" || tab === "stroke" || tab === "sudoku" ? tab : null);
+  const game: GameKind | null = mapNode?.game ?? (isGame(tab) ? tab : null);
   const streak = currentStreak(save);
   const chestReady = canOpenChest(save);
   const dailyDone = Math.min(save.daily.done, DAILY_GOAL);
+  const gAtt = attention(save.garden, Date.now(), scale);
 
   const update = (s: PlaySave) => { setSave(s); writeSave(s); };
 
@@ -119,12 +149,14 @@ export function PuzzleGame() {
     const boss = !!mapNode?.boss;
     const gain = 1 + (boss ? BOSS_BONUS_STARS : 0);
     const advanced = mapNode !== null && mapNode.index === save.adv; // 重玩已過的關不會再往前走
+    const loot = puzzleReward(boss);
     const base: PlaySave = {
       ...save,
       stars: save.stars + gain,
       solved: { ...save.solved, [game]: save.solved[game] + 1 },
       dex: w.picture && !save.dex.includes(w.picture.name) ? [...save.dex, w.picture.name] : save.dex,
       adv: advanced ? save.adv + 1 : save.adv,
+      garden: grant(save.garden, loot),
     };
     const { save: next, justCompleted } = recordSolve(base);
     update(next);
@@ -132,20 +164,20 @@ export function PuzzleGame() {
     const evolved = after > before;
     (evolved || boss ? sfx.evolve : sfx.win)();
     fireConfetti();
-    react("happy", evolved ? `我長大了！現在是「${PET_STAGES[after].name}」！` : boss ? "我們打倒 BOSS 了！下一章出發！" : justCompleted ? "今日任務完成！快去開寶箱！" : CHEERS[randInt(CHEERS.length)]);
-    setOverlay({ kind: "win", info: boss ? { ...w, title: "打倒 BOSS！" } : w, evolvedTo: evolved ? after : undefined, dailyDone: justCompleted, gain, boss, fromMap: mapNode !== null });
+    react("happy", evolved ? `我長大了！現在是「${PET_STAGES[after].name}」！` : boss ? "我們打倒 BOSS 了！還拿到稀有種子！" : justCompleted ? "今日任務完成！快去開寶箱！" : CHEERS[randInt(CHEERS.length)]);
+    setOverlay({ kind: "win", info: boss ? { ...w, title: "打倒 BOSS！" } : w, evolvedTo: evolved ? after : undefined, dailyDone: justCompleted, gain, boss, fromMap: mapNode !== null, loot });
   };
   const handleOops = () => { sfx.wrong(); react("oops", OOPS_LINES[randInt(OOPS_LINES.length)]); };
 
   const doOpenChest = () => {
     const rolled = rollDay(save);
     if (!canOpenChest(rolled)) return;
-    const { save: next, item } = openChest(rolled);
-    update(next);
+    const loot = dailyChestReward();
+    update({ ...rolled, daily: { ...rolled.daily, opened: true }, garden: grant(rolled.garden, loot) });
     sfx.evolve();
     fireConfetti();
-    react("happy", item ? `哇！我拿到「${item.name}」了！` : `寶箱裡有 ${CHEST_BONUS_STARS} 顆星星！`);
-    setOverlay({ kind: "chest", item, source: "daily" });
+    react("happy", "寶箱裡有稀有種子！快去花園種種看！");
+    setOverlay({ kind: "chest", loot, source: "daily" });
   };
 
   /** 點地圖上的點 */
@@ -154,12 +186,12 @@ export function PuzzleGame() {
     sfx.tap();
     if (n.kind === "chest") {
       if (k !== save.adv) { react("happy", "這個寶箱已經開過了！"); return; }
-      const { save: rewarded, item } = grantReward(save);
-      update({ ...rewarded, adv: save.adv + 1 });
+      const loot = pathChestReward();
+      update({ ...save, adv: save.adv + 1, garden: grant(save.garden, loot) });
       sfx.evolve();
       fireConfetti();
-      react("happy", item ? `路上的寶箱！我拿到「${item.name}」了！` : `寶箱裡有 ${CHEST_BONUS_STARS} 顆星星！`);
-      setOverlay({ kind: "chest", item, source: "adventure" });
+      react("happy", "路上撿到寶箱！裡面有種子和肥料！");
+      setOverlay({ kind: "chest", loot, source: "adventure" });
       return;
     }
     setPlaying(k);
@@ -174,16 +206,46 @@ export function PuzzleGame() {
     setOverlay(null);
     setRound((r) => r + 1);
   };
+  const openGarden = () => {
+    setOverlay(null);
+    setPlaying(null);
+    setTab("garden");
+    if (!save.garden.started) {
+      update({ ...save, garden: ensureStarted(save.garden) });
+      setOverlay({ kind: "gift" });
+      sfx.evolve();
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   const selectTab = (t: Tab) => {
     sfx.tap();
+    if (t === "garden") return openGarden();
     setTab(t);
     setPlaying(null);
     setRound((r) => r + 1);
-    if ((t === "nono" || t === "stroke" || t === "sudoku") && !save.seenDemo.includes(t)) setOverlay({ kind: "demo", game: t });
+    if (isGame(t) && !save.seenDemo.includes(t)) setOverlay({ kind: "demo", game: t });
   };
   const closeDemo = (g: GameKind) => {
     setOverlay(null);
     if (!save.seenDemo.includes(g)) update({ ...save, seenDemo: [...save.seenDemo, g] });
+  };
+
+  const onGarden = (e: GardenEvent) => {
+    const before = stageOf(save.stars);
+    const stars = save.stars + (e.stars ?? 0);
+    update({ ...save, garden: e.garden, stars });
+    const after = stageOf(stars);
+    const evolved = after > before;
+    react(e.mood ?? "happy", evolved ? `我長大了！現在是「${PET_STAGES[after].name}」！` : e.say);
+    if (e.newVisitor) {
+      sfx.evolve(); fireConfetti();
+      setOverlay({ kind: "visitor", v: e.newVisitor, evolvedTo: evolved ? after : undefined });
+    } else if (evolved) {
+      sfx.evolve(); fireConfetti();
+      setOverlay({ kind: "evolve", to: after });
+    } else if (e.expanded) {
+      fireConfetti();
+    }
   };
 
   const boardProps = game ? {
@@ -194,12 +256,7 @@ export function PuzzleGame() {
     onDemo: () => setOverlay({ kind: "demo", game }),
   } : null;
 
-  const equip = (item: WardrobeItem) => {
-    const look = { ...save.look, [item.slot]: save.look[item.slot] === item.id ? undefined : item.id };
-    sfx.tap();
-    update({ ...save, look });
-    react("happy", save.look[item.slot] === item.id ? "脫下來了～" : `穿上「${item.name}」，好看嗎？`);
-  };
+  const gardenHint = gAtt.ready ? `✨ ${gAtt.ready} 株可收成` : gAtt.thirsty ? `💧 ${gAtt.thirsty} 株口渴` : "去花園看看";
 
   return (
     <div className="lgp-wrap">
@@ -239,19 +296,25 @@ export function PuzzleGame() {
           ) : (
             <span className="lgp-chest-wait">{save.daily.opened ? "✅ 今天的寶箱開過了，明天再來！" : `🎁 再解 ${DAILY_GOAL - dailyDone} 題就能開寶箱`}</span>
           )}
-          <button className="lgp-key" onClick={() => selectTab("wardrobe")}>👕 換裝 {save.items.length}/{WARDROBE.length}</button>
+          {tab !== "garden" && (
+            <button className={gAtt.ready ? "lgp-key go lgp-chest-btn" : "lgp-key"} onClick={() => { sfx.tap(); openGarden(); }}>🌱 {gardenHint}</button>
+          )}
         </div>
       </section>
 
-      <nav className="lgp-tabs" role="tablist" aria-label="謎題種類">
-        {TABS.map((t) => (
-          <button key={t.id} role="tab" aria-selected={tab === t.id} className="lgp-tab" onClick={() => selectTab(t.id)}>
-            <span className="ic">{t.icon}</span>{t.label}
-          </button>
-        ))}
+      <nav className="lgp-tabs" role="tablist" aria-label="分頁">
+        {TABS.map((t) => {
+          const selected = t.id === "nono" ? isGame(tab) : tab === t.id;
+          return (
+            <button key={t.id} role="tab" aria-selected={selected} className="lgp-tab" onClick={() => selectTab(t.id === "nono" && isGame(tab) ? tab : t.id)}>
+              <span className="ic">{t.icon}</span>{t.label}
+              {t.id === "garden" && gAtt.ready > 0 && <span className="lgp-tab-dot" aria-label="有植物可以收成" />}
+            </button>
+          );
+        })}
       </nav>
 
-      <section className={tab === "map" && !mapNode ? "lgp-sheet lgp-chunky lgp-sheet-map" : "lgp-sheet lgp-chunky"}>
+      <section className={(tab === "map" && !mapNode) || tab === "garden" ? "lgp-sheet lgp-chunky lgp-sheet-map" : "lgp-sheet lgp-chunky"}>
         {tab === "map" && !mapNode && (
           <AdventureMap adv={save.adv} stage={stage} stars={save.stars} look={save.look} mood={mood} onOpen={openNode} />
         )}
@@ -269,17 +332,30 @@ export function PuzzleGame() {
             {mapNode.game === "sudoku" && <SudokuBoard key={`md${round}`} {...boardProps} />}
           </>
         )}
-        {tab === "nono" && boardProps && (
-          <NonogramBoard key={`n${round}`} {...boardProps} picture={nextPicture}
-            dexIndex={save.dex.length + 1} dexTotal={PICTURES.length}
-            level={Math.max(1, save.solved.nono - PICTURES.length + 1)} />
+        {tab === "garden" && (
+          <Garden garden={save.garden} petStage={stage} petStars={save.stars} look={save.look} mood={mood} onChange={onGarden}
+            onGoMap={() => selectTab("map")} />
         )}
-        {tab === "stroke" && boardProps && <StrokeBoard key={`s${round}`} {...boardProps} />}
-        {tab === "sudoku" && boardProps && <SudokuBoard key={`d${round}`} {...boardProps} />}
+        {isGame(tab) && boardProps && (
+          <>
+            <div className="lgp-seg" role="tablist" aria-label="練習哪一種">
+              {PRACTICE.map((p) => (
+                <button key={p.id} role="tab" aria-selected={tab === p.id} onClick={() => selectTab(p.id)}>{p.label}</button>
+              ))}
+            </div>
+            {tab === "nono" && (
+              <NonogramBoard key={`n${round}`} {...boardProps} picture={nextPicture}
+                dexIndex={save.dex.length + 1} dexTotal={PICTURES.length}
+                level={Math.max(1, save.solved.nono - PICTURES.length + 1)} />
+            )}
+            {tab === "stroke" && <StrokeBoard key={`s${round}`} {...boardProps} />}
+            {tab === "sudoku" && <SudokuBoard key={`d${round}`} {...boardProps} />}
+          </>
+        )}
         {tab === "dex" && (
           <>
-            <div className="lgp-head"><h2>📖 圖鑑</h2><span className="lgp-qno">{save.dex.length} / {PICTURES.length}</span></div>
-            <p className="lgp-note">玩數織拼出圖案，就會收進這裡。問號裡面藏著什麼？拼出來才知道！</p>
+            <div className="lgp-head"><h2>📖 拼圖圖鑑</h2><span className="lgp-qno">{save.dex.length} / {PICTURES.length}</span></div>
+            <p className="lgp-note">玩數織拼出圖案，就會收進這裡。問號裡面藏著什麼？拼出來才知道！（小動物的圖鑑在花園裡）</p>
             <div className="lgp-dex">
               {PICTURES.map((p) => {
                 const got = save.dex.includes(p.name);
@@ -291,32 +367,6 @@ export function PuzzleGame() {
                 );
               })}
             </div>
-          </>
-        )}
-        {tab === "wardrobe" && (
-          <>
-            <div className="lgp-head"><h2>👕 腦腦的衣櫃</h2><span className="lgp-qno">{save.items.length} / {WARDROBE.length}</span></div>
-            <PetSvg stage={Math.max(1, stage)} stars={save.stars} mood="idle" look={save.look} size={130} />
-            <p className="lgp-note">{stage === 0 ? "腦腦還在蛋裡，孵出來之後就能穿上這些衣服喔！" : "點一下就能穿上，再點一次脫下來。每天完成任務開寶箱，就能拿到新衣服！"}</p>
-            {(["color", "hat", "face"] as ItemSlot[]).map((slot) => (
-              <div key={slot} className="lgp-closet">
-                <span className="lgp-closet-label">{SLOT_LABEL[slot]}</span>
-                <div className="lgp-closet-row">
-                  {WARDROBE.filter((w) => w.slot === slot).map((w) => {
-                    const owned = save.items.includes(w.id);
-                    const on = save.look[slot] === w.id;
-                    return (
-                      <button key={w.id} className={`lgp-item${on ? " on" : ""}`} disabled={!owned || stage === 0} onClick={() => equip(w)} aria-pressed={on}>
-                        {owned ? (
-                          <PetSvg stage={1} stars={3} mood="idle" look={{ [slot]: w.id }} size={52} />
-                        ) : <span className="lgp-dex-q" style={{ width: 52, height: 52, fontSize: "1.4rem" }}>?</span>}
-                        <span>{owned ? w.name : "？？"}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
           </>
         )}
       </section>
@@ -336,6 +386,7 @@ export function PuzzleGame() {
             {overlay.info.picture && <PixelPicture picture={overlay.info.picture} />}
             <p>{overlay.info.text}</p>
             <span className="gain">+{overlay.gain} ⭐{overlay.boss ? "（BOSS 加碼）" : ""}</span>
+            <Loot loot={overlay.loot} />
             {overlay.evolvedTo !== undefined && (
               <>
                 <PetSvg stage={overlay.evolvedTo} stars={save.stars} mood="happy" look={save.look} size={110} />
@@ -350,7 +401,7 @@ export function PuzzleGame() {
                 <button ref={primaryBtn} className="lgp-key go" onClick={goNext}>{overlay.fromMap ? "回地圖，繼續前進 →" : "下一題 →"}</button>
               )}
               {overlay.dailyDone && <button className="lgp-key" onClick={goNext}>{overlay.fromMap ? "先回地圖" : "先玩下一題"}</button>}
-              {overlay.info.picture && !overlay.dailyDone && <button className="lgp-key" onClick={() => { setOverlay(null); setPlaying(null); setTab("dex"); }}>看圖鑑</button>}
+              {!overlay.dailyDone && <button className="lgp-key" onClick={openGarden}>🌱 去種種子</button>}
             </div>
           </div>
         </div>
@@ -360,20 +411,61 @@ export function PuzzleGame() {
         <div className="lgp-overlay">
           <div className="lgp-win lgp-chunky" role="dialog" aria-label="寶箱">
             <div className="lgp-chest" aria-hidden="true">🎁</div>
-            <h3>{overlay.item ? `拿到「${overlay.item.name}」！` : `${CHEST_BONUS_STARS} 顆星星！`}</h3>
-            {overlay.item ? (
-              <>
-                <PetSvg stage={Math.max(1, stage)} stars={save.stars} mood="happy" look={save.look} size={120} />
-                <p>{stage === 0 ? "腦腦孵出來之後就能穿上囉！" : "已經幫腦腦穿上了，去衣櫃可以換。"}</p>
-              </>
-            ) : <p>衣服都收集齊了，寶箱改送星星！</p>}
+            <h3>{overlay.source === "daily" ? "今日寶箱！" : "路上的寶箱！"}</h3>
+            <Loot loot={overlay.loot} />
             {overlay.source === "daily"
               ? <p className="lgp-win-daily">🔥 已經連續 {currentStreak(save)} 天，明天再來開新寶箱！</p>
-              : <p className="lgp-win-daily">🗺️ 路上撿到的寶箱！繼續往前走吧！</p>}
+              : <p className="lgp-win-daily">🗺️ 種子可以拿去花園種，肥料能讓植物馬上長大！</p>}
             <div className="lgp-keys">
-              <button ref={primaryBtn} className="lgp-key go" onClick={goNext}>{playing !== null || overlay.source === "adventure" ? "回地圖 →" : "繼續玩 →"}</button>
-              {overlay.item && <button className="lgp-key" onClick={() => { setOverlay(null); setPlaying(null); setTab("wardrobe"); }}>去衣櫃</button>}
+              <button ref={primaryBtn} className="lgp-key go" onClick={openGarden}>🌱 去花園種</button>
+              <button className="lgp-key" onClick={goNext}>{playing !== null || overlay.source === "adventure" ? "回地圖" : "繼續玩"}</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {overlay?.kind === "gift" && (
+        <div className="lgp-overlay">
+          <div className="lgp-win lgp-chunky" role="dialog" aria-label="新手禮物">
+            <div className="lgp-chest" aria-hidden="true">🌱</div>
+            <h3>歡迎來到花園！</h3>
+            <p>這是腦腦的花園。送你一些種子，先種種看吧！</p>
+            <Loot loot={{ seeds: Object.entries(STARTER_SEEDS).flatMap(([id, n]) => Array(n).fill(id)), fertilizer: 0 }} />
+            <ol className="lgp-steps">
+              <li>點一塊<b>空地</b>，選種子種下去</li>
+              <li>點<b>💧</b>幫它澆水，它就會開始長大</li>
+              <li>植物<b>發亮</b>時點一下就能收成</li>
+              <li>成熟的植物會吸引<b>小動物</b>來玩，記得拍照！</li>
+            </ol>
+            <div className="lgp-keys">
+              <button ref={primaryBtn} className="lgp-key go" onClick={() => setOverlay(null)}>開始種！</button>
+              <button className="lgp-key" onClick={() => speak("歡迎來到花園！點一塊空地，選種子種下去。點水滴幫它澆水，它就會開始長大。植物發亮的時候點一下就能收成。成熟的植物會吸引小動物來玩，記得拍照！")}>🔊 念給我聽</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {overlay?.kind === "visitor" && (
+        <div className="lgp-overlay">
+          <div className="lgp-win lgp-chunky" role="dialog" aria-label="新朋友">
+            <h3>📷 新朋友！</h3>
+            <svg viewBox="0 0 100 100" width="140" height="140" aria-hidden="true" dangerouslySetInnerHTML={{ __html: visitorSvg(overlay.v) }} />
+            <p style={{ fontSize: "1.3rem" }}>{visitorById(overlay.v).name}</p>
+            <p>{visitorById(overlay.v).met}</p>
+            <span className="gain">+{NEW_VISITOR_STARS} ⭐</span>
+            {overlay.evolvedTo !== undefined && <p className="lgp-win-daily">腦腦也長大了，變成「{PET_STAGES[overlay.evolvedTo].name}」！</p>}
+            <div className="lgp-keys"><button ref={primaryBtn} className="lgp-key go" onClick={() => setOverlay(null)}>收進圖鑑</button></div>
+          </div>
+        </div>
+      )}
+
+      {overlay?.kind === "evolve" && (
+        <div className="lgp-overlay">
+          <div className="lgp-win lgp-chunky" role="dialog" aria-label="腦腦長大了">
+            <h3>腦腦長大了！</h3>
+            <PetSvg stage={overlay.to} stars={save.stars} mood="happy" look={save.look} size={130} />
+            <p>變成「{PET_STAGES[overlay.to].name}」了！</p>
+            <div className="lgp-keys"><button ref={primaryBtn} className="lgp-key go" onClick={() => setOverlay(null)}>太棒了！</button></div>
           </div>
         </div>
       )}

@@ -1,4 +1,5 @@
 /** 玩家進度（訪客先存在這台裝置；之後登入再同步到 Supabase） */
+import { emptyGarden, normalize, type GardenState } from "../garden/logic";
 import type { Look } from "./wardrobe";
 
 export type GameKind = "nono" | "stroke" | "sudoku";
@@ -21,6 +22,7 @@ export interface PlaySave {
   look: Look; // 目前穿戴
   seenDemo: GameKind[]; // 看過示範的謎題
   adv: number; // 冒險路線圖已經走過幾個點
+  garden: GardenState;
 }
 
 const KEY = "logic-gym-play-v1";
@@ -42,6 +44,7 @@ export const emptySave = (): PlaySave => ({
   look: {},
   seenDemo: [],
   adv: 0,
+  garden: emptyGarden(),
 });
 
 export function loadSave(): PlaySave {
@@ -60,6 +63,7 @@ export function loadSave(): PlaySave {
       look: s.look ?? {},
       daily: s.daily ?? base.daily,
       adv: typeof s.adv === "number" && s.adv >= 0 ? s.adv : 0,
+      garden: normalize({ ...emptyGarden(), ...(s.garden ?? {}) }),
     };
   } catch {
     return emptySave();
