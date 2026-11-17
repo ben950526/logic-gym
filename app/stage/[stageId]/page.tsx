@@ -25,6 +25,10 @@ import {
   loadSeasonStory,
 } from "@/lib/story/season-1";
 import { getMathStageStory, parseMathStageId } from "@/lib/story/math-zones";
+import {
+  getKindergartenBackHref,
+  isKindergartenPlanetSlug,
+} from "@/lib/kindergarten/puzzle-content";
 
 export default async function StagePage({
   params,
@@ -65,8 +69,13 @@ export default async function StagePage({
     stageInfo.planet,
     stageInfo.stage,
     cleared,
-    planetUnlocked
+    planetUnlocked,
+    session.profile.plan
   );
+
+  if (status === "paywall") {
+    redirect(`/pricing?next=/stage/${stageId}`);
+  }
 
   if (status === "locked") {
     redirect(`/planet/${stageInfo.planet.slug}`);
@@ -89,7 +98,7 @@ export default async function StagePage({
             {stageInfo.stage.puzzleTitle}」在後台狀態為已上架。
           </p>
           <Link
-            href={`/planet/${stageInfo.planet.slug}`}
+            href={getKindergartenBackHref(stageInfo.planet.slug)}
             className="mt-6 inline-block text-sm text-indigo-300 hover:underline"
           >
             回星球地圖
@@ -108,12 +117,15 @@ export default async function StagePage({
     (isBoss && planetStory?.bossIntro ? planetStory.bossIntro : null);
   const act = getActForStage(stageId, story.acts);
 
+  const isKindergarten = isKindergartenPlanetSlug(stageInfo.planet.slug);
+  const backHref = getKindergartenBackHref(stageInfo.planet.slug);
+
   return (
     <GameShell accent={stageInfo.planet.color} variant="adventure">
       <GameHud
         nickname={session.profile.nickname}
-        backHref={`/planet/${stageInfo.planet.slug}`}
-        backLabel={stageInfo.planet.name}
+        backHref={backHref}
+        backLabel={isKindergarten ? "規律星球" : stageInfo.planet.name}
         title={`第 ${stageInfo.stage.order} 關${isBoss ? " · BOSS" : ""}`}
         titleEmoji={stageInfo.planet.icon}
         variant="adventure"
@@ -129,19 +141,19 @@ export default async function StagePage({
           />
         )}
 
-        {act && (
+        <h1 className="stage-title">{stageInfo.stage.name}</h1>
+
+        {!isKindergarten && act && (
           <ChapterBanner act={act} beat={stageStory?.beat} theme="adventure" className="mb-3" />
         )}
 
-        <h1 className="stage-title">{stageInfo.stage.name}</h1>
-
-        {prevClearLine && (
+        {!isKindergarten && prevClearLine && (
           <StoryBubble speaker="上一段劇情" variant="default" theme="adventure" className="mb-3">
             {prevClearLine}
           </StoryBubble>
         )}
 
-        {bossIntro && (
+        {!isKindergarten && bossIntro && (
           <StoryBubble
             speaker={`${story.companion.name} · 警告`}
             variant="boss"
@@ -152,7 +164,7 @@ export default async function StagePage({
           </StoryBubble>
         )}
 
-        {stageStory && (
+        {!isKindergarten && stageStory && (
           <StoryBubble
             speaker={story.protagonist.name}
             variant={isBoss ? "boss" : "intro"}
@@ -163,7 +175,7 @@ export default async function StagePage({
           </StoryBubble>
         )}
 
-        {stageStory?.mission && (
+        {!isKindergarten && stageStory?.mission && (
           <MissionPrompt text={stageStory.mission} theme="adventure" className="mb-4" />
         )}
 
@@ -176,7 +188,13 @@ export default async function StagePage({
             isBoss={isBoss}
             alreadyCleared={status === "cleared"}
             nextStageId={nextStage?.id ?? null}
-            clearLine={stageStory?.clear ?? null}
+            clearLine={
+              isKindergarten
+                ? isBoss
+                  ? "🌟 小小 BOSS 打敗了！"
+                  : "🎉 好棒！"
+                : (stageStory?.clear ?? null)
+            }
             companionName={story.companion.name}
             zoneClearLine={
               isBoss && mathZoneStory?.zoneCleared ? mathZoneStory.zoneCleared : null

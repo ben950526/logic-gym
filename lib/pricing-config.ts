@@ -1,4 +1,4 @@
-import { PAID_DAILY_LIMIT, FREE_DAILY_LIMIT } from "@/lib/constants";
+import { FREE_MATH_STAGE_LIMIT } from "@/lib/stage-access";
 
 export const PAID_MONTHLY_PRICE = 99;
 
@@ -35,7 +35,7 @@ export function isManualPaymentConfigured(): boolean {
 
 export function formatPlanSummary() {
   return {
-    free: `每天 ${FREE_DAILY_LIMIT} 題`,
-    paid: `每天 ${PAID_DAILY_LIMIT} 題 · NT$${PAID_MONTHLY_PRICE}/月`,
+    free: `乳牛星球前 ${FREE_MATH_STAGE_LIMIT} 關免費`,
+    paid: `目前已上線付費關卡 · 隨更新擴充 · NT$${PAID_MONTHLY_PRICE}/月`,
   };
 }

@@ -8,6 +8,7 @@ interface PlanetCardProps {
   planet: Planet;
   clearedCount: number;
   unlocked: boolean;
+  needsSubscription?: boolean;
   theme?: "light" | "space";
 }
 
@@ -15,6 +16,7 @@ export function PlanetCard({
   planet,
   clearedCount,
   unlocked,
+  needsSubscription = false,
   theme = "space",
 }: PlanetCardProps) {
   const total = planet.stages.length;
@@ -43,6 +45,11 @@ export function PlanetCard({
         {!unlocked && (
           <span className="planet-card-art-badge planet-card-art-badge-lock">
             未解鎖
+          </span>
+        )}
+        {needsSubscription && (
+          <span className="planet-card-art-badge planet-card-art-badge-premium">
+            訂閱解鎖
           </span>
         )}
         {done && unlocked && (
@@ -121,6 +128,18 @@ export function PlanetCard({
             未解鎖
           </span>
         )}
+        {needsSubscription && (
+          <span
+            className={cn(
+              "rounded-full px-2.5 py-1 text-xs font-medium",
+              isSpace
+                ? "bg-amber-500/20 text-amber-200"
+                : "bg-amber-100 text-amber-800"
+            )}
+          >
+            訂閱解鎖
+          </span>
+        )}
         {done && (
           <span
             className={cn(
@@ -158,6 +177,14 @@ export function PlanetCard({
 
   if (!unlocked) {
     return body;
+  }
+
+  if (needsSubscription) {
+    return (
+      <Link href="/pricing?next=/planet/pattern" className="planet-card-link">
+        {body}
+      </Link>
+    );
   }
 
   return (

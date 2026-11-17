@@ -14,6 +14,8 @@ interface ShellArtPanelProps {
   className?: string;
   contentClassName?: string;
   style?: CSSProperties;
+  /** 保留 inset 對齊 parchment，高度隨內容撐開（首頁訂閱等） */
+  grow?: boolean;
   children: ReactNode;
 }
 
@@ -26,6 +28,7 @@ export function ShellArtPanel({
   className,
   contentClassName,
   style,
+  grow = false,
   children,
 }: ShellArtPanelProps) {
   const panelStyle = {
@@ -42,6 +45,7 @@ export function ShellArtPanel({
       className={cn(
         "shell-art-panel",
         layout.fluidMinHeight && "shell-art-panel--fluid",
+        grow && "shell-art-panel--grow",
         className
       )}
       style={panelStyle}

@@ -23,6 +23,7 @@ interface SeedOptions {
   status: PuzzleStatus;
   dryRun: boolean;
   replace: boolean;
+  upsert: boolean;
 }
 
 function parseArgs(argv: string[]): SeedOptions {
@@ -31,6 +32,7 @@ function parseArgs(argv: string[]): SeedOptions {
     status: "verified",
     dryRun: false,
     replace: false,
+    upsert: false,
   };
 
   for (let i = 0; i < argv.length; i++) {
@@ -39,6 +41,7 @@ function parseArgs(argv: string[]): SeedOptions {
     if (arg === "--status") options.status = argv[++i] as PuzzleStatus;
     if (arg === "--dry-run") options.dryRun = true;
     if (arg === "--replace") options.replace = true;
+    if (arg === "--upsert") options.upsert = true;
   }
 
   return options;
@@ -90,6 +93,59 @@ async function main() {
     explanation: puzzle.explanation,
     status: options.status,
   }));
+
+  if (options.upsert) {
+    let inserted = 0;
+    let updated = 0;
+
+    for (const row of rows) {
+      const { data: existing, error: lookupError } = await supabase
+        .from("puzzles")
+        .select("id")
+        .eq("title", row.title)
+        .maybeSingle();
+
+      if (lookupError) {
+        throw new Error(`查詢題目失敗（${row.title}）：${lookupError.message}`);
+      }
+
+      if (existing?.id) {
+        const { error: updateError } = await supabase
+          .from("puzzles")
+          .update({
+            type: row.type,
+            category: row.category,
+            difficulty: row.difficulty,
+            content_json: row.content_json,
+            answer_json: row.answer_json,
+            explanation: row.explanation,
+            status: row.status,
+          })
+          .eq("id", existing.id);
+
+        if (updateError) {
+          throw new Error(`更新題目失敗（${row.title}）：${updateError.message}`);
+        }
+        updated += 1;
+        console.log(`  ↻ ${row.title} (${existing.id})`);
+      } else {
+        const { data: insertedRow, error: insertError } = await supabase
+          .from("puzzles")
+          .insert(row)
+          .select("id, title, status")
+          .single();
+
+        if (insertError) {
+          throw new Error(`匯入題目失敗（${row.title}）：${insertError.message}`);
+        }
+        inserted += 1;
+        console.log(`  + ${insertedRow.title} (${insertedRow.id})`);
+      }
+    }
+
+    console.log(`✓ upsert 完成：新增 ${inserted} 題、更新 ${updated} 題（status=${options.status}）`);
+    return;
+  }
 
   const { data, error } = await supabase
     .from("puzzles")

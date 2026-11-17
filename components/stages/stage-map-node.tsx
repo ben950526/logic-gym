@@ -26,6 +26,7 @@ export function StageMapNode({
   artMode = false,
 }: StageMapNodeProps) {
   const locked = status === "locked";
+  const paywall = status === "paywall";
   const cleared = status === "cleared";
   const available = status === "available";
 
@@ -37,7 +38,8 @@ export function StageMapNode({
           isBoss && "map-node-badge-boss",
           cleared && "map-node-badge-cleared",
           available && "map-node-badge-current",
-          locked && "map-node-badge-locked"
+          locked && "map-node-badge-locked",
+          paywall && "map-node-badge-paywall"
         )}
         style={
           available
@@ -48,6 +50,10 @@ export function StageMapNode({
         <div className="map-node-badge-shine" aria-hidden />
         {locked ? (
           <MapLockIcon className="map-node-lock-icon" />
+        ) : paywall ? (
+          <span className="map-node-premium-icon" aria-hidden>
+            ✨
+          </span>
         ) : (
           <span className="map-node-num">{order}</span>
         )}
@@ -72,6 +78,18 @@ export function StageMapNode({
       <div className="map-node-link" aria-label={`第 ${order} 關 · ${name}（未解鎖）`}>
         {inner}
       </div>
+    );
+  }
+
+  if (paywall) {
+    return (
+      <Link
+        href={`/pricing?next=/stage/${stageId}`}
+        className="map-node-link map-node-link-paywall"
+        aria-label={`第 ${order} 關 · ${name}（訂閱解鎖）`}
+      >
+        {inner}
+      </Link>
     );
   }
 

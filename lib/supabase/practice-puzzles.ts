@@ -1,5 +1,7 @@
 import { createSupabaseAdmin } from "@/lib/supabase/puzzles";
 import { createClient } from "@/lib/supabase/server";
+import { getLocalPuzzleByTitle } from "@/lib/puzzles-library-local";
+import { mergeKindergartenContent } from "@/lib/kindergarten/puzzle-content";
 import { PUZZLE_CATEGORIES, type PuzzleRecord } from "@/types/puzzle";
 
 function isPlayablePuzzle(puzzle: PuzzleRecord): boolean {
@@ -86,6 +88,8 @@ export async function getPuzzleById(id: string): Promise<PuzzleRecord | null> {
 
 export async function getPuzzleByTitle(title: string): Promise<PuzzleRecord | null> {
   const supabase = await createClient();
+  const local = await getLocalPuzzleByTitle(title);
+
   const { data, error } = await supabase
     .from("puzzles")
     .select("*")
@@ -94,8 +98,13 @@ export async function getPuzzleByTitle(title: string): Promise<PuzzleRecord | nu
     .maybeSingle();
 
   if (error || !data) {
-    return null;
+    return local;
   }
 
-  return data as PuzzleRecord;
+  const remote = data as PuzzleRecord;
+  if (!local) {
+    return remote;
+  }
+
+  return mergeKindergartenContent(remote, local);
 }

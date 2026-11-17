@@ -34,15 +34,16 @@ export function GameHud({
       )}
     >
       <div className="flex items-center gap-3">
-        {backHref ? (
-          <Link href={backHref} className="game-hud-back shrink-0">
-            ← {backLabel ?? "返回"}
-          </Link>
-        ) : (
-          <Link href="/galaxy" className="game-hud-logo shrink-0">
+        <div className="flex min-w-0 shrink-0 items-center gap-2">
+          <Link href="/" className="game-hud-logo">
             Logic Gym
           </Link>
-        )}
+          {backHref && (
+            <Link href={backHref} className="game-hud-back hidden truncate sm:inline">
+              ← {backLabel ?? "返回"}
+            </Link>
+          )}
+        </div>
 
         <div className="min-w-0 flex-1">
           {title && (

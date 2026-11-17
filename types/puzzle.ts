@@ -14,6 +14,10 @@ export interface MultipleChoiceContent {
   question: string;
   options: string[];
   hint?: string;
+  /** 幼兒視覺題：大圖序列 + 選項不加 A/B/C，附家長朗讀 */
+  kindergarten?: boolean;
+  visualPrompt?: string;
+  parentReadAloud?: string;
 }
 
 export interface MultipleChoiceAnswer {

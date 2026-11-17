@@ -38,7 +38,7 @@ function nodePos(index: number) {
 
 function segmentStyle(from: StageUnlockStatus) {
   if (from === "cleared") return "cleared";
-  if (from === "available") return "current";
+  if (from === "available" || from === "paywall") return "current";
   return "locked";
 }
 
@@ -64,11 +64,20 @@ function treasureCollected(stages: StageItem[], milestoneIndex: number) {
   return slice.every((s) => s.status === "cleared");
 }
 
-function artNodePos(zoneNum: number, index: number) {
+function artNodePos(zoneNum: number, index: number, total: number) {
   const art = getZoneArtConfig(zoneNum);
-  const node = art?.nodes[index];
-  if (!node) return null;
-  return { xPct: node.x, yPct: node.y };
+  const configured = art?.nodes[index];
+  if (configured) {
+    return { xPct: configured.x, yPct: configured.y };
+  }
+  if (!art) return null;
+
+  const xPattern = [50, 68, 32, 70, 30, 68, 32, 66, 28, 58];
+  const yTop = 10;
+  const yBottom = 93;
+  const yPct =
+    total <= 1 ? yBottom : yBottom - (index * (yBottom - yTop)) / (total - 1);
+  return { xPct: xPattern[index % xPattern.length], yPct };
 }
 
 export function StagePathMap({ planet, zoneNum, zoneName, stages }: StagePathMapProps) {
@@ -155,7 +164,7 @@ export function StagePathMap({ planet, zoneNum, zoneName, stages }: StagePathMap
         )}
 
         {stages.map((stage, index) => {
-          const artPos = useArt ? artNodePos(zoneNum, index) : null;
+          const artPos = useArt ? artNodePos(zoneNum, index, stages.length) : null;
           const gridPos = nodePos(index);
           const leftPct = artPos ? artPos.xPct : (gridPos.x / MAP_W) * 100;
 

@@ -2,7 +2,54 @@
 
 > 風格：你提供的 **卡通乳牛太空圖**（粗描邊、賽璐珞、手遊 splash、飽和色）  
 > 官方規則來源：[Parameter List](https://docs.midjourney.com/hc/en-us/articles/32859204029709-Parameter-List) · [Aspect Ratio](https://docs.midjourney.com/hc/en-us/articles/31894244298125-Aspect-Ratio) · [Style Reference](https://docs.midjourney.com/hc/en-us/articles/32180011136653-Style-Reference)  
-> **還沒統一的美術清單 → [十、美術統一進度總表](#十美術統一進度總表)**
+> **進度總表 → [十一、美術統一進度總表](#十一美術統一進度總表)** · **Shell Prompt → [十二、Shell UI 完整 Prompt](#十二shell-ui-完整-prompt路線-1--直接複製)**
+
+---
+
+## 📌 你現在要做什麼（2026-07-20）
+
+> **策略：** 少數 MJ **母版框** + 網站程式 `ShellSection` 套用。  
+> **首頁、訂閱、會員中心不用再各生一張 MJ 圖**——換好下面 4 種框圖，全站一起變。
+
+### ✅ 已完成（不用再生 MJ、不用再接 code）
+
+| 項目 | 說明 |
+|------|------|
+| **10 區關卡背景** | `zones/zone-01` … `zone-10` ✅ |
+| **Shell 核心 8 張** | 星系背景、乳牛星球卡、小光頭像、對話框、章節條、題目板、任務條、遠征卡 ✅ |
+| **關卡／星球／星系** | 劇情框、任務、題目、遠征主卡、地圖背景 ✅ 程式已接 |
+| **首頁 `/`** | 小光欄 + 出發去 + 訂閱區 → 已用 `mission` / `expedition` / `dialogue` 框 ✅ |
+| **訂閱 `/pricing`** | 會員中心 → 同上 Shell 框 ✅ |
+
+### 🔶 你現在要做的（依優先，只有下面幾項）
+
+| 優先 | 做什麼 | 存檔 | Prompt 在哪 |
+|:----:|--------|------|-------------|
+| **0** | **（可選）** 現有木框某張風格不滿意 → **只重 roll 那 1～2 張**，覆蓋原檔 | `shell/ui-panel-*.png` | [十二、B5a～B5e](#十二shell-ui-完整-prompt路線-1--直接複製)；`--sref` 改指向 **對話框 URL**，`--sw 120` |
+| **1** | **規律星球選關卡**（星系頁仍顯示 🌀 Emoji） | `shell/planet-pattern.png` | [十二、B2b](#b2b--規律星球選關-planet-patternpng) → remove.bg |
+| **2** | HUD 頂條（錦上添花，非必須） | `shell/ui-hud-bar.png` | [十二、B5f](#b5f--hud-頂條-ui-hud-barpng) |
+
+### ⏭️ 可跳過（CSS 已堪用，**不必**生 MJ）
+
+| 項目 | 原因 |
+|------|------|
+| `ui/buttons/ui-btn-gold.png` / `ui-btn-ghost.png` | 繼續冒險等按鈕 CSS 金／木漸層已可用 |
+| `ui/nodes/stage-node-*.png` ×4 | 關卡圓圈 CSS 已可用 |
+| 首頁／訂閱「專用新圖」 | 已用 4 種 Shell 框，不需額外生圖 |
+
+### 放好檔案後跟我說
+
+| 你說 | 我會做 |
+|------|--------|
+| `規律星球卡好了` | 接到 `/galaxy` PlanetCard |
+| `HUD 好了` | 接到 `GameHud` |
+| `任務條換圖了` / `框圖重 roll 了` | 跑 `npm run analyze:shell-insets` 更新 inset |
+
+### 生圖前 3 秒檢查
+
+1. Discord / MJ 設 **Relax** 模式  
+2. `替換成你的URL` 已換成你的參考圖（建議：**對話框 `ui-panel-dialogue.png` 的 URL**）  
+3. 每項只 **U 一張**，不要 4 張都 Upscale  
 
 ---
 
@@ -153,6 +200,7 @@ logic-gym/public/assets/
 |------|------|--------|--------|------|
 | 邏輯星系背景 | 星系選關整頁 | `galaxy-bg.png` | `shell/` | ❌ |
 | 乳牛星球選關 | 可點星球卡 | `planet-math.png` | `shell/` | ✅ 建議 |
+| 規律星球選關 | 可點星球卡 | `planet-pattern.png` | `shell/` | ✅ 建議 · **📋 待做** |
 | 小光頭像 | 主角 bust | `portrait-xiaoguang.png` | `shell/` | ✅ 必須 |
 | 主按鈕（金） | 繼續冒險／遠征 | `ui-btn-gold.png` | `ui/buttons/` | ✅（最後做） |
 | 次按鈕（木） | 劇情連結等 | `ui-btn-ghost.png` | `ui/buttons/` | ✅（最後做） |
@@ -161,12 +209,21 @@ logic-gym/public/assets/
 | **題目面板** | **關卡題目／答題區** | **`ui-panel-puzzle.png`** | **`shell/`** | **❌** |
 | **任務條** | **本關任務** | **`ui-panel-mission.png`** | **`shell/`** | **❌** |
 | **遠征主卡** | **星球頁遠征進度卡** | **`ui-panel-expedition.png`** | **`shell/`** | **❌** |
-| HUD 頂條 | 頂部裝飾條 | `ui-hud-bar.png` | `shell/` | ❌ |
+| HUD 頂條 | 頂部裝飾條 | `ui-hud-bar.png` | `shell/` | ❌ · **📋 可選** |
 
 > **副檔名只留一個 `.png`**，不要存成 `xxx.png.png`  
 > 區域背景一律放 `zones/`，不要去背
 
-**Shell 素材放好後** 在 Cursor 跟我說：`Shell UI 好了` 或逐項說 `金按鈕好了`
+**4 種 Shell 框對應程式（不用再各生一張）：**
+
+| 框圖檔 | 程式元件 | 出現位置 |
+|--------|----------|----------|
+| `ui-panel-dialogue.png` | `StoryBubble` / `ShellSection dialogue` | 劇情、訂閱 FAQ、匯款 |
+| `ui-chapter-banner.png` | `ShellSection chapter` | 統計橫幅等 |
+| `ui-panel-mission.png` | `MissionPrompt` / `ShellSection mission` | 關卡任務、訂閱方案、首頁訂閱區 |
+| `ui-panel-expedition.png` | `PlanetExpeditionHeader` / `ShellSection expedition` | 星球遠征卡、首頁「出發去」 |
+
+**Shell 素材放好後** 在 Cursor 跟我說：`規律星球卡好了` / `HUD 好了` 等（見上方 📌 節）
 
 ---
 
@@ -298,42 +355,40 @@ cartoon mobile game boss stage node button, larger circular badge, orange red fi
 
 ## 六、建議執行順序（最省事）
 
-### 階段 A · 關卡地圖（已完成）
+### 階段 A · 關卡地圖 — ✅ 已完成
 
-| 順序 | 做什麼 | 目的 |
+| 順序 | 做什麼 | 狀態 |
 |------|--------|------|
-| 1 | 區 1–10 背景 | 關卡地圖真圖 ✅ |
-| 2 | 4 種關卡節點按鈕（可選） | 圓圈也換 sprite |
+| 1 | 區 1–10 背景 | ✅ |
+| 2 | 4 種關卡節點 sprite | ⏭️ 可跳過（CSS 堪用） |
 
-### 階段 B · Shell UI（路線 1 · 現在要做）
+### 階段 B · Shell UI 核心 — ✅ 已完成（2026-07-18）
 
-> **按鈕最後做**：現有 CSS 按鈕堪用，MJ 用量留給視覺落差更大的項目。  
-> 關卡圓圈 sprite（第五節 4 種）也一併延後，有餘量再做。
+| 項目 | 存檔 | 狀態 |
+|------|------|------|
+| 邏輯星系背景 | `galaxy-bg.png` | ✅ |
+| 乳牛星球卡 | `planet-math.png` | ✅ |
+| 小光頭像 | `portrait-xiaoguang.png` | ✅ |
+| 對話框 | `ui-panel-dialogue.png` | ✅ |
+| 章節條 | `ui-chapter-banner.png` | ✅ |
+| 題目板 | `ui-panel-puzzle.png` | ✅ |
+| 任務條 | `ui-panel-mission.png` | ✅ |
+| 遠征主卡 | `ui-panel-expedition.png` | ✅ |
 
-| 優先 | 做什麼 | 存檔 | 效益 | 改哪頁 |
-|------|--------|------|------|--------|
-| **★1** | 乳牛星球選關圖 | `planet-math.png` | 最高（取代 🐄 Emoji 卡片） | `/galaxy` |
-| **★2** | 小光頭像 | `portrait-xiaoguang.png` | 高（取代 Emoji 角色框） | `/galaxy` |
-| **★3** | 邏輯星系背景 | `galaxy-bg.png` | 高（整頁從 CSS 星空的升級） | `/galaxy` |
-| **4** | 對話框底 | `ui-panel-dialogue.png` | 中（劇情區去網頁感） | 星系、星球 |
-| **5** | 章節條底 | `ui-chapter-banner.png` | 中 | `/stage/*` |
-| **6** | **題目面板** | **`ui-panel-puzzle.png`** | **高（題目區去表單感）** | **`/stage/*`** |
-| **7** | **任務條** | **`ui-panel-mission.png`** | **中（本關任務去黃 CSS 感）** | **`/stage/*`** |
-| **8** | **遠征主卡** | **`ui-panel-expedition.png`** | **高（星球頁主卡統一）** | **`/planet/math`** |
-| **9** | HUD 頂條 | `ui-hud-bar.png` | 低～中（錦上添花） | 全站 |
-| **最後** | 金／次按鈕 + 關卡節點 4 種 | `ui-btn-*.png` `stage-node-*.png` | 可選 | 有餘量再做 |
+### 階段 C · 你現在要做 — 📋 見上方 [📌 你現在要做什麼](#-你現在要做什麼2026-07-20)
 
-**省用量建議：** 先做 ★1–★3（3 次 Relax job），滿意就停；4–9 視余量追加。  
-**完整未統一清單** → 見 **「十、美術統一進度總表」**（按頁面逐項盤點）。
-
-每完成一項 → 丟對應資料夾（見 `public/assets/README.md`）→ 跟我說「星球卡好了」等，我幫你接 code。  
-**階段 B 告一段落** → 跟我說：`Shell UI 好了（不含按鈕）`
+| 優先 | 做什麼 | 狀態 |
+|:----:|--------|------|
+| 0 | 框圖風格不滿意 → 重 roll 1～2 張 | 可選 |
+| **1** | **規律星球卡** `planet-pattern.png` | **📋 待做** |
+| 2 | HUD 頂條 `ui-hud-bar.png` | 📋 可選 |
+| — | 金／次按鈕、關卡節點 ×4 | ⏭️ 跳過 |
 
 ---
 
-## 十、美術統一進度總表
+## 十一、美術統一進度總表
 
-> **盤點日期：** 2026-07-18  
+> **盤點日期：** 2026-07-20  
 > **統一目標：** 木框 + 金釘 + 米色 parchment（以 `ui-panel-dialogue.png` 為 `--sref` 基準），不要 Tailwind 白卡／紫漸層／網頁表單感。
 
 ### 狀態圖例
@@ -350,15 +405,15 @@ cartoon mobile game boss stage node button, larger circular badge, orange red fi
 
 | 區塊 | 素材檔 | 程式位置 | 出現頁面 |
 |------|--------|----------|----------|
-| 邏輯星系背景 | `shell/galaxy-bg.png` | `GameShell` `backgroundSrc` | `/galaxy` |
+| 邏輯星系背景 | `shell/galaxy-bg.png` | `GameShell` `backgroundSrc` | `/`、`/galaxy`、`/pricing` |
 | 乳牛星球選關卡 | `shell/planet-math.png` | `PlanetCard` `--art` | `/galaxy` |
-| 小光頭像框 | `shell/portrait-xiaoguang.png` | `CharacterCompanion` | `/galaxy` |
-| 劇情對話框 | `shell/ui-panel-dialogue.png` | `StoryBubble` `theme="adventure"` `--art` | `/stage/*` |
-| 章節橫幅 | `shell/ui-chapter-banner.png` | `ChapterBanner` `theme="adventure"` `--art` | `/stage/*` |
-| 題目／答題面板 | `shell/ui-panel-puzzle.png` | `StagePuzzlePlayer` `theme="adventure"` | `/stage/*` |
-| 本關任務條 | `shell/ui-panel-mission.png` | `MissionPrompt` `theme="adventure"` `--art` | `/stage/*` |
-| 遠征主卡 | `shell/ui-panel-expedition.png` | `PlanetExpeditionHeader` `--art` | `/planet/math` |
-| 10 區關卡地圖底 | `zones/zone-01` … `zone-10` | `StagePathMap` `map-zone-scene--art` | `/planet/math` |
+| 小光頭像框 | `shell/portrait-xiaoguang.png` | `CharacterCompanion` | `/` 首頁 |
+| 劇情對話框 | `shell/ui-panel-dialogue.png` | `StoryBubble` / `ShellSection` | 星系、星球、關卡、訂閱 |
+| 章節橫幅 | `shell/ui-chapter-banner.png` | `ChapterBanner` / `ShellSection` | `/stage/*` 等 |
+| 題目／答題面板 | `shell/ui-panel-puzzle.png` | `StagePuzzlePlayer` | `/stage/*` |
+| 本關任務條 | `shell/ui-panel-mission.png` | `MissionPrompt` / `ShellSection` | `/stage/*`、首頁訂閱、會員中心 |
+| 遠征主卡 | `shell/ui-panel-expedition.png` | `PlanetExpeditionHeader` / `ShellSection` | `/planet/math`、首頁「出發去」 |
+| 10 區關卡地圖底 | `zones/zone-01` … `zone-10` | `StagePathMap` | `/planet/math` |
 
 ### B · 素材已有、程式還沒全接（⏳ · 只改 code，不用新 MJ）
 
@@ -367,26 +422,35 @@ cartoon mobile game boss stage node button, larger circular badge, orange red fi
 | 章節橫幅 @ 星球／星系 | `ui-chapter-banner.png` | 已改 `theme="adventure"` | ✅ |
 | 劇情對話 @ 星系／星球 | `ui-panel-dialogue.png` | 已改 `theme="adventure"` | ✅ |
 
-### C · 仍為 CSS／Emoji，風格未統一（❌ · 需 MJ 或 CSS 仿木牌）
+### C · 仍為 CSS／Emoji（❌ · 需 MJ 或維持 CSS）
+
+#### `/` 首頁（2026-07-20 改版）
+
+| 區塊 | 現況 | 建議 | 優先 |
+|------|------|------|------|
+| 小光欄 | MJ 頭像 + CSS 外框 | 🎨 外框可維持 CSS | 低 |
+| 出發去 · 邏輯星系 | MJ `ui-panel-expedition` 框 | ✅ 已接 | — |
+| 訂閱區 | MJ `ui-panel-mission` 框 | ✅ 已接 | — |
+| 繼續冒險捷徑 | CSS 金按鈕 | 🎨 或 📋 `ui-btn-gold`（可選） | 低 |
 
 #### `/galaxy` 邏輯星系
 
 | 區塊 | 現況 | 建議 | 優先 |
 |------|------|------|------|
-| 頂部 HUD（返回、暱稱、進度條） | CSS `game-hud` | 📋 `ui-hud-bar.png` 或 CSS 加深木質 | 低 |
-| 序章說明面板 | CSS `GamePanel` 灰框 | 🎨 改木框 CSS，或併入對話框 | 低 |
-| 主／次按鈕（繼續冒險、劇情連結） | CSS `game-btn-gold`／`ghost` | 📋 `ui/buttons/ui-btn-*.png`（最後做） | 最低 |
-| 小光角色卡外框 | 頭像 MJ ✅，外框仍 CSS | 🎨 CSS 仿木框即可 | 低 |
+| **規律星球卡** | 🌀 Emoji 卡片 | **📋 `planet-pattern.png`** | **★ 你要做** |
+| 頂部 HUD | CSS `game-hud` | 📋 `ui-hud-bar.png` 或 CSS | 低 |
+| 序章說明面板 | CSS `GamePanel` | 🎨 改木框 CSS，或併入對話框 | 低 |
+| 主／次按鈕 | CSS `game-btn-gold`／`ghost` | ⏭️ 跳過 | — |
 
 #### `/planet/math` 乳牛星球
 
 | 區塊 | 現況 | 建議 | 優先 |
 |------|------|------|------|
 | **遠征主卡**（星球名、副標、進度條、繼續遠征） | MJ `ui-panel-expedition.png` + 星球卡 overlay | ✅ 已接 | — |
-| 繼續遠征按鈕 | CSS 金漸層 `GameButton` | 📋 `ui-btn-gold.png`（可選） | 中 |
+| 繼續遠征按鈕 | CSS 金漸層 `GameButton` | ⏭️ 跳過 | — |
 | 劇情連結列（完整主線／逐關檢查） | CSS 木色底條 | ✅ 基本款已統一 | — |
 | 分區路牌 W1–W10 | CSS `map-zone-sign` | 🎨 仿木牌 CSS（或日後 MJ 橫條） | 低 |
-| 關卡節點圓圈 | CSS 圓形 + 數字 | 📋 `ui/nodes/stage-node-*.png` ×4（可選） | 最低 |
+| 關卡節點圓圈 | CSS 圓形 + 數字 | ⏭️ 跳過 | — |
 | 寶箱／裝飾 icon | CSS／Unicode | 🎨 維持 | — |
 
 #### `/stage/[stageId]` 關卡頁
@@ -396,10 +460,16 @@ cartoon mobile game boss stage node button, larger circular badge, orange red fi
 | **本關任務** | MJ `ui-panel-mission.png` | ✅ 已接 | — |
 | 題型標籤（數學推理／數字填空／簡單） | CSS 木／金 pill | ✅ 基本款已統一 | — |
 | 分區路牌 W* | CSS `StageZoneHeader` | 🎨 同星球頁路牌 | 低 |
-| 送出答案／再試／下一關按鈕 | CSS `game-btn-gold` 等 | 📋 `ui-btn-gold.png`（最後做） | 中 |
+| 送出答案／再試／下一關按鈕 | CSS `game-btn-gold` 等 | ⏭️ 跳過 | — |
 | 答題輸入框 | CSS 米色 input（已調） | 🎨 維持 CSS | — |
 | 過關慶祝 `StageClearCelebration` | CSS parchment 基本款 | ✅ 已統一 | — |
 | 解題思路區 | CSS parchment 基本款 | ✅ 已統一 | — |
+
+#### `/pricing` 訂閱／會員中心
+
+| 區塊 | 現況 | 建議 | 優先 |
+|------|------|------|------|
+| 方案／匯款／FAQ 各區 | MJ Shell 框 | ✅ 已接 | — |
 
 #### 全站共用
 
@@ -409,18 +479,17 @@ cartoon mobile game boss stage node button, larger circular badge, orange red fi
 | `GameHud` @ adventure | CSS 半透明條 | 📋 `ui-hud-bar.png`（錦上添花） |
 | 登入／管理／練習頁 | 一般 Tailwind | — 非本季遊戲 UI 範圍 |
 
-### D · 待生 MJ 素材一覽（📋）
+### D · 待生 MJ 素材一覽（📋 僅剩這些）
 
-| 優先 | 檔名 | 用途 | Prompt 章節 | 已上傳？ |
-|------|------|------|-------------|----------|
-| **★ 高** | `ui-panel-expedition.png` | 星球頁遠征主卡 | B5e | ✅ |
-| **★ 高** | `ui-panel-mission.png` | 關卡頁本關任務 | B5d | ✅ |
-| 中 | `ui-hud-bar.png` | 頂部 HUD 裝飾 | B5f | ❌ |
-| 最低 | `ui-btn-gold.png` | 主按鈕 | 第五節 | ❌ |
-| 最低 | `ui-btn-ghost.png` | 次按鈕 | 第五節 | ❌ |
-| 可選 | `ui/nodes/stage-node-*.png` ×4 | 關卡圓圈 | 第五節 | ❌ |
+| 優先 | 檔名 | 用途 | Prompt | 狀態 |
+|:----:|------|------|--------|------|
+| **★1** | `planet-pattern.png` | 規律星球選關卡 | B2b | **📋 你要做** |
+| 2 | `ui-hud-bar.png` | 頂部 HUD 裝飾 | B5f | 📋 可選 |
+| — | `ui-btn-gold.png` | 主按鈕 | B1a | ⏭️ 跳過 |
+| — | `ui-btn-ghost.png` | 次按鈕 | B1b | ⏭️ 跳過 |
+| — | `ui/nodes/stage-node-*.png` ×4 | 關卡圓圈 | 第五節 | ⏭️ 跳過 |
 
-### E · 已上傳 shell 素材（2026-07-18）
+### E · 已上傳 shell 素材（2026-07-18 · 核心完成）
 
 ```
 shell/galaxy-bg.png
@@ -433,12 +502,16 @@ shell/ui-panel-mission.png
 shell/ui-panel-expedition.png
 ```
 
-### F · 建議執行順序（最省 MJ 次數）
+**尚未上傳：** `planet-pattern.png`、`ui-hud-bar.png`
 
-1. ~~**不用新 MJ：** 星球頁／星系頁劇情框改接已有 MJ~~ → ✅ 已完成（2026-07-18）  
-2. ~~**CSS 基本款：** 遠征卡／任務條／題型 pill／過關慶祝／解題框~~ → ✅ 已完成（暫代，待 MJ 替換高優先項）  
-3. **再 2 張 MJ（高優先）：** `ui-panel-mission.png` → `ui-panel-expedition.png`  
-4. **有餘量再做：** HUD 條 → 金／次按鈕 → 關卡節點 sprite  
+### F · 建議執行順序（2026-07-20）
+
+1. ~~階段 A 十區背景~~ → ✅  
+2. ~~階段 B Shell 核心 8 張~~ → ✅  
+3. ~~首頁／訂閱接 Shell 框~~ → ✅（2026-07-20）  
+4. **你要做：** `planet-pattern.png`（規律星球卡）  
+5. **可選：** HUD 條；框圖不滿意則重 roll 1～2 張  
+6. **跳過：** 按鈕、關卡節點 sprite  
 
 ### G · 不能「一張 MJ 搞定全部」的原因
 
@@ -485,14 +558,17 @@ shell/ui-panel-expedition.png
 
 ---
 
-## 十、Shell UI 完整 Prompt（路線 1 · 直接複製）
+## 十二、Shell UI 完整 Prompt（路線 1 · 直接複製）
 
 > 用法同第四節：整段複製 → 替換 `替換成你的URL` → Relax 模式發送 → U 一張 → 去背（若需）→ 存對應資料夾（`shell/` 或 `ui/buttons/`）  
-> **禁止 MJ 畫中文或按鈕文字**，文字由網站程式疊。
+> **禁止 MJ 畫中文或按鈕文字**，文字由網站程式疊。  
+> **已完成的核心 8 張** 除非要換風格，否則不必重跑；**優先生 B2b 規律星球卡**。
 
 ---
 
-### B1a · 主按鈕（金） `ui-btn-gold.png`
+### B1a · 主按鈕（金） `ui-btn-gold.png` · **⏭️ 可跳過**
+
+> CSS 金按鈕已堪用，不必生圖。有餘量再做。
 
 ```
 cartoon mobile game primary action button UI asset, wide horizontal golden wooden game button with thick orange gold rim, empty smooth cream center panel for text overlay, chunky bottom shadow, polished casual RPG CTA button, cel shading thick clean outline, isolated single object centered, solid bright magenta background, no text no numbers no letters no icons --ar 3:1 --v 6.1 --stylize 200 --sref 替換成你的URL --sw 100 --no text numbers letters watermark
@@ -502,7 +578,9 @@ cartoon mobile game primary action button UI asset, wide horizontal golden woode
 
 ---
 
-### B1b · 次按鈕（木） `ui-btn-ghost.png`
+### B1b · 次按鈕（木） `ui-btn-ghost.png` · **⏭️ 可跳過**
+
+> CSS 木按鈕已堪用，不必生圖。
 
 ```
 cartoon mobile game secondary button UI asset, wide horizontal dark wooden button with subtle gold trim, empty flat center panel for text overlay, softer than primary button, casual RPG menu button, cel shading thick outline, isolated single object centered, solid bright magenta background, no text no numbers no letters --ar 3:1 --v 6.1 --stylize 200 --sref 替換成你的URL --sw 100 --no text numbers letters watermark
@@ -519,6 +597,16 @@ cartoon mobile game planet selection card, cute cartoon cow planet floating in s
 ```
 
 → remove.bg（若外圈要透明）→ 存 `shell/planet-math.png`
+
+---
+
+### B2b · 規律星球選關 `planet-pattern.png` · **📋 你現在要做**
+
+```
+cartoon mobile game planet selection card, swirling pattern logic planet floating in space, hypnotic spiral continents with geometric shapes, purple teal cosmic nebula, golden glow ring around planet, playful round asteroids and tiny stars, pattern puzzle world planet select asset, thick outlines cel shading vibrant colors, isolated single composition centered, solid bright magenta background, no text no UI no watermark --ar 4:3 --v 6.1 --stylize 220 --sref 替換成你的URL --sw 120 --no text numbers letters watermark logo
+```
+
+→ remove.bg → 存 `shell/planet-pattern.png` → 跟我說 **「規律星球卡好了」**
 
 ---
 
@@ -625,7 +713,7 @@ cartoon mobile game expedition status card UI panel, tall wide vertical wooden b
 
 ---
 
-### B5f · HUD 頂條 `ui-hud-bar.png`
+### B5f · HUD 頂條 `ui-hud-bar.png` · **📋 可選**
 
 ```
 cartoon mobile game top HUD bar strip, dark wood and metal hybrid status bar frame, empty center area for nickname and progress, subtle gold trim, space adventure game header UI, thick outlines cel shading, horizontal bar asset, no readable text no numbers no icons --ar 3:1 --v 6.1 --stylize 200 --sref 替換成你的URL --sw 100 --no text numbers letters watermark
@@ -635,6 +723,6 @@ cartoon mobile game top HUD bar strip, dark wood and metal hybrid status bar fra
 
 ---
 
-### Shell 選做 · 關卡節點 4 按鈕
+### Shell 選做 · 關卡節點 4 按鈕 · **⏭️ 可跳過**
 
-若關卡圓圈也要換 sprite，用第五節既有 4 條 prompt，存 `ui/nodes/` 同檔名。
+若關卡圓圈也要換 sprite，用第五節既有 4 條 prompt，存 `ui/nodes/` 同檔名。目前 CSS 圓圈堪用，**不必做**。

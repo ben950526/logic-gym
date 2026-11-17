@@ -18,6 +18,8 @@ import { getClearedStageIds } from "@/lib/stages/progress";
 import { isSupabaseConfigured } from "@/lib/puzzles-local";
 import { MATH_PLANET_NAME, PATTERN_PLANET_NAME } from "@/lib/world/planet-names";
 import { getPlanetAct, getPlanetStory, loadSeasonStory } from "@/lib/story/season-1";
+import { MembershipHub } from "@/components/pricing/membership-hub";
+import { isPaidPlan } from "@/lib/stage-access";
 
 export default async function PlanetPage({
   params,
@@ -46,6 +48,8 @@ export default async function PlanetPage({
     getClearedStageIds(session.userId),
   ]);
   const unlocked = isPlanetUnlocked(planet, cleared, map.planets);
+  const patternNeedsSubscription =
+    planet.slug === "pattern" && unlocked && !isPaidPlan(session.profile.plan);
 
   if (!unlocked) {
     const mathPlanet = map.planets.find((p) => p.slug === "math");
@@ -92,6 +96,35 @@ export default async function PlanetPage({
     );
   }
 
+  if (patternNeedsSubscription) {
+    const mathPlanet = map.planets.find((p) => p.slug === "math")!;
+    const mathCleared = mathPlanet.stages.filter((s) => cleared.has(s.id)).length;
+
+    return (
+      <GameShell accent={planet.color} variant="adventure">
+        <GameHud
+          nickname={session.profile.nickname}
+          backHref="/galaxy"
+          backLabel="邏輯星系"
+          title={planet.name}
+          titleEmoji={planet.icon}
+          variant="adventure"
+        />
+        <main className="membership-page px-4 pb-12 pt-4">
+          <MembershipHub
+            nickname={session.profile.nickname}
+            plan={session.profile.plan}
+            mathCleared={mathCleared}
+            nextHref="/planet/pattern"
+            backHref="/galaxy"
+            backLabel="邏輯星系"
+            variant="compact"
+          />
+        </main>
+      </GameShell>
+    );
+  }
+
   const stageStatuses = planet.stages.map((stage) => ({
     id: stage.id,
     order: stage.order,
@@ -99,11 +132,13 @@ export default async function PlanetPage({
     zone: stage.zone,
     zoneName: stage.zoneName,
     isBoss: stage.isBoss,
-    status: getStageStatus(planet, stage, cleared, unlocked),
+    status: getStageStatus(planet, stage, cleared, unlocked, session.profile.plan),
   }));
 
   const clearedCount = stageStatuses.filter((s) => s.status === "cleared").length;
-  const currentStage = stageStatuses.find((s) => s.status === "available");
+  const currentStage = stageStatuses.find(
+    (s) => s.status === "available" || s.status === "paywall"
+  );
   const planetComplete = clearedCount === planet.stages.length;
   const planetAct = getPlanetAct(slug, story.acts);
   const showPlanetIntro = clearedCount === 0 && planetStory;
@@ -125,6 +160,13 @@ export default async function PlanetPage({
           clearedCount={clearedCount}
           totalStages={planet.stages.length}
           currentStage={currentStage ?? null}
+          continueHref={
+            currentStage
+              ? currentStage.status === "paywall"
+                ? `/pricing?next=/stage/${currentStage.id}`
+                : `/stage/${currentStage.id}`
+              : null
+          }
         />
 
         {planetAct && (

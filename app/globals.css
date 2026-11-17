@@ -262,6 +262,35 @@ body {
   object-fit: fill;
 }
 
+.shell-art-panel--grow {
+  aspect-ratio: unset;
+  display: grid;
+  min-height: var(--shell-min-height, 8.5rem);
+  height: auto;
+  overflow: visible;
+}
+
+.shell-art-panel--grow .shell-art-panel__bg {
+  position: relative;
+  grid-area: 1 / 1;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  object-fit: fill;
+}
+
+.shell-art-panel--grow .shell-art-panel__content {
+  grid-area: 1 / 1;
+  position: relative;
+  inset: unset;
+  padding: var(--shell-inset);
+  overflow: visible;
+  z-index: 2;
+  min-width: 0;
+  align-self: start;
+}
+
 .shell-art-panel__bg {
   position: absolute;
   inset: 0;
@@ -287,6 +316,76 @@ body {
   min-width: 0;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+/* ── ShellSection 統一文字（首頁／訂閱等） ── */
+.shell-section__content {
+  text-align: center;
+  color: #3e2723;
+}
+
+.shell-section__content--mission,
+.shell-section__content--dialogue,
+.shell-section__content--expedition {
+  text-align: left;
+}
+
+.shell-kicker {
+  margin: 0;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6d4c41;
+}
+
+.shell-kicker--paid {
+  color: #2e7d32;
+}
+
+.shell-heading {
+  margin: 0.25rem 0 0;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1.35;
+  color: #3e2723;
+}
+
+.shell-heading--sm {
+  font-size: 0.8125rem;
+}
+
+.shell-body {
+  margin: 0.35rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: #4e342e;
+}
+
+.shell-muted {
+  margin: 0.2rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #6d4c41;
+}
+
+.shell-section__content--chapter {
+  justify-content: center;
+}
+
+.shell-section__content--mission {
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.shell-section__content--expedition {
+  justify-content: flex-start;
+  gap: 0.35rem;
+}
+
+.shell-section__content--dialogue {
+  justify-content: flex-start;
+  gap: 0.35rem;
 }
 
 .mission-prompt-adventure__content {
@@ -1092,6 +1191,129 @@ body {
   line-height: 1.65;
   font-size: 0.95rem;
   font-weight: 600;
+}
+
+.stage-puzzle-question--visual {
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.stage-puzzle-question--visual {
+  /* 【看圖】區 emoji 行加大 */
+  letter-spacing: 0.06em;
+}
+
+.stage-puzzle-parent-note {
+  margin-top: 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #8d6e63;
+}
+
+.stage-puzzle-k-question {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.45;
+  color: #3e2723;
+}
+
+.stage-puzzle-player--adventure .stage-puzzle-k-question {
+  font-size: 0.82rem;
+}
+
+.stage-puzzle-visual {
+  margin-top: 0.35rem;
+  padding: 0.65rem 0.35rem;
+  border-radius: 12px;
+  background: rgba(255, 251, 235, 0.92);
+  border: 2px dashed rgba(141, 110, 99, 0.45);
+  text-align: center;
+}
+
+.stage-puzzle-visual-line {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.45;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: #3e2723;
+}
+
+.stage-puzzle-visual-arrow {
+  display: inline-block;
+  margin: 0 0.15em;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #8d6e63;
+  vertical-align: middle;
+}
+
+.stage-puzzle-visual-sep {
+  display: inline-block;
+  margin: 0 0.35em;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #bcaaa4;
+  vertical-align: middle;
+  opacity: 0.85;
+}
+
+.stage-puzzle-visual-flow-h {
+  display: inline-block;
+  margin: 0 0.2em;
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #6d4c41;
+  vertical-align: middle;
+  font-family: system-ui, sans-serif;
+}
+
+.stage-puzzle-player--adventure .stage-puzzle-visual-flow-h {
+  font-size: 1.1rem;
+}
+
+.stage-puzzle-visual-flow {
+  display: block;
+  margin: 0.08rem 0;
+  font-size: 1.35rem;
+  line-height: 1.1;
+  color: #8d6e63;
+}
+
+.stage-puzzle-player--adventure .stage-puzzle-visual-sep {
+  font-size: 1rem;
+}
+
+.stage-puzzle-player--adventure .stage-puzzle-visual-arrow {
+  font-size: 0.95rem;
+}
+
+.stage-puzzle-player--adventure .stage-puzzle-visual-flow {
+  font-size: 1.15rem;
+}
+
+.stage-puzzle-player--adventure .stage-puzzle-visual {
+  margin-top: 0.15rem;
+  padding: 0.45rem 0.25rem;
+}
+
+.stage-puzzle-player--adventure .stage-puzzle-visual-line {
+  font-size: 1.65rem;
+  line-height: 1.4;
+}
+
+.stage-puzzle-hint--parent {
+  font-size: 0.68rem;
+  color: #8d6e63;
+}
+
+.stage-option-btn--visual {
+  font-size: 1.35rem;
+  line-height: 1.35;
+  padding: 0.85rem 0.875rem;
+  letter-spacing: 0.08em;
 }
 
 .stage-puzzle-hint {
@@ -2109,4 +2331,1630 @@ body {
   50% {
     transform: translateY(-5px);
   }
+}
+
+.map-node-badge-paywall {
+  border-color: #ffb74d;
+  background: linear-gradient(165deg, #fff8e1 0%, #ffcc80 45%, #fb8c00 100%);
+  box-shadow: 0 3px 0 rgba(230, 126, 34, 0.55);
+  animation: map-node-bounce 2.4s ease-in-out infinite;
+}
+
+.map-node-premium-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.map-node-link-paywall:focus-visible {
+  outline: 2px solid #ffb74d;
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+.planet-card-art-badge-premium {
+  background: linear-gradient(180deg, #ffb74d, #f57c00);
+  color: #3e2723;
+}
+
+/* Subscription / pricing (V2) */
+.subscription-paywall {
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.subscription-paywall-hero {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.subscription-paywall-badge {
+  display: inline-block;
+  border-radius: 999px;
+  background: rgba(255, 183, 77, 0.22);
+  padding: 0.2rem 0.65rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #ffcc80;
+}
+
+.subscription-paywall-title {
+  margin-top: 0.55rem;
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1.35;
+  color: var(--adv-text, #fff8e1);
+}
+
+.subscription-paywall-body {
+  margin-top: 0.45rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--adv-text-muted, rgba(255, 248, 225, 0.78));
+}
+
+.subscription-paywall-plan {
+  margin-bottom: 1rem;
+}
+
+.subscription-paywall-plan-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.subscription-paywall-plan-divider {
+  width: 1px;
+  height: 3.5rem;
+  background: rgba(78, 52, 46, 0.15);
+}
+
+.subscription-paywall-plan-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--adv-text-muted, #6d4c41);
+}
+
+.subscription-paywall-plan-label-paid {
+  color: #e65100;
+}
+
+.subscription-paywall-plan-price {
+  margin-top: 0.15rem;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--adv-text, #3e2723);
+}
+
+.subscription-paywall-plan-price-paid {
+  color: #bf360c;
+}
+
+.subscription-paywall-plan-unit {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.subscription-paywall-plan-detail {
+  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--adv-text-muted, #5d4037);
+}
+
+.subscription-paywall-plan-note {
+  margin-top: 0.75rem;
+  border-top: 1px dashed rgba(78, 52, 46, 0.18);
+  padding-top: 0.65rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--adv-text-muted, #5d4037);
+}
+
+.subscription-manual-panel {
+  margin-bottom: 1rem;
+  border-radius: 16px;
+  border: 2px solid rgba(255, 183, 77, 0.45);
+  background: rgba(255, 253, 245, 0.96);
+  padding: 1rem 1.1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.subscription-manual-title {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #bf360c;
+}
+
+.subscription-manual-sub {
+  margin-top: 0.25rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: #5d4037;
+}
+
+.subscription-manual-steps {
+  margin-top: 0.75rem;
+  list-style: decimal;
+  padding-left: 1.25rem;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: #4e342e;
+}
+
+.subscription-manual-steps li + li {
+  margin-top: 0.35rem;
+}
+
+.subscription-manual-link {
+  font-weight: 700;
+  color: #1565c0;
+  text-decoration: underline;
+}
+
+.subscription-manual-bank {
+  margin-top: 0.75rem;
+  border-radius: 12px;
+  background: #fff8e1;
+  padding: 0.75rem 0.85rem;
+  font-size: 0.8125rem;
+  color: #4e342e;
+}
+
+.subscription-manual-muted {
+  color: #795548;
+}
+
+.subscription-manual-account {
+  font-family: ui-monospace, monospace;
+  font-weight: 800;
+}
+
+.subscription-manual-pending {
+  margin-top: 0.75rem;
+  border-radius: 12px;
+  background: #f5f5f5;
+  padding: 0.75rem 0.85rem;
+  font-size: 0.8125rem;
+  color: #616161;
+}
+
+.subscription-manual-footnote {
+  margin-top: 0.65rem;
+  font-size: 0.68rem;
+  color: #8d6e63;
+}
+
+.subscription-paywall-actions {
+  display: grid;
+  gap: 0.55rem;
+}
+
+/* Player home dashboard */
+.player-home {
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.player-home-section-title {
+  margin-bottom: 0.55rem;
+  font-size: 0.8125rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffe082;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.85),
+    0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+.player-home-xiaoguang {
+  margin-bottom: 0;
+}
+
+.player-home-depart {
+  margin-top: 1.25rem;
+}
+
+.player-home-depart-hint {
+  margin: 0 0 0.55rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.38);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.player-home-depart-card {
+  padding: 0.75rem;
+}
+
+.player-home-universe-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
+}
+
+.player-home-universe-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  border-radius: 12px;
+  border: 2px solid rgba(141, 110, 99, 0.35);
+  background: rgba(255, 255, 255, 0.55);
+  padding: 0.75rem 0.85rem;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+
+.player-home-universe-btn:hover {
+  border-color: rgba(141, 110, 99, 0.55);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.player-home-universe-btn:active {
+  transform: scale(0.99);
+}
+
+.player-home-universe-btn--active {
+  border-color: #ff9800;
+  background: linear-gradient(
+    165deg,
+    rgba(255, 248, 225, 0.95) 0%,
+    rgba(255, 213, 79, 0.35) 100%
+  );
+  box-shadow: 0 2px 0 rgba(230, 81, 0, 0.25);
+}
+
+.player-home-universe-btn--soon {
+  opacity: 0.78;
+  border-style: dashed;
+}
+
+.player-home-universe-btn-emoji {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.player-home-universe-btn-name {
+  font-size: 0.875rem;
+  font-weight: 900;
+  color: #3e2723;
+  line-height: 1.3;
+}
+
+.player-home-universe-btn-age {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #e65100;
+}
+
+.player-home-universe-btn-desc {
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: #6d4c41;
+}
+
+.player-home-depart-foot {
+  margin-top: 0.55rem;
+  text-align: center;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.player-home-depart-foot-link {
+  margin: 0 0.2rem;
+  font-weight: 800;
+  color: #ffe082;
+  text-decoration: underline;
+}
+
+.player-home-galaxy-btn--static {
+  cursor: default;
+  pointer-events: none;
+}
+
+.world-page {
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.world-universe-hero {
+  text-align: left;
+}
+
+.world-section-kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--game-text-muted);
+}
+
+.catalog-planet-card {
+  border-radius: 14px;
+  border: 2px dashed rgba(141, 110, 99, 0.35);
+  border-top-width: 3px;
+  border-top-style: solid;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.85rem 0.9rem;
+}
+
+.catalog-planet-card--soon {
+  opacity: 0.85;
+}
+
+.catalog-planet-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.catalog-planet-card-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.catalog-planet-card-name {
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--game-text);
+}
+
+.catalog-planet-card-sub {
+  margin-top: 0.15rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--game-text-muted);
+}
+
+.catalog-planet-card-badge {
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 0.15rem 0.45rem;
+  font-size: 0.58rem;
+  font-weight: 800;
+  color: var(--game-text-muted);
+}
+
+.catalog-planet-card-note {
+  margin-top: 0.45rem;
+  font-size: 0.68rem;
+  line-height: 1.45;
+  color: var(--game-text-muted);
+}
+
+.player-home-galaxy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+
+.player-home-galaxy-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  min-height: 4.75rem;
+  border-radius: 12px;
+  border: 2px solid rgba(141, 110, 99, 0.35);
+  background: rgba(255, 255, 255, 0.55);
+  padding: 0.65rem 0.45rem;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+
+.player-home-galaxy-btn:hover {
+  border-color: rgba(141, 110, 99, 0.55);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.player-home-galaxy-btn--active {
+  border-color: #ff9800;
+  background: linear-gradient(
+    165deg,
+    rgba(255, 248, 225, 0.95) 0%,
+    rgba(255, 213, 79, 0.35) 100%
+  );
+  box-shadow: 0 2px 0 rgba(230, 81, 0, 0.25);
+}
+
+.player-home-galaxy-btn--active .player-home-galaxy-btn-name {
+  color: #3e2723;
+}
+
+.player-home-galaxy-btn--active .player-home-galaxy-btn-desc {
+  color: #6d4c41;
+}
+
+.player-home-galaxy-btn--soon {
+  opacity: 0.72;
+  border-style: dashed;
+}
+
+.player-home-galaxy-btn:active {
+  transform: scale(0.98);
+}
+
+.player-home-galaxy-btn-emoji {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.player-home-galaxy-btn-name {
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: #3e2723;
+  line-height: 1.3;
+}
+
+.player-home-galaxy-btn-desc {
+  font-size: 0.62rem;
+  line-height: 1.35;
+  color: #6d4c41;
+}
+
+.player-home-depart-galaxy-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease;
+}
+
+.player-home-depart-galaxy-link:active {
+  transform: scale(0.985);
+}
+
+.player-home-depart-planets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.45rem;
+}
+
+.player-home-depart-planet {
+  font-size: 0.68rem;
+  line-height: 1.4;
+  color: #5d4037;
+}
+
+.player-home-depart-planet--locked {
+  opacity: 0.65;
+}
+
+.player-home-subscription {
+  margin-top: 1.25rem;
+}
+
+.player-home-subscription-hint {
+  margin: 0 0 0.55rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.38);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.player-home-sub-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.player-home-sub-card--urgent {
+  border-color: #e65100;
+  box-shadow:
+    0 4px 0 #bf360c,
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.player-home-sub-card--paid {
+  border-color: #43a047;
+  box-shadow:
+    0 4px 0 #2e7d32,
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.player-home-sub-card__kicker {
+  margin: 0;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6d4c41;
+}
+
+.player-home-sub-card__kicker--paid {
+  color: #2e7d32;
+}
+
+.player-home-sub-card--urgent .player-home-sub-card__kicker {
+  color: #e65100;
+}
+
+.player-home-sub-card__heading {
+  margin: 0.25rem 0 0;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1.35;
+  color: #3e2723;
+}
+
+.player-home-sub-card--urgent .player-home-sub-card__heading {
+  color: #bf360c;
+}
+
+.player-home-sub-card__body {
+  margin: 0.35rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: #4e342e;
+}
+
+.player-home-sub-block {
+  margin-top: 1rem;
+}
+
+.player-home-sub-list {
+  margin-top: 0.55rem;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: #4e342e;
+}
+
+.player-home-sub-list li + li {
+  margin-top: 0.35rem;
+}
+
+.player-home-sub-free {
+  display: inline-block;
+  min-width: 2rem;
+  font-weight: 800;
+  color: #1565c0;
+}
+
+.player-home-sub-paid {
+  display: inline-block;
+  min-width: 2rem;
+  font-weight: 800;
+  color: #e65100;
+}
+
+.player-home-sub-note {
+  margin-left: 0.25rem;
+  font-size: 0.72rem;
+  color: #795548;
+}
+
+.player-home-sub-foot {
+  margin-top: 0.55rem;
+  text-align: center;
+  font-size: 0.68rem;
+  color: #8d6e63;
+}
+
+.player-home-sub-link {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.player-home-nav {
+  margin-top: 1.25rem;
+}
+
+.player-home-nav-title {
+  margin-bottom: 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--game-text-muted);
+}
+
+.player-home-nav-grid {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.player-home-nav-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 14px;
+  border: 1px solid var(--game-border);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.75rem 0.85rem;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.player-home-nav-card:hover {
+  border-color: rgba(255, 213, 79, 0.45);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.player-home-nav-card--locked {
+  opacity: 0.72;
+  cursor: default;
+}
+
+.player-home-nav-card--locked:hover {
+  border-color: var(--game-border);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.player-home-nav-emoji {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.player-home-nav-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: var(--game-text);
+}
+
+.player-home-nav-desc {
+  display: block;
+  font-size: 0.68rem;
+  color: var(--game-text-muted);
+}
+
+.player-home-tip {
+  margin-top: 1rem;
+}
+
+.player-home-done {
+  margin-top: 1rem;
+}
+
+.landing-sub-teaser {
+  border-radius: 16px;
+  border: 2px solid #fcd34d;
+  background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+  padding: 1.1rem 1.25rem;
+  text-align: center;
+}
+
+.landing-sub-teaser-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #b45309;
+}
+
+.landing-sub-teaser-title {
+  margin-top: 0.35rem;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #78350f;
+}
+
+.landing-sub-teaser-list {
+  margin-top: 0.65rem;
+  text-align: left;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: #92400e;
+}
+
+.landing-sub-teaser-list li + li {
+  margin-top: 0.35rem;
+}
+
+/* Player home — topbar, stats, unlock preview */
+.player-home-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.player-home-plan-badge {
+  display: inline-block;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--game-border);
+  padding: 0.25rem 0.65rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--game-text-muted);
+}
+
+.player-home-plan-badge--paid {
+  background: rgba(76, 175, 80, 0.15);
+  border-color: rgba(76, 175, 80, 0.35);
+  color: #a5d6a7;
+}
+
+.player-home-plan-link {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--game-gold);
+  text-decoration: none;
+}
+
+.player-home-plan-link:hover {
+  text-decoration: underline;
+}
+
+.home-quick-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.45rem;
+  width: 100%;
+}
+
+.home-quick-stats-shell {
+  margin-top: 0.75rem;
+}
+
+.home-quick-stat {
+  text-align: center;
+}
+
+.home-quick-stat-value {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #5d4037;
+  line-height: 1.2;
+}
+
+.home-quick-stat-label {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #6d4c41;
+}
+
+.home-quick-stat-sub {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.58rem;
+  color: #8d6e63;
+}
+
+.home-quick-stat-bar {
+  margin-top: 0.35rem;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(93, 64, 55, 0.15);
+  overflow: hidden;
+}
+
+.home-quick-stat-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #8d6e63, #ffb74d);
+  transition: width 0.3s ease;
+}
+
+.home-unlock-preview-shell {
+  margin-top: 1rem;
+}
+
+.home-unlock-preview {
+  width: 100%;
+}
+
+.home-unlock-preview-header {
+  text-align: center;
+}
+
+.home-unlock-preview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+  margin-top: 0.55rem;
+}
+
+.home-unlock-preview-item {
+  border-radius: 10px;
+  border: 1px dashed rgba(93, 64, 55, 0.25);
+  background: rgba(255, 255, 255, 0.35);
+  padding: 0.55rem 0.45rem;
+  text-align: center;
+}
+
+.home-unlock-preview-num {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #5d4037;
+}
+
+.home-unlock-preview-label {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.62rem;
+  line-height: 1.4;
+  color: #6d4c41;
+}
+
+.home-unlock-preview-note {
+  text-align: center;
+}
+
+.player-home-sub-mini-list {
+  margin-top: 0.55rem;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: #2e7d32;
+}
+
+.player-home-sub-mini-list li + li {
+  margin-top: 0.2rem;
+}
+
+.player-home-nav-card--featured {
+  border-color: rgba(255, 213, 79, 0.45);
+  background: rgba(255, 213, 79, 0.08);
+}
+
+.player-home-nav-card--gold {
+  border-color: rgba(255, 183, 77, 0.5);
+  background: linear-gradient(135deg, rgba(255, 248, 225, 0.12) 0%, rgba(255, 183, 77, 0.08) 100%);
+}
+
+.player-home-tip-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--game-gold);
+}
+
+.player-home-tip-text {
+  margin-top: 0.35rem;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--game-text-muted);
+}
+
+/* Membership hub (/pricing) */
+.membership-page {
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.membership-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.membership-card--hero {
+  text-align: center;
+}
+
+.membership-card--hero-urgent {
+  border-color: #e65100;
+  box-shadow:
+    0 4px 0 #bf360c,
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.membership-card--hero-paid {
+  border-color: #43a047;
+  box-shadow:
+    0 4px 0 #2e7d32,
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.membership-card--featured {
+  border-color: #ff9800;
+  box-shadow:
+    0 4px 0 #e65100,
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.membership-card__kicker {
+  margin: 0;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6d4c41;
+}
+
+.membership-card__kicker--paid {
+  color: #2e7d32;
+}
+
+.membership-card--hero-urgent .membership-card__kicker {
+  color: #e65100;
+}
+
+.membership-card__heading {
+  margin: 0.25rem 0 0;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1.35;
+  color: #3e2723;
+}
+
+.membership-card__heading--sm {
+  font-size: 0.8125rem;
+}
+
+.membership-card--hero-urgent .membership-card__heading {
+  color: #bf360c;
+}
+
+.membership-card__body {
+  margin: 0.35rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: #4e342e;
+}
+
+.membership-card__muted {
+  margin: 0.2rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #6d4c41;
+}
+
+.membership-hub {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.membership-hub--compact {
+  gap: 0.85rem;
+}
+
+.membership-plans {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+
+.membership-card--featured .membership-plan-featured-tag {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.5rem;
+}
+
+.membership-plan-card--featured-wrap {
+  position: relative;
+}
+
+.membership-plan-card {
+  position: relative;
+  text-align: center;
+}
+
+.membership-plan-card--featured {
+  padding-top: 0.25rem;
+}
+
+.membership-plan-featured-tag {
+  display: inline-block;
+  border-radius: 999px;
+  background: #ff9800;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.58rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+
+.membership-plan-period {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #795548;
+}
+
+.membership-plan-current {
+  margin-top: 0.45rem;
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #1565c0;
+}
+
+.membership-compare-table {
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+}
+
+.membership-compare-head,
+.membership-compare-row {
+  display: grid;
+  grid-template-columns: 1fr 2.5rem 2.5rem;
+  gap: 0.35rem;
+  align-items: center;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.membership-compare-head {
+  font-weight: 800;
+  color: #6d4c41;
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+}
+
+.membership-compare-feature {
+  line-height: 1.35;
+  color: #3e2723;
+}
+
+.membership-compare-cell {
+  text-align: center;
+  font-weight: 700;
+  color: #9e9e9e;
+}
+
+.membership-compare-cell--paid {
+  color: #e65100;
+}
+
+.membership-benefits-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+  margin-top: 0.35rem;
+}
+
+.membership-benefit-card {
+  border-radius: 10px;
+  border: 1px dashed rgba(93, 64, 55, 0.2);
+  background: rgba(255, 255, 255, 0.35);
+  padding: 0.5rem 0.45rem;
+}
+
+.membership-benefit-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.membership-benefit-title {
+  margin-top: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #3e2723;
+}
+
+.membership-benefit-desc {
+  margin-top: 0.15rem;
+  font-size: 0.62rem;
+  line-height: 1.4;
+  color: #795548;
+}
+
+.membership-flow-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0.35rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.membership-flow-step {
+  display: flex;
+  gap: 0.55rem;
+  align-items: flex-start;
+  border-radius: 10px;
+  border: 1px dashed rgba(93, 64, 55, 0.2);
+  background: rgba(255, 255, 255, 0.35);
+  padding: 0.5rem 0.55rem;
+}
+
+.membership-flow-num {
+  flex-shrink: 0;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  background: #8d6e63;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  font-weight: 900;
+  color: #fff;
+}
+
+.membership-bank-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+
+.membership-bank-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  font-size: 0.8125rem;
+  color: #3e2723;
+}
+
+.membership-bank-row--highlight {
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.45);
+  padding: 0.4rem 0.5rem;
+}
+
+.membership-bank-label {
+  min-width: 2.5rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #6d4c41;
+}
+
+.membership-bank-account {
+  font-family: ui-monospace, monospace;
+  font-weight: 900;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+}
+
+.membership-bank-pending {
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.4);
+  padding: 0.55rem 0.65rem;
+  font-size: 0.75rem;
+  color: #5d4037;
+}
+
+.membership-bank-note {
+  margin-top: 0.45rem;
+}
+
+.membership-copy-btn {
+  margin-left: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(93, 64, 55, 0.25);
+  background: rgba(255, 255, 255, 0.65);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #5d4037;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.membership-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.membership-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.membership-faq-item {
+  border-radius: 10px;
+  border: 1px dashed rgba(93, 64, 55, 0.2);
+  background: rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+}
+
+.membership-faq-q {
+  padding: 0.65rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: #3e2723;
+  cursor: pointer;
+  list-style: none;
+}
+
+.membership-faq-q::-webkit-details-marker {
+  display: none;
+}
+
+.membership-faq-a {
+  padding: 0 0.75rem 0.65rem;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: #5d4037;
+}
+
+.membership-hub-actions {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.membership-hub-foot {
+  text-align: center;
+  font-size: 0.68rem;
+  color: var(--game-text-muted);
+}
+
+.membership-hub-disclaimer {
+  margin: 0.35rem 0 0;
+  text-align: center;
+  font-size: 0.62rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.membership-perks-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.35rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.membership-perks-list li {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+}
+
+.membership-perks-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.membership-perks-name {
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: #3e2723;
+}
+
+.membership-perks-desc {
+  margin-top: 0.1rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: #6d4c41;
+}
+
+.membership-renew-link {
+  display: inline-block;
+  margin-top: 0.45rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #5d4037;
+  text-decoration: underline;
+}
+
+.membership-renew-account {
+  margin-top: 0.35rem;
+}
+
+/* Landing page — membership sections */
+.landing-section-title {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #18181b;
+  text-align: center;
+}
+
+.landing-benefits {
+  width: 100%;
+}
+
+.landing-benefits-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+}
+
+.landing-benefit-card {
+  border-radius: 12px;
+  border: 1px solid #e4e4e7;
+  background: #fff;
+  padding: 0.75rem 0.65rem;
+  text-align: center;
+}
+
+.landing-benefit-icon {
+  font-size: 1.35rem;
+}
+
+.landing-benefit-name {
+  margin-top: 0.3rem;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: #18181b;
+}
+
+.landing-benefit-desc {
+  margin-top: 0.2rem;
+  font-size: 0.68rem;
+  line-height: 1.45;
+  color: #71717a;
+}
+
+.landing-compare {
+  width: 100%;
+}
+
+.landing-compare-table {
+  margin-top: 0.75rem;
+  border-radius: 12px;
+  border: 1px solid #e4e4e7;
+  overflow: hidden;
+  font-size: 0.8125rem;
+}
+
+.landing-compare-head,
+.landing-compare-row {
+  display: grid;
+  grid-template-columns: 1fr 3rem 3rem;
+  gap: 0.35rem;
+  padding: 0.55rem 0.75rem;
+  align-items: center;
+}
+
+.landing-compare-head {
+  background: #f4f4f5;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #71717a;
+}
+
+.landing-compare-row {
+  border-top: 1px solid #f4f4f5;
+  color: #3f3f46;
+}
+
+.landing-compare-row span:nth-child(2),
+.landing-compare-row span:nth-child(3) {
+  text-align: center;
+  font-weight: 700;
+}
+
+.landing-compare-paid {
+  color: #ea580c;
+}
+
+.landing-flow {
+  width: 100%;
+}
+
+.landing-flow-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.landing-flow-step {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  border-radius: 12px;
+  border: 1px solid #fde68a;
+  background: #fffbeb;
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+}
+
+.landing-flow-num {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: #f59e0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: #fff;
+}
+
+.landing-flow-title {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: #78350f;
+}
+
+.landing-flow-desc {
+  margin-top: 0.15rem;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: #92400e;
+}
+
+.landing-flow-note {
+  margin-top: 0.65rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #71717a;
+}
+
+/* ── 幼兒宇宙 · 視覺題 UI（參考 Bibi / Todo Math：大圖、無 A/B/C、家長朗讀） ── */
+.stage-main--k {
+  max-width: 26rem;
+  margin: 0 auto;
+}
+
+.k-stage-title {
+  margin-bottom: 0.75rem;
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #fff8e1;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+.k-puzzle-player {
+  width: 100%;
+}
+
+.k-puzzle-card {
+  border-radius: 20px;
+  border: 4px solid #ffb74d;
+  background: linear-gradient(180deg, #fffde7 0%, #fff8e1 100%);
+  padding: 1.1rem 1rem 1rem;
+  box-shadow: 0 6px 0 #f57c00;
+}
+
+.k-puzzle-visual {
+  text-align: center;
+  padding: 0.5rem 0 0.75rem;
+}
+
+.k-puzzle-visual-line {
+  margin: 0.15rem 0;
+  font-size: clamp(2rem, 9vw, 2.75rem);
+  line-height: 1.45;
+  letter-spacing: 0.12em;
+}
+
+.k-puzzle-parent-hint {
+  margin: 0 0 0.85rem;
+  border-radius: 12px;
+  border: 2px dashed rgba(141, 110, 99, 0.35);
+  background: rgba(255, 255, 255, 0.55);
+  padding: 0.55rem 0.65rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #5d4037;
+}
+
+.k-puzzle-parent-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #e65100;
+}
+
+.k-puzzle-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.k-puzzle-option {
+  min-height: 4.5rem;
+  border-radius: 16px;
+  border: 3px solid #bcaaa4;
+  background: #fff;
+  font-size: clamp(2rem, 8vw, 2.5rem);
+  line-height: 1;
+  box-shadow: 0 4px 0 #8d6e63;
+  transition: transform 0.1s, border-color 0.12s, background 0.12s;
+}
+
+.k-puzzle-option:hover:not(:disabled) {
+  border-color: #ff9800;
+  transform: translateY(-1px);
+}
+
+.k-puzzle-option:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #8d6e63;
+}
+
+.k-puzzle-option--selected {
+  border-color: #ff6f00;
+  background: linear-gradient(180deg, #fff8e1 0%, #ffd54f 100%);
+  box-shadow: 0 4px 0 #e65100;
+}
+
+.k-puzzle-submit {
+  width: 100%;
+  margin-top: 0.85rem;
+  font-size: 1rem;
+}
+
+.k-puzzle-error {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #c62828;
+}
+
+.k-puzzle-cleared-note {
+  margin-bottom: 0.55rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.k-puzzle-notice {
+  margin-top: 0.75rem;
+  border-radius: 14px;
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.k-puzzle-notice--ok {
+  background: rgba(129, 199, 132, 0.35);
+  color: #1b5e20;
+}
+
+.k-puzzle-notice--retry {
+  background: rgba(255, 224, 178, 0.55);
+  color: #e65100;
+}
+
+.k-puzzle-explain {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #5d4037;
+  text-align: center;
+}
+
+.k-puzzle-actions {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+}
+
+.k-puzzle-action {
+  display: block;
+  border-radius: 12px;
+  padding: 0.65rem 0.75rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.k-puzzle-action--primary {
+  background: linear-gradient(180deg, #ffd54f 0%, #ffb300 100%);
+  color: #4e342e;
+  box-shadow: 0 3px 0 #f57c00;
+}
+
+.k-puzzle-action--secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff8e1;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.k-puzzle-next-link {
+  display: block;
+  margin-top: 0.65rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #ffe082;
 }

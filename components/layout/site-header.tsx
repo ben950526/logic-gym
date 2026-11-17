@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { signOut } from "@/app/login/actions";
-import { V2_GALAXY_MODE } from "@/lib/feature-flags";
 
 interface SiteHeaderProps {
   nickname?: string;
@@ -16,7 +15,7 @@ export function SiteHeader({
   nickname,
   showGalaxyLink = true,
 }: SiteHeaderProps) {
-  const homeHref = nickname && V2_GALAXY_MODE ? "/galaxy" : "/";
+  const homeHref = "/";
 
   return (
     <header className="border-b border-zinc-200 bg-white/90 backdrop-blur">

@@ -40,8 +40,13 @@ export async function submitStageAnswer(
     stageInfo.planet,
     stageInfo.stage,
     cleared,
-    planetUnlocked
+    planetUnlocked,
+    session.profile.plan
   );
+
+  if (status === "paywall") {
+    return { error: "此關需訂閱會員才能挑戰" };
+  }
 
   if (status === "locked") {
     return { error: "此關尚未解鎖" };
@@ -78,6 +83,16 @@ export async function submitStageAnswer(
   const nextStage = stageInfo.planet.stages.find(
     (s) => s.order === stageInfo.stage.order + 1
   );
+  const clearedAfter = new Set([...cleared, stageId]);
+  const nextStagePaywall =
+    nextStage != null &&
+    getStageStatus(
+      stageInfo.planet,
+      nextStage,
+      clearedAfter,
+      planetUnlocked,
+      session.profile.plan
+    ) === "paywall";
 
   revalidatePath("/galaxy");
   revalidatePath(`/planet/${stageInfo.planet.slug}`);
@@ -91,6 +106,7 @@ export async function submitStageAnswer(
     stageName: stageInfo.stage.name,
     planetSlug: stageInfo.planet.slug,
     nextStageId: nextStage?.id ?? null,
+    nextStagePaywall,
     planetCleared: !nextStage,
   };
 }

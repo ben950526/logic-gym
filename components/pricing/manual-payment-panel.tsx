@@ -3,21 +3,21 @@ import {
   isManualPaymentConfigured,
   PAID_MONTHLY_PRICE,
 } from "@/lib/pricing-config";
-import { PAID_DAILY_LIMIT } from "@/lib/constants";
+import { PAID_PLAN_DETAIL } from "@/lib/pricing-content";
 
 export function ManualPaymentPanel() {
   const config = getManualPaymentConfig();
   const configured = isManualPaymentConfigured();
 
   return (
-    <div className="rounded-xl border border-amber-300 bg-white p-6 shadow-sm">
-      <h2 className="text-lg font-bold text-amber-900">人工收款（月付）</h2>
-      <p className="mt-1 text-sm text-zinc-600">
-        NT${PAID_MONTHLY_PRICE}/月 · 每天 {PAID_DAILY_LIMIT} 題 · 匯款後 24
-        小時內開通
+    <div className="subscription-manual-panel">
+      <h2 className="subscription-manual-title">人工收款（月付）</h2>
+      <p className="subscription-manual-sub">
+        NT${PAID_MONTHLY_PRICE}/月 · {PAID_PLAN_DETAIL} ·
+        匯款後 24 小時內開通
       </p>
 
-      <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm text-zinc-700">
+      <ol className="subscription-manual-steps">
         <li>轉帳 NT${PAID_MONTHLY_PRICE} 到下方帳戶</li>
         <li>備註或轉帳說明填：{config.transferNote}</li>
         <li>
@@ -28,7 +28,7 @@ export function ManualPaymentPanel() {
                 href={config.formUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-blue-600 hover:underline"
+                className="subscription-manual-link"
               >
                 付款通知表單
               </a>
@@ -38,32 +38,31 @@ export function ManualPaymentPanel() {
             <>聯絡管理員，提供暱稱、Email、轉帳後五碼</>
           )}
         </li>
-        <li>確認後會在後台開通，重新整理練功頁即可</li>
+        <li>確認後會在後台開通，重新整理即可繼續冒險</li>
       </ol>
 
       {configured ? (
-        <div className="mt-4 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-950">
+        <div className="subscription-manual-bank">
           {config.bankName && (
             <p>
-              <span className="text-zinc-600">銀行：</span>
+              <span className="subscription-manual-muted">銀行：</span>
               {config.bankCode ? `(${config.bankCode}) ` : ""}
               {config.bankName}
             </p>
           )}
           <p className="mt-1">
-            <span className="text-zinc-600">帳號：</span>
-            <span className="font-mono font-semibold">{config.accountNumber}</span>
+            <span className="subscription-manual-muted">帳號：</span>
+            <span className="subscription-manual-account">{config.accountNumber}</span>
           </p>
           <p className="mt-1">
-            <span className="text-zinc-600">戶名：</span>
+            <span className="subscription-manual-muted">戶名：</span>
             {config.accountName}
           </p>
         </div>
       ) : (
-        <p className="mt-4 rounded-lg bg-zinc-50 px-4 py-3 text-sm text-zinc-600">
+        <p className="subscription-manual-pending">
           收款帳戶設定中。若你是管理員，請在{" "}
-          <code className="rounded bg-zinc-100 px-1">.env.local</code> 設定{" "}
-          <code className="rounded bg-zinc-100 px-1">MANUAL_PAYMENT_*</code>。
+          <code>.env.local</code> 設定 <code>MANUAL_PAYMENT_*</code>。
           {config.contact && (
             <>
               {" "}
@@ -73,7 +72,7 @@ export function ManualPaymentPanel() {
         </p>
       )}
 
-      <p className="mt-4 text-xs text-zinc-500">
+      <p className="subscription-manual-footnote">
         目前為人工對帳，不提供自動扣款。信用卡 / LINE Pay 串接之後再上線。
       </p>
     </div>

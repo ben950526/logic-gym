@@ -14,6 +14,7 @@ interface PlanetExpeditionHeaderProps {
     name: string;
     isBoss?: boolean;
   } | null;
+  continueHref?: string | null;
 }
 
 export function PlanetExpeditionHeader({
@@ -21,6 +22,7 @@ export function PlanetExpeditionHeader({
   clearedCount,
   totalStages,
   currentStage,
+  continueHref,
 }: PlanetExpeditionHeaderProps) {
   const pct = totalStages ? Math.round((clearedCount / totalStages) * 100) : 0;
 
@@ -50,14 +52,16 @@ export function PlanetExpeditionHeader({
         </span>
       </div>
 
-      {currentStage && (
+      {currentStage && continueHref && (
         <GameButton
-          href={`/stage/${currentStage.id}`}
+          href={continueHref}
           variant="gold"
           fullWidth
           className="expedition-continue-btn"
         >
-          <span className="expedition-continue-kicker">繼續遠征</span>
+          <span className="expedition-continue-kicker">
+            {continueHref?.startsWith("/pricing") ? "✨ 訂閱解鎖" : "繼續遠征"}
+          </span>
           <span className="expedition-continue-title">
             第 {currentStage.order} 關 · {currentStage.name}
             {currentStage.isBoss ? " ⚔" : ""}

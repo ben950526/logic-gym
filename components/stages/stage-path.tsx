@@ -31,6 +31,10 @@ export function StagePath({
     zones.get(z)!.stages.push(stage);
   }
 
+  for (const entry of zones.values()) {
+    entry.stages.sort((a, b) => a.order - b.order);
+  }
+
   const zoneList = [...zones.entries()].sort(([a], [b]) => a - b);
 
   if (theme !== "game") {
@@ -75,13 +79,14 @@ function StagePathList({
             </div>
             <ol className="space-y-3">
               {stages.map((stage) => {
-                const clickable = stage.status !== "locked";
+                const clickable = stage.status === "available" || stage.status === "paywall";
                 const row = (
                   <div
                     className={cn(
                       "flex items-center gap-4 rounded-xl border px-4 py-3",
                       stage.status === "cleared" && "border-green-200 bg-green-50/80",
                       stage.status === "available" && "border-blue-200 bg-blue-50/50",
+                      stage.status === "paywall" && "border-amber-200 bg-amber-50/80",
                       stage.status === "locked" && "border-zinc-200 bg-zinc-50 opacity-60"
                     )}
                   >
@@ -90,10 +95,16 @@ function StagePathList({
                       style={
                         stage.status === "available"
                           ? { backgroundColor: planet.color }
+                          : stage.status === "paywall"
+                            ? { backgroundColor: "#d97706" }
                           : undefined
                       }
                     >
-                      {stage.status === "locked" ? "🔒" : stage.order}
+                      {stage.status === "locked"
+                        ? "🔒"
+                        : stage.status === "paywall"
+                          ? "✨"
+                          : stage.order}
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-semibold">{stage.name}</p>
@@ -103,7 +114,14 @@ function StagePathList({
                 return (
                   <li key={stage.id}>
                     {clickable ? (
-                      <Link href={`/stage/${stage.id}`} className="block">
+                      <Link
+                        href={
+                          stage.status === "paywall"
+                            ? `/pricing?next=/stage/${stage.id}`
+                            : `/stage/${stage.id}`
+                        }
+                        className="block"
+                      >
                         {row}
                       </Link>
                     ) : (

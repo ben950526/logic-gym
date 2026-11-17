@@ -10,6 +10,9 @@ const multipleChoiceContentSchema = z.object({
   question: z.string().min(10),
   options: z.array(z.string().min(1)).min(2).max(6),
   hint: z.string().optional(),
+  kindergarten: z.boolean().optional(),
+  visualPrompt: z.string().min(1).optional(),
+  parentReadAloud: z.string().min(4).optional(),
 });
 
 const multipleChoiceAnswerSchema = z.object({

@@ -1,4 +1,4 @@
-export type StageUnlockStatus = "locked" | "available" | "cleared";
+export type StageUnlockStatus = "locked" | "available" | "cleared" | "paywall";
 
 export interface PlanetStage {
   order: number;

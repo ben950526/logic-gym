@@ -1,0 +1,674 @@
+<meta charset="utf-8">
+<title>Logic Gym 謎題本</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Noto+Sans+TC:wght@500;700;900&display=swap">
+<style>
+/* Layout: 掌上遊戲機——最上面是寵物「腦腦」的小窩，中間是厚邊框的遊戲板，按鈕像實體按鍵會被按下去 */
+:root {
+  --bg: #e6f0ff;
+  --dot: #cddcf5;
+  --board: #ffffff;
+  --ink: #23305a;
+  --ink-soft: #66739c;
+  --sun: #ffc93c;
+  --sun-deep: #d99a00;
+  --berry: #ff5d73;
+  --mint: #2fbf8a;
+  --grape: #7c5cff;
+  --pet: #5fd3a8;
+  --pet-deep: #2e9e77;
+  --cell: #f4f7ff;
+  --given: #e3e9fb;
+  --font-display: "Baloo 2", "Noto Sans TC", system-ui, sans-serif;
+  --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12172b; --dot: #1b2240; --board: #1c2340; --ink: #eef2ff; --ink-soft: #9aa6d6;
+    --sun: #ffd25e; --sun-deep: #ffd25e; --berry: #ff7489; --mint: #4fe0aa; --grape: #9b84ff;
+    --pet: #5fd3a8; --pet-deep: #8ff0c9; --cell: #232c50; --given: #2d3864; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12172b; --dot: #1b2240; --board: #1c2340; --ink: #eef2ff; --ink-soft: #9aa6d6;
+  --sun: #ffd25e; --sun-deep: #ffd25e; --berry: #ff7489; --mint: #4fe0aa; --grape: #9b84ff;
+  --pet: #5fd3a8; --pet-deep: #8ff0c9; --cell: #232c50; --given: #2d3864; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot) 2px, transparent 2.5px);
+  background-size: 22px 22px;
+  color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+}
+.wrap {
+  max-width: 540px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 16px 40px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.chunky { border: 3px solid var(--ink); border-radius: 18px; background: var(--board); box-shadow: 0 6px 0 var(--ink); }
+
+/* 寵物小窩 */
+.home { display: grid; grid-template-columns: 112px 1fr; gap: 12px; padding: 12px 14px; align-items: center; position: relative; }
+.pet-box { width: 112px; height: 112px; position: relative; }
+#pet { width: 112px; height: 112px; overflow: visible; }
+.pet-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.pet-name { font: 900 1.15rem var(--font-body); margin: 0; }
+.pet-stage { font-size: .8rem; color: var(--ink-soft); font-weight: 700; }
+.bubble { position: relative; background: var(--cell); border: 2px solid var(--ink); border-radius: 12px; padding: 4px 10px; font-weight: 700; font-size: .9rem; min-height: 2.1em; }
+.meter { display: flex; align-items: center; gap: 8px; font: 800 .9rem var(--font-display); font-variant-numeric: tabular-nums; }
+.bar { flex: 1; height: 14px; border: 2px solid var(--ink); border-radius: 999px; background: var(--cell); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--sun); border-right: 2px solid var(--sun-deep); transition: width .6s cubic-bezier(.3,1.6,.5,1); }
+.mute { position: absolute; top: 8px; right: 10px; border: 2px solid var(--ink); background: var(--board); color: var(--ink); border-radius: 10px; font-size: .95rem; width: 36px; height: 32px; cursor: pointer; }
+
+/* 寵物動畫 */
+.pet-body { transform-origin: 60px 100px; }
+.happy .pet-body { animation: hop .6s ease; }
+.oops .pet-body { animation: wobble .5s ease; }
+.idle .pet-body { animation: breathe 3s ease-in-out infinite; }
+.eyes { transform-origin: 60px 62px; animation: blink 4s infinite; }
+@keyframes hop { 0%,100% { transform: translateY(0) scale(1,1); } 20% { transform: translateY(2px) scale(1.12,.86); } 50% { transform: translateY(-18px) scale(.94,1.08); } 80% { transform: translateY(0) scale(1.06,.94); } }
+@keyframes wobble { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
+@keyframes breathe { 0%,100% { transform: scale(1,1); } 50% { transform: scale(1.03,.97); } }
+@keyframes blink { 0%,92%,100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
+.egg-wiggle { transform-origin: 60px 105px; animation: eggw 2.4s ease-in-out infinite; }
+@keyframes eggw { 0%,80%,100% { transform: rotate(0); } 85% { transform: rotate(-6deg); } 90% { transform: rotate(6deg); } 95% { transform: rotate(-3deg); } }
+
+/* 分頁按鍵 */
+.tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.tab {
+  font: 900 .95rem var(--font-body); color: var(--ink); background: var(--board);
+  border: 3px solid var(--ink); border-radius: 14px; padding: 6px 2px; cursor: pointer;
+  box-shadow: 0 4px 0 var(--ink); display: flex; flex-direction: column; align-items: center; line-height: 1.25;
+  transition: transform .08s, box-shadow .08s;
+}
+.tab .ic { font-size: 1.2rem; }
+.tab:active, .key:active { transform: translateY(4px); box-shadow: 0 0 0 var(--ink); }
+.tab[aria-selected="true"] { background: var(--sun); color: #23305a; }
+button:focus-visible, .cell:focus-visible { outline: 3px solid var(--berry); outline-offset: 2px; }
+
+/* 遊戲板 */
+.sheet { padding: 16px; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.sheet-head { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sheet-head h2 { margin: 0; font: 900 1.25rem var(--font-body); }
+.qno { font: 800 .95rem var(--font-display); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.verified { font-size: .75rem; color: var(--mint); font-weight: 700; }
+.status { min-height: 1.6em; font-weight: 900; text-align: center; }
+.status.err { color: var(--berry); }
+.keys { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.key {
+  font: 900 .95rem var(--font-body); padding: 7px 14px; border-radius: 12px; cursor: pointer;
+  border: 3px solid var(--ink); background: var(--board); color: var(--ink); box-shadow: 0 4px 0 var(--ink);
+  transition: transform .08s, box-shadow .08s;
+}
+.key.go { background: var(--mint); color: #10241c; }
+.key[aria-pressed="true"] { background: var(--berry); color: #fff; }
+
+/* 教學 */
+.howto { width: 100%; border: 2px dashed var(--ink-soft); border-radius: 12px; padding: 8px 12px; background: var(--cell); }
+.howto summary { font-weight: 900; cursor: pointer; }
+.howto ol { margin: 8px 0 4px; padding-left: 1.4em; display: flex; flex-direction: column; gap: 4px; font-size: .95rem; }
+.howto b { color: var(--berry); }
+.howto .tip { margin: 6px 0 2px; font-size: .9rem; background: var(--board); border-left: 5px solid var(--sun); padding: 4px 8px; border-radius: 4px; }
+.demo { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin: 10px 0; }
+.demo-row { display: flex; align-items: center; }
+.demo-row .dc { width: 24px; height: 24px; border: 1px solid var(--ink-soft); background: var(--board); }
+.demo-row .dc.on { background: var(--grape); }
+.demo-row .dl { font: 800 .95rem var(--font-display); margin-right: 8px; min-width: 2.2em; text-align: right; }
+.demo-cap { font-size: .85rem; color: var(--ink-soft); }
+
+/* 數織 */
+.nono { display: grid; touch-action: manipulation; user-select: none; }
+.clue { font: 800 .95rem var(--font-display); display: flex; align-items: flex-end; justify-content: center; line-height: 1.05; padding: 2px; font-variant-numeric: tabular-nums; transition: opacity .3s; }
+.clue.col { flex-direction: column; justify-content: flex-end; }
+.clue.row { justify-content: flex-end; padding-right: 6px; gap: 5px; align-items: center; }
+.clue.done { opacity: .3; }
+.cell { width: var(--cs); height: var(--cs); border: 1px solid var(--ink-soft); background: var(--cell); cursor: pointer; padding: 0; position: relative; border-radius: 3px; }
+.cell.filled { background: var(--grape); animation: pop .18s ease-out; }
+.cell.x::after { content: "×"; position: absolute; inset: 0; display: grid; place-items: center; color: var(--berry); font-weight: 900; font-size: calc(var(--cs) * .6); }
+.nono.solved .cell.filled { background: var(--pic); animation: shine .5s ease-out both; animation-delay: calc(var(--d) * 25ms); }
+.nono.solved .cell:not(.filled) { background: var(--board); border-color: transparent; }
+.nono.solved .cell.x::after { content: none; }
+@keyframes pop { from { transform: scale(.6); } to { transform: scale(1); } }
+@keyframes shine { 0% { transform: scale(1); } 50% { transform: scale(1.25); } 100% { transform: scale(1); } }
+
+/* 一筆畫 */
+#stroke-svg { width: min(100%, 360px); height: auto; touch-action: manipulation; }
+.edge { stroke: var(--ink-soft); opacity: .35; stroke-width: 10; stroke-linecap: round; }
+.edge.used { stroke: var(--grape); opacity: 1; stroke-dasharray: 200; stroke-dashoffset: 200; animation: draw .25s ease-out forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.node { fill: var(--board); stroke: var(--ink); stroke-width: 3; }
+.node.cur { fill: var(--sun); }
+.node.hint { stroke: var(--berry); stroke-width: 6; }
+.node-hit { fill: transparent; cursor: pointer; }
+
+/* 數獨 */
+.sudoku { display: grid; grid-template-columns: repeat(4, var(--ss)); border: 3px solid var(--ink); border-radius: 8px; overflow: hidden; }
+.scell { width: var(--ss); height: var(--ss); border: 1px solid var(--ink-soft); background: var(--cell); font: 800 1.7rem var(--font-display); color: var(--grape); cursor: pointer; padding: 0; }
+.scell.given { background: var(--given); color: var(--ink); cursor: default; }
+.scell.sel { box-shadow: inset 0 0 0 4px var(--sun); }
+.scell.bad { color: var(--berry); }
+.scell.c1 { border-right: 3px solid var(--ink); }
+.scell.r1 { border-bottom: 3px solid var(--ink); }
+.scell.pop { animation: pop .18s ease-out; }
+.pad { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: min(100%, 320px); }
+.pad .key { font: 800 1.35rem var(--font-display); padding: 4px 0; }
+.pad .key.erase { font: 900 .9rem var(--font-body); }
+
+/* 圖鑑 */
+.dex { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 10px; width: 100%; }
+.dex-card { border: 2px solid var(--ink); border-radius: 12px; padding: 8px 4px 6px; display: flex; flex-direction: column; align-items: center; gap: 4px; background: var(--cell); }
+.dex-card canvas { width: 56px; height: 56px; image-rendering: pixelated; }
+.dex-card span { font-size: .8rem; font-weight: 900; }
+.dex-card.locked span { color: var(--ink-soft); }
+.dex-q { width: 56px; height: 56px; border-radius: 10px; border: 2px dashed var(--ink-soft); display: grid; place-items: center; font: 800 1.8rem var(--font-display); color: var(--ink-soft); }
+.dex-count { font: 800 1rem var(--font-display); }
+
+/* 過關畫面 */
+.overlay { position: fixed; inset: 0; background: rgba(18, 23, 43, .55); display: grid; place-items: center; z-index: 20; padding: 16px; }
+.win-card { width: min(100%, 340px); padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; animation: rise .35s cubic-bezier(.3,1.5,.5,1); }
+.win-card h3 { margin: 0; font: 900 1.8rem var(--font-body); }
+.win-card p { margin: 0; font-weight: 700; }
+.win-card .gain { font: 800 1.4rem var(--font-display); color: var(--sun-deep); }
+.win-card canvas { width: 120px; height: 120px; image-rendering: pixelated; }
+@keyframes rise { from { transform: translateY(40px) scale(.8); opacity: 0; } to { transform: none; opacity: 1; } }
+#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 30; }
+.shake { animation: wobble .3s; }
+footer { font-size: .8rem; color: var(--ink-soft); text-align: center; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<div class="wrap">
+  <section class="home chunky" aria-label="腦腦的小窩">
+    <div class="pet-box"><svg id="pet" viewBox="0 0 120 120" aria-hidden="true"></svg></div>
+    <div class="pet-info">
+      <p class="pet-name" id="pet-name">神秘的蛋</p>
+      <span class="pet-stage" id="pet-stage"></span>
+      <div class="bubble" id="bubble">你撿到一顆會發光的蛋。每解開一題，牠就吃到一顆動腦星。蛋裡面是誰呢？</div>
+      <div class="meter"><span>⭐ <span id="stars">0</span></span><div class="bar"><i id="bar"></i></div><span id="next-at"></span></div>
+    </div>
+    <button class="mute" id="mute" aria-label="音效開關">🔊</button>
+  </section>
+
+  <nav class="tabs" role="tablist" aria-label="謎題種類">
+    <button class="tab" role="tab" id="tab-nono" aria-selected="true" data-game="nono"><span class="ic">🧩</span>數織</button>
+    <button class="tab" role="tab" id="tab-stroke" aria-selected="false" data-game="stroke"><span class="ic">✏️</span>一筆畫</button>
+    <button class="tab" role="tab" id="tab-sudoku" aria-selected="false" data-game="sudoku"><span class="ic">🔢</span>數獨</button>
+    <button class="tab" role="tab" id="tab-dex" aria-selected="false" data-game="dex"><span class="ic">📖</span>圖鑑</button>
+  </nav>
+
+  <section class="sheet chunky" id="sheet" aria-live="polite"></section>
+
+  <footer>試玩樣本 · 每一題都由程式產生並驗算過答案只有一個 · 進度只存在這台裝置</footer>
+</div>
+<canvas id="confetti" hidden></canvas>
+<div class="overlay" id="overlay" hidden></div>
+
+<script>
+(() => {
+  "use strict";
+  const $ = (s, r = document) => r.querySelector(s);
+  const rnd = n => Math.floor(Math.random() * n);
+  const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+  };
+  const save = store.get("lg-save-v2", { solved: { nono: 0, stroke: 0, sudoku: 0 }, stars: 0, dex: [], muted: false });
+  const persist = () => store.set("lg-save-v2", save);
+  const sheet = $("#sheet");
+  let game = "nono";
+
+  /* ---------- 圖鑑圖案（每一張都經程式驗算：塗法只有一種） ---------- */
+  const PICS = [
+    ["愛心", "#ff5d73", [".#.#.", "#####", "#####", ".###.", "..#.."]],
+    ["房子", "#ff9f43", ["..#..", ".###.", "#####", ".#.#.", ".###."]],
+    ["大樹", "#2fbf8a", ["..#..", ".###.", "#####", "..#..", "..#.."]],
+    ["笑臉", "#ffc93c", [".#.#.", ".#.#.", ".....", "#...#", ".###."]],
+    ["蘑菇", "#ff5d73", [".###.", "#####", "#.#.#", "..#..", ".###."]],
+    ["雨傘", "#4d9fff", [".###.", "#####", "..#..", "..#..", ".##.."]],
+    ["鈴鐺", "#ffc93c", ["..#..", ".###.", ".###.", "#####", "..#.."]],
+    ["箭頭", "#7c5cff", ["..#..", ".###.", "#.#.#", "..#..", "..#.."]],
+    ["鑰匙", "#d99a00", [".##..", "#..#.", ".##..", "..#..", "..##."]],
+    ["皇冠", "#ffc93c", ["#.#.#", "#####", "#####", ".....", "#####"]],
+    ["十字", "#ff5d73", ["..#..", "..#..", "#####", "..#..", "..#.."]],
+    ["小貓", "#ff9f43", ["#....#", "##..##", "######", "#.##.#", "######", ".####."]],
+    ["小魚", "#4d9fff", ["......", ".##..#", "####.#", "######", ".##..#", "......"]],
+    ["火箭", "#7c5cff", ["..##..", ".####.", ".#..#.", ".####.", "######", "#.##.#"]],
+    ["星星", "#ffc93c", ["...#...", "...#...", "#######", ".#####.", "..###..", ".##.##.", "##...##"]],
+    ["兔子", "#ff8fb1", [".#...#.", ".#...#.", ".##.##.", ".#####.", "##.#.##", "#######", ".#####."]],
+    ["汽車", "#ff5d73", [".......", "..###..", ".#####.", "#######", "#######", ".##.##.", "......."]],
+    ["蝴蝶", "#7c5cff", ["##...##", "###.###", "#######", "..###..", "#######", "###.###", "##...##"]],
+    ["花朵", "#ff8fb1", ["..###..", ".#####.", "..###..", "...#...", ".#.#.#.", "..###..", "...#..."]],
+    ["烏龜", "#2fbf8a", ["..###..", ".#####.", "#######", "#######", ".#####.", ".#...#.", "......."]]
+  ].map(([name, color, rows]) => ({ name, color, sol: rows.map(r => [...r].map(ch => ch === "#" ? 1 : 0)) }));
+
+  function drawPic(canvas, pic, locked) {
+    const n = pic.sol.length, s = 12; canvas.width = canvas.height = n * s;
+    const ctx = canvas.getContext("2d"); ctx.clearRect(0, 0, n * s, n * s);
+    const ink = getComputedStyle(document.documentElement).getPropertyValue("--ink-soft").trim();
+    pic.sol.forEach((row, r) => row.forEach((v, c) => { if (v) { ctx.fillStyle = locked ? ink : pic.color; ctx.globalAlpha = locked ? .25 : 1; ctx.fillRect(c * s, r * s, s - 1, s - 1); } }));
+    ctx.globalAlpha = 1;
+  }
+
+  /* ---------- 音效（程式合成，不用音檔） ---------- */
+  let actx = null;
+  function tone(freq, dur, type = "triangle", vol = .12, delay = 0) {
+    if (save.muted) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      const t = actx.currentTime + delay, o = actx.createOscillator(), g = actx.createGain();
+      o.type = type; o.frequency.setValueAtTime(freq, t);
+      g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + dur);
+    } catch {}
+  }
+  const sfx = {
+    tap: () => tone(620, .06),
+    erase: () => tone(380, .06),
+    wrong: () => { tone(200, .14, "square", .06); tone(160, .16, "square", .06, .08); },
+    win: () => [523, 659, 784, 1047].forEach((f, i) => tone(f, .18, "triangle", .14, i * .09)),
+    evolve: () => [392, 523, 659, 784, 1047, 1319].forEach((f, i) => tone(f, .22, "sine", .14, i * .1))
+  };
+  $("#mute").textContent = save.muted ? "🔇" : "🔊";
+  $("#mute").addEventListener("click", () => { save.muted = !save.muted; persist(); $("#mute").textContent = save.muted ? "🔇" : "🔊"; if (!save.muted) sfx.tap(); });
+
+  /* ---------- 寵物「腦腦」 ---------- */
+  const STAGES = [
+    { at: 0, name: "神秘的蛋", label: "蛋" },
+    { at: 3, name: "腦腦寶寶", label: "第 1 階段" },
+    { at: 10, name: "腦腦", label: "第 2 階段 · 長出天線" },
+    { at: 25, name: "探險家腦腦", label: "第 3 階段 · 戴上帽子" },
+    { at: 50, name: "國王腦腦", label: "最終階段 · 戴上皇冠" }
+  ];
+  const stageOf = s => STAGES.reduce((k, st, i) => s >= st.at ? i : k, 0);
+  function petSVG(stage, stars, mood) {
+    if (stage === 0) {
+      const cracks = Math.min(stars, 2);
+      return `<g class="egg-wiggle">
+        <ellipse cx="60" cy="68" rx="34" ry="42" fill="#fff6dc" stroke="#23305a" stroke-width="3"/>
+        <circle cx="46" cy="52" r="6" fill="#7c5cff" opacity=".7"/><circle cx="72" cy="80" r="8" fill="#5fd3a8" opacity=".8"/><circle cx="70" cy="46" r="4" fill="#ffc93c"/>
+        ${cracks >= 1 ? `<path d="M40 64 l8 6 l6 -7 l7 7" fill="none" stroke="#23305a" stroke-width="3" stroke-linecap="round"/>` : ""}
+        ${cracks >= 2 ? `<path d="M61 70 l8 -6 l7 8 l8 -5" fill="none" stroke="#23305a" stroke-width="3" stroke-linecap="round"/>` : ""}
+      </g>`;
+    }
+    const big = stage >= 2 ? 1 : .82;
+    const mouth = mood === "happy" ? `<path d="M50 78 q10 12 20 0 z" fill="#23305a"/>` : mood === "oops" ? `<ellipse cx="60" cy="80" rx="5" ry="6" fill="#23305a"/>` : `<path d="M51 78 q9 7 18 0" fill="none" stroke="#23305a" stroke-width="3" stroke-linecap="round"/>`;
+    return `<g class="pet-body"><g transform="translate(60 100) scale(${big}) translate(-60 -100)">
+      ${stage >= 4 ? `<path d="M30 70 q-14 30 6 38 h48 q20 -8 6 -38 z" fill="#ff5d73" stroke="#23305a" stroke-width="3"/>` : ""}
+      ${stage >= 2 ? `<path d="M60 30 q-4 -12 4 -18" fill="none" stroke="#23305a" stroke-width="3" stroke-linecap="round"/><path d="M64 4 l3 6 l7 1 l-5 5 l1 7 l-6 -3 l-6 3 l1 -7 l-5 -5 l7 -1 z" fill="#ffc93c" stroke="#23305a" stroke-width="2"/>` : ""}
+      <path d="M22 78 q0 -46 38 -48 q38 2 38 48 q0 28 -38 28 q-38 0 -38 -28 z" fill="#5fd3a8" stroke="#23305a" stroke-width="3"/>
+      <path d="M40 46 q8 -6 14 2 M66 44 q8 -6 14 4 M48 36 q6 -4 12 0" fill="none" stroke="#2e9e77" stroke-width="3" stroke-linecap="round"/>
+      <g class="eyes"><ellipse cx="47" cy="62" rx="7" ry="8.5" fill="#fff" stroke="#23305a" stroke-width="2.5"/><ellipse cx="73" cy="62" rx="7" ry="8.5" fill="#fff" stroke="#23305a" stroke-width="2.5"/>
+        <circle cx="48" cy="64" r="3.6" fill="#23305a"/><circle cx="74" cy="64" r="3.6" fill="#23305a"/></g>
+      <ellipse cx="36" cy="76" rx="6" ry="3.5" fill="#ff8fb1" opacity=".8"/><ellipse cx="84" cy="76" rx="6" ry="3.5" fill="#ff8fb1" opacity=".8"/>
+      ${mouth}
+      ${stage === 3 ? `<path d="M42 34 l18 -26 l18 26 z" fill="#4d9fff" stroke="#23305a" stroke-width="3"/><circle cx="60" cy="8" r="5" fill="#ffc93c" stroke="#23305a" stroke-width="2"/>` : ""}
+      ${stage >= 4 ? `<path d="M38 36 l6 -18 l10 12 l6 -16 l6 16 l10 -12 l6 18 z" fill="#ffc93c" stroke="#23305a" stroke-width="3"/>` : ""}
+    </g></g>`;
+  }
+  let moodTimer;
+  function renderPet(mood = "idle", say) {
+    const st = stageOf(save.stars), info = STAGES[st], nxt = STAGES[st + 1];
+    const svg = $("#pet"); svg.innerHTML = petSVG(st, save.stars, mood);
+    svg.setAttribute("class", mood);
+    $("#pet-name").textContent = info.name; $("#pet-stage").textContent = info.label;
+    $("#stars").textContent = save.stars;
+    if (nxt) {
+      const pct = (save.stars - info.at) / (nxt.at - info.at) * 100;
+      $("#bar").style.width = pct + "%"; $("#next-at").textContent = `${save.stars}/${nxt.at}`;
+    } else { $("#bar").style.width = "100%"; $("#next-at").textContent = "MAX"; }
+    if (say) $("#bubble").textContent = say;
+    clearTimeout(moodTimer);
+    if (mood !== "idle") moodTimer = setTimeout(() => renderPet("idle"), 1400);
+  }
+  const CHEER = ["好厲害！", "動腦星好好吃！", "再來一題！", "你越來越強了！", "哇，一下就解開了！"];
+  const OOPS = ["咦？換條路試試看～", "沒關係，再想想！", "差一點點！"];
+
+  /* ---------- 彩帶 ---------- */
+  function confetti() {
+    if (reduced) return;
+    const cv = $("#confetti"); cv.hidden = false; const ctx = cv.getContext("2d");
+    cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio; ctx.scale(devicePixelRatio, devicePixelRatio);
+    const cols = ["#ff5d73", "#ffc93c", "#5fd3a8", "#7c5cff", "#4d9fff"];
+    const ps = Array.from({ length: 90 }, () => ({ x: innerWidth / 2, y: innerHeight * .45, vx: (Math.random() - .5) * 12, vy: -Math.random() * 12 - 4, r: Math.random() * 6 + 4, c: cols[rnd(5)], a: Math.random() * 6, va: (Math.random() - .5) * .4 }));
+    let t = 0;
+    (function frame() {
+      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      ps.forEach(p => { p.vy += .35; p.x += p.vx; p.y += p.vy; p.a += p.va; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.fillStyle = p.c; ctx.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); ctx.restore(); });
+      if (++t < 90) requestAnimationFrame(frame); else { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); cv.hidden = true; }
+    })();
+  }
+
+  /* ---------- 過關 ---------- */
+  function win({ title, text, pic, onNext }) {
+    const before = stageOf(save.stars);
+    save.solved[game]++; save.stars++; persist();
+    const after = stageOf(save.stars);
+    const evolved = after > before;
+    (evolved ? sfx.evolve : sfx.win)(); confetti();
+    renderPet("happy", evolved ? `我長大了！現在是「${STAGES[after].name}」！` : CHEER[rnd(CHEER.length)]);
+    const ov = $("#overlay");
+    ov.innerHTML = `<div class="win-card chunky" role="dialog" aria-label="過關">
+      <h3>${evolved ? "腦腦長大了！" : title}</h3>
+      ${pic ? `<canvas id="win-pic"></canvas>` : ""}
+      <p>${text}</p>
+      <span class="gain">+1 ⭐</span>
+      ${evolved ? `<svg viewBox="0 0 120 120" width="110" height="110" class="happy">${petSVG(after, save.stars, "happy")}</svg><p>變成「${STAGES[after].name}」了！</p>` : ""}
+      <div class="keys"><button class="key go" id="ov-next">下一題 →</button>${pic ? `<button class="key" id="ov-dex">看圖鑑</button>` : ""}</div>
+    </div>`;
+    if (pic) drawPic($("#win-pic", ov), pic);
+    ov.hidden = false; $("#ov-next", ov).focus();
+    $("#ov-next", ov).addEventListener("click", () => { ov.hidden = true; onNext(); });
+    if (pic) $("#ov-dex", ov).addEventListener("click", () => { ov.hidden = true; selectTab("dex"); });
+  }
+  function shakeEl(el) { el.classList.remove("shake"); void el.getBoundingClientRect(); el.classList.add("shake"); }
+  function oops(el) { sfx.wrong(); if (el) shakeEl(el); renderPet("oops", OOPS[rnd(OOPS.length)]); }
+
+  /* ---------- 教學 ---------- */
+  const howto = (g, body) => `<details class="howto" id="howto-${g}" ${save.solved[g] < 2 ? "open" : ""}><summary>怎麼玩？（點這裡打開／收起）</summary>${body}</details>`;
+  const demoRow = (label, cells) => `<div class="demo-row"><span class="dl">${label}</span>${cells.split("").map(c => `<span class="dc${c === "1" ? " on" : ""}"></span>`).join("")}</div>`;
+  const HOWTO = {
+    nono: `<ol>
+        <li><b>目標</b>：把對的格子塗滿，全部塗對會拼出一張圖，收進圖鑑！</li>
+        <li><b>左邊的數字</b>＝那一橫列要塗幾格。「4」就是有 4 格<b>連在一起</b>。</li>
+        <li><b>數字只算塗的格子，空格不寫出來。</b>有兩個數字就是兩段，兩段中間一定要隔開（空 1 格或更多格都可以）。例如「2 2」＝塗 2 格、空開、再塗 2 格。順序從左到右。</li>
+        <li><b>上面的數字</b>規則一樣，改成那一直行，由上往下看。「0」＝那一行一格都不塗。</li>
+        <li>點格子＝塗滿，再點一次＝取消。確定不塗的格子，可以開「打叉」做記號。</li>
+      </ol>
+      <div class="demo"><span class="demo-cap">範例 1：5 格寬寫「2 2」→ 中間只能空 1 格，只有這一種：</span>${demoRow("2 2", "11011")}</div>
+      <div class="demo"><span class="demo-cap">範例 2：6 格寬寫「2 2」→ 有三種可能，要看上面的數字才知道：</span>${demoRow("2 2", "110110")}${demoRow("2 2", "110011")}${demoRow("2 2", "011011")}</div>
+      <p class="tip">小撇步：先找最大的數字。5 格寬寫「5」，那一列一定全部塗滿！塗對的那一列，數字會變淡。</p>`,
+    stroke: `<ol>
+        <li><b>目標</b>：像拿一支筆畫圖，<b>筆不離開紙</b>，把每一條線都畫過一次。</li>
+        <li>先點一個圓點當起點，它會變黃色，代表筆尖在這裡。</li>
+        <li>再點一個<b>有線連著</b>的圓點，筆就畫過去。</li>
+        <li>畫過的線<b>不能再畫</b>。所有線都變色就過關。</li>
+        <li>走到沒路了就按「重來」，換一個起點試試。</li>
+      </ol>
+      <p class="tip">小撇步：數數看每個圓點連著幾條線。起點選錯，怎麼畫都會剩下線。</p>`,
+    sudoku: `<ol>
+        <li><b>目標</b>：把空格填滿，只能填 1、2、3、4。</li>
+        <li>每一<b>橫列</b>：1、2、3、4 各出現一次。</li>
+        <li>每一<b>直行</b>：也是各一次。</li>
+        <li>每個<b>粗線框起來的 2×2 小方塊</b>：也是各一次。</li>
+        <li>先點空格（出現黃框），再點下面的數字。和別人重複的數字會變紅。</li>
+      </ol>
+      <p class="tip">小撇步：找一列（或一行、一個小方塊）已經有 3 個數字的，缺的那個就是答案。</p>`
+  };
+
+  /* ---------- 數織 ---------- */
+  function runs(line) { const r = []; let c = 0; for (const v of line) { if (v) c++; else if (c) { r.push(c); c = 0; } } if (c) r.push(c); return r; }
+  function linePatterns(n, clue) { const out = []; for (let m = 0; m < 1 << n; m++) { const line = Array.from({ length: n }, (_, i) => (m >> i) & 1); if (runs(line).join() === clue.join()) out.push(line); } return out; }
+  function colPrefixOk(cells, clue, remaining) {
+    const r = []; let c = 0; for (const v of cells) { if (v) c++; else if (c) { r.push(c); c = 0; } }
+    const open = c; if (r.length > clue.length) return false;
+    for (let i = 0; i < r.length; i++) if (r[i] !== clue[i]) return false;
+    let idx = r.length, need;
+    if (open) { if (idx >= clue.length || open > clue[idx]) return false; const rest = clue.slice(idx + 1); need = (clue[idx] - open) + rest.reduce((a, b) => a + b, 0) + rest.length; }
+    else { const rest = clue.slice(idx); need = rest.reduce((a, b) => a + b, 0) + Math.max(0, rest.length - 1); }
+    return need <= remaining;
+  }
+  function countNonoSolutions(n, rowClues, colClues, limit = 2) {
+    const pats = rowClues.map(c => linePatterns(n, c)); const grid = []; let count = 0;
+    (function go(r) {
+      if (count >= limit) return; if (r === n) { count++; return; }
+      for (const p of pats[r]) { grid[r] = p; let ok = true; for (let c = 0; c < n && ok; c++) ok = colPrefixOk(grid.slice(0, r + 1).map(row => row[c]), colClues[c], n - r - 1); if (ok) go(r + 1); if (count >= limit) return; }
+    })(0);
+    return count;
+  }
+  const cluesOf = sol => ({ rowClues: sol.map(runs), colClues: sol[0].map((_, c) => runs(sol.map(r => r[c]))) });
+  function makeRandomNono(n) {
+    for (let t = 0; t < 400; t++) {
+      const sol = Array.from({ length: n }, () => Array.from({ length: n }, () => Math.random() < .58 ? 1 : 0));
+      const { rowClues, colClues } = cluesOf(sol);
+      if (rowClues.some(c => !c.length) || colClues.some(c => !c.length)) continue;
+      if (countNonoSolutions(n, rowClues, colClues) === 1) return { n, sol, rowClues, colClues, pic: { name: "神秘圖案", color: "#7c5cff", sol } };
+    }
+  }
+  function nextNono() {
+    const pic = PICS.find(p => !save.dex.includes(p.name));
+    if (pic) { const { rowClues, colClues } = cluesOf(pic.sol); return { n: pic.sol.length, sol: pic.sol, rowClues, colClues, pic, isNew: true }; }
+    const n = 5 + Math.min(2, Math.floor((save.solved.nono - PICS.length) / 4));
+    return makeRandomNono(n);
+  }
+  function startNono() {
+    const pz = nextNono(), n = pz.n;
+    const unique = countNonoSolutions(n, pz.rowClues, pz.colClues) === 1;
+    const state = pz.sol.map(r => r.map(() => 0));
+    let xMode = false, finished = false;
+    const cs = Math.max(30, Math.min(46, Math.floor((Math.min(innerWidth, 540) - 130) / (n + 1.6))));
+    sheet.innerHTML = `
+      <div class="sheet-head"><h2>🧩 數織</h2><span class="qno">${pz.isNew ? `圖鑑 ${save.dex.length + 1}/${PICS.length}` : "挑戰題"} · ${n}×${n}</span></div>
+      ${howto("nono", HOWTO.nono)}
+      <div class="nono" id="nono" style="--cs:${cs}px;--pic:${pz.pic.color}"></div>
+      <div class="keys"><button class="key" id="xmode" aria-pressed="false">✕ 打叉</button><button class="key" id="hint">💡 提示一格</button><button class="key" id="clear">清空</button></div>
+      <div class="status" id="status">${pz.isNew ? "塗完會拼出什麼圖案呢？" : ""}</div>
+      <span class="verified">${unique ? "✓ 程式已驗算：只有一種塗法" : "⚠ 驗算失敗"}</span>`;
+    const g = $("#nono", sheet);
+    g.style.gridTemplateColumns = `auto repeat(${n}, var(--cs))`;
+    g.appendChild(document.createElement("div"));
+    pz.colClues.forEach((c, i) => { const d = document.createElement("div"); d.className = "clue col"; d.id = "cc" + i; d.innerHTML = (c.length ? c : [0]).map(x => `<span>${x}</span>`).join(""); g.appendChild(d); });
+    const cells = [];
+    for (let r = 0; r < n; r++) {
+      const d = document.createElement("div"); d.className = "clue row"; d.id = "rc" + r; d.innerHTML = (pz.rowClues[r].length ? pz.rowClues[r] : [0]).map(x => `<span>${x}</span>`).join(""); g.appendChild(d);
+      cells[r] = [];
+      for (let c = 0; c < n; c++) {
+        const b = document.createElement("button"); b.className = "cell"; b.id = `nc-${r}-${c}`; b.style.setProperty("--d", r + c);
+        b.setAttribute("aria-label", `第 ${r + 1} 列第 ${c + 1} 格`);
+        b.addEventListener("click", () => tap(r, c));
+        g.appendChild(b); cells[r][c] = b;
+      }
+    }
+    function paint() {
+      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) { cells[r][c].classList.toggle("filled", state[r][c] === 1); cells[r][c].classList.toggle("x", state[r][c] === 2); }
+      for (let r = 0; r < n; r++) $("#rc" + r, sheet).classList.toggle("done", runs(state[r].map(v => v === 1)).join() === pz.rowClues[r].join());
+      for (let c = 0; c < n; c++) $("#cc" + c, sheet).classList.toggle("done", runs(state.map(row => row[c] === 1)).join() === pz.colClues[c].join());
+    }
+    function check() {
+      if (state.every((row, i) => row.every((v, j) => (v === 1) === (pz.sol[i][j] === 1)))) {
+        finished = true; g.classList.add("solved");
+        if (pz.isNew) { save.dex.push(pz.pic.name); }
+        setTimeout(() => win({ title: "拼出來了！", text: pz.isNew ? `你拼出了「${pz.pic.name}」，收進圖鑑了！` : "挑戰題完成！", pic: pz.isNew ? pz.pic : null, onNext: startNono }), reduced ? 0 : 700);
+      }
+    }
+    function tap(r, c, preset) {
+      if (finished) return;
+      if (!preset) {
+        const before = state[r][c];
+        state[r][c] = xMode ? (before === 2 ? 0 : 2) : (before === 1 ? 0 : 1);
+        (state[r][c] === 0 ? sfx.erase : sfx.tap)();
+      }
+      paint(); check();
+    }
+    $("#xmode", sheet).addEventListener("click", e => { xMode = !xMode; e.currentTarget.setAttribute("aria-pressed", xMode); sfx.tap(); });
+    $("#clear", sheet).addEventListener("click", () => { if (finished) return; state.forEach(row => row.fill(0)); paint(); sfx.erase(); });
+    $("#hint", sheet).addEventListener("click", () => {
+      if (finished) return;
+      const all = []; for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) all.push([r, c]);
+      const must = all.filter(([r, c]) => (state[r][c] === 1) !== (pz.sol[r][c] === 1));
+      if (!must.length) return;
+      const [r, c] = must[rnd(must.length)]; state[r][c] = pz.sol[r][c] === 1 ? 1 : 2; sfx.tap(); tap(r, c, true);
+    });
+  }
+
+  /* ---------- 一筆畫 ---------- */
+  function makeStroke(L) {
+    const W = L <= 2 ? 3 : 4, H = L <= 5 ? 3 : 4;
+    const target = Math.min(L <= 2 ? 7 : L <= 5 ? 10 : 14, (W - 1) * H + (H - 1) * W);
+    const id = (x, y) => y * W + x; const key = (a, b) => a < b ? `${a}-${b}` : `${b}-${a}`;
+    let best = null;
+    for (let t = 0; t < 300; t++) {
+      const used = new Set(); let cur = rnd(W * H);
+      for (let s = 0; s < target; s++) {
+        const x = cur % W, y = Math.floor(cur / W);
+        const nb = shuffle([[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]])
+          .map(([dx, dy]) => ({ nx: x + dx, ny: y + dy, dx, dy }))
+          .filter(e => e.nx >= 0 && e.ny >= 0 && e.nx < W && e.ny < H)
+          .map(e => ({ ...e, to: id(e.nx, e.ny), diag: e.dx && e.dy }))
+          .filter(e => !used.has(key(cur, e.to)))
+          .filter(e => !e.diag || !used.has(key(id(x + e.dx, y), id(x, y + e.dy))));
+        if (!nb.length) break;
+        used.add(key(cur, nb[0].to)); cur = nb[0].to;
+      }
+      const edges = [...used].map(k => k.split("-").map(Number));
+      const deg = {}; edges.forEach(([a, b]) => { deg[a] = (deg[a] || 0) + 1; deg[b] = (deg[b] || 0) + 1; });
+      const odd = Object.keys(deg).filter(k => deg[k] % 2).map(Number);
+      const pz = { W, H, edges, odd, nodes: Object.keys(deg).map(Number) };
+      if (edges.length >= target - 1 && odd.length === 2) return pz;
+      if (!best || edges.length > best.edges.length) best = pz;
+    }
+    return best;
+  }
+  function hasEulerPath(nodes, edges) {
+    const deg = {}, adj = {};
+    edges.forEach(([a, b]) => { deg[a] = (deg[a] || 0) + 1; deg[b] = (deg[b] || 0) + 1; (adj[a] = adj[a] || []).push(b); (adj[b] = adj[b] || []).push(a); });
+    const odd = nodes.filter(n => deg[n] % 2).length;
+    const seen = new Set([nodes[0]]); const st = [nodes[0]];
+    while (st.length) { const u = st.pop(); for (const v of adj[u] || []) if (!seen.has(v)) { seen.add(v); st.push(v); } }
+    return (odd === 0 || odd === 2) && seen.size === nodes.length;
+  }
+  function startStroke() {
+    const L = save.solved.stroke + 1, pz = makeStroke(L), ok = hasEulerPath(pz.nodes, pz.edges);
+    const gap = 100, pad = 40, vw = pad * 2 + gap * (pz.W - 1), vh = pad * 2 + gap * (pz.H - 1);
+    const pos = n => [pad + (n % pz.W) * gap, pad + Math.floor(n / pz.W) * gap];
+    sheet.innerHTML = `
+      <div class="sheet-head"><h2>✏️ 一筆畫</h2><span class="qno">第 ${L} 題 · ${pz.edges.length} 條線</span></div>
+      ${howto("stroke", HOWTO.stroke)}
+      <svg id="stroke-svg" viewBox="0 0 ${vw} ${vh}" role="img" aria-label="一筆畫圖形"></svg>
+      <div class="keys"><button class="key" id="restart">↺ 重來</button><button class="key" id="hint">💡 提示</button></div>
+      <div class="status" id="status"></div>
+      <span class="verified">${ok ? "✓ 程式已驗算：這張圖一定畫得完" : "⚠ 驗算失敗"}</span>`;
+    const svg = $("#stroke-svg", sheet), NS = "http://www.w3.org/2000/svg";
+    const lines = pz.edges.map(([a, b]) => { const [x1, y1] = pos(a), [x2, y2] = pos(b); const l = document.createElementNS(NS, "line"); Object.entries({ x1, y1, x2, y2 }).forEach(([k, v]) => l.setAttribute(k, v)); l.setAttribute("class", "edge"); svg.appendChild(l); return l; });
+    const circles = {};
+    pz.nodes.forEach(n => {
+      const [cx, cy] = pos(n);
+      const c = document.createElementNS(NS, "circle"); c.setAttribute("cx", cx); c.setAttribute("cy", cy); c.setAttribute("r", 15); c.setAttribute("class", "node");
+      const hit = document.createElementNS(NS, "circle"); hit.setAttribute("cx", cx); hit.setAttribute("cy", cy); hit.setAttribute("r", 34); hit.setAttribute("class", "node-hit");
+      hit.addEventListener("click", () => tap(n)); svg.appendChild(c); svg.appendChild(hit); circles[n] = c;
+    });
+    let cur = null, used = new Set(), finished = false, fails = 0; const status = $("#status", sheet);
+    function reset() { cur = null; used = new Set(); lines.forEach(l => l.classList.remove("used")); Object.values(circles).forEach(c => c.classList.remove("cur")); status.className = "status"; status.textContent = ""; sfx.erase(); }
+    function tap(n) {
+      if (finished) return;
+      if (cur === null) { cur = n; circles[n].classList.add("cur"); sfx.tap(); return; }
+      const i = pz.edges.findIndex(([a, b], k) => !used.has(k) && ((a === cur && b === n) || (b === cur && a === n)));
+      if (i < 0) { oops(circles[n]); return; }
+      used.add(i); lines[i].classList.add("used"); circles[cur].classList.remove("cur"); cur = n; circles[n].classList.add("cur");
+      tone(440 + used.size * 40, .08);
+      if (used.size === pz.edges.length) { finished = true; setTimeout(() => win({ title: "一筆畫完成！", text: `${pz.edges.length} 條線一次畫完！`, onNext: startStroke }), reduced ? 0 : 350); return; }
+      if (!pz.edges.some(([a, b], k) => !used.has(k) && (a === cur || b === cur))) {
+        fails++; oops(null); status.className = "status err";
+        status.textContent = fails >= 2 ? "卡住了。想想看：起點該選哪種點？按「提示」看看。" : "卡住了，還有線沒畫到。按「重來」再試一次。";
+      }
+    }
+    $("#restart", sheet).addEventListener("click", reset);
+    $("#hint", sheet).addEventListener("click", () => {
+      pz.odd.forEach(n => circles[n].classList.add("hint")); sfx.tap();
+      status.className = "status"; status.textContent = pz.odd.length ? "紅框的點連著「單數」條線。從其中一個出發，就會在另一個結束。" : "每個點都連著雙數條線，從哪裡出發都可以。";
+    });
+  }
+
+  /* ---------- 4×4 數獨 ---------- */
+  function sudokuSolutions(g, limit = 2) {
+    let count = 0; const a = g.slice();
+    (function go() {
+      if (count >= limit) return; const i = a.indexOf(0); if (i < 0) { count++; return; }
+      const r = Math.floor(i / 4), c = i % 4, br = r - r % 2, bc = c - c % 2;
+      for (let v = 1; v <= 4; v++) {
+        let ok = true;
+        for (let k = 0; k < 4 && ok; k++) if (a[r * 4 + k] === v || a[k * 4 + c] === v) ok = false;
+        for (let y = br; y < br + 2 && ok; y++) for (let x = bc; x < bc + 2; x++) if (a[y * 4 + x] === v) ok = false;
+        if (ok) { a[i] = v; go(); a[i] = 0; if (count >= limit) return; }
+      }
+    })();
+    return count;
+  }
+  function makeSudoku(L) {
+    const base = [1,2,3,4, 3,4,1,2, 2,1,4,3, 4,3,2,1], digits = shuffle([1, 2, 3, 4]);
+    let g = base.map(v => digits[v - 1]);
+    const rows = [...shuffle([0, 1]), ...shuffle([2, 3])], bands = Math.random() < .5 ? [0, 1, 2, 3] : [2, 3, 0, 1];
+    const cols = [...shuffle([0, 1]), ...shuffle([2, 3])], stacks = Math.random() < .5 ? [0, 1, 2, 3] : [2, 3, 0, 1];
+    g = Array.from({ length: 16 }, (_, i) => g[rows[bands[Math.floor(i / 4)]] * 4 + cols[stacks[i % 4]]]);
+    if (Math.random() < .5) g = Array.from({ length: 16 }, (_, i) => g[(i % 4) * 4 + Math.floor(i / 4)]);
+    const sol = g.slice(), puzzle = g.slice(), target = L <= 2 ? 8 : L <= 5 ? 6 : 4;
+    for (const i of shuffle([...Array(16).keys()])) {
+      if (puzzle.filter(Boolean).length <= target) break;
+      const keep = puzzle[i]; puzzle[i] = 0; if (sudokuSolutions(puzzle) !== 1) puzzle[i] = keep;
+    }
+    return { sol, puzzle, unique: sudokuSolutions(puzzle) === 1 };
+  }
+  function startSudoku() {
+    const L = save.solved.sudoku + 1, pz = makeSudoku(L), state = pz.puzzle.slice();
+    let sel = state.indexOf(0), finished = false;
+    const ss = Math.min(70, Math.floor((Math.min(innerWidth, 540) - 90) / 4));
+    sheet.innerHTML = `
+      <div class="sheet-head"><h2>🔢 數獨</h2><span class="qno">第 ${L} 題 · 提示 ${pz.puzzle.filter(Boolean).length} 格</span></div>
+      ${howto("sudoku", HOWTO.sudoku)}
+      <div class="sudoku" id="sudoku" style="--ss:${ss}px"></div>
+      <div class="pad" id="pad">${[1, 2, 3, 4].map(v => `<button class="key" id="pad-${v}" data-v="${v}">${v}</button>`).join("")}<button class="key erase" id="pad-0" data-v="0">擦掉</button></div>
+      <div class="keys"><button class="key" id="hint">💡 提示一格</button></div>
+      <div class="status" id="status"></div>
+      <span class="verified">${pz.unique ? "✓ 程式已驗算：只有一個解" : "⚠ 驗算失敗"}</span>`;
+    const box = $("#sudoku", sheet), cells = [];
+    for (let i = 0; i < 16; i++) {
+      const b = document.createElement("button"), r = Math.floor(i / 4), c = i % 4;
+      b.className = "scell" + (pz.puzzle[i] ? " given" : "") + (c === 1 ? " c1" : "") + (r === 1 ? " r1" : "");
+      b.id = "sc-" + i; b.setAttribute("aria-label", `第 ${r + 1} 列第 ${c + 1} 格`);
+      b.addEventListener("click", () => { if (!pz.puzzle[i] && !finished) { sel = i; sfx.tap(); paint(); } });
+      box.appendChild(b); cells.push(b);
+    }
+    function conflict(i) {
+      const v = state[i]; if (!v) return false; const r = Math.floor(i / 4), c = i % 4, br = r - r % 2, bc = c - c % 2;
+      for (let k = 0; k < 16; k++) { if (k === i || state[k] !== v) continue; const kr = Math.floor(k / 4), kc = k % 4; if (kr === r || kc === c || (kr - kr % 2 === br && kc - kc % 2 === bc)) return true; }
+      return false;
+    }
+    function paint(popIdx) { cells.forEach((b, i) => { b.textContent = state[i] || ""; b.classList.toggle("sel", i === sel && !finished); b.classList.toggle("bad", !pz.puzzle[i] && conflict(i)); b.classList.toggle("pop", i === popIdx); }); }
+    function set(i, v) {
+      state[i] = v; paint(i);
+      if (v && conflict(i)) oops(cells[i]); else (v ? sfx.tap : sfx.erase)();
+      if (state.every((x, k) => x === pz.sol[k])) { finished = true; paint(); setTimeout(() => win({ title: "全部填對了！", text: "每一列、每一行、每一格都沒有重複！", onNext: startSudoku }), reduced ? 0 : 300); }
+    }
+    $("#pad", sheet).addEventListener("click", e => { const v = e.target.closest("button")?.dataset.v; if (v === undefined || finished || sel < 0 || pz.puzzle[sel]) return; set(sel, Number(v)); });
+    $("#hint", sheet).addEventListener("click", () => { if (finished) return; const wrong = state.map((v, i) => i).filter(i => state[i] !== pz.sol[i]); if (!wrong.length) return; const i = wrong[rnd(wrong.length)]; sel = i; set(i, pz.sol[i]); });
+    paint();
+  }
+
+  /* ---------- 圖鑑 ---------- */
+  function startDex() {
+    sheet.innerHTML = `
+      <div class="sheet-head"><h2>📖 圖鑑</h2><span class="dex-count">${save.dex.length} / ${PICS.length}</span></div>
+      <p style="margin:0;width:100%;font-size:.9rem;color:var(--ink-soft)">玩數織拼出圖案，就會收進這裡。問號裡面藏著什麼？拼出來才知道！</p>
+      <div class="dex" id="dex"></div>`;
+    const box = $("#dex", sheet);
+    PICS.forEach(p => {
+      const got = save.dex.includes(p.name);
+      const card = document.createElement("div"); card.className = "dex-card" + (got ? "" : " locked");
+      const label = document.createElement("span"); label.textContent = got ? p.name : `${p.sol.length}×${p.sol.length}`;
+      if (got) { const cv = document.createElement("canvas"); drawPic(cv, p); card.append(cv, label); }
+      else { const q = document.createElement("div"); q.className = "dex-q"; q.textContent = "?"; card.append(q, label); }
+      box.appendChild(card);
+    });
+  }
+
+  const starters = { nono: startNono, stroke: startStroke, sudoku: startSudoku, dex: startDex };
+  function selectTab(g) {
+    game = g;
+    document.querySelectorAll(".tab").forEach(x => x.setAttribute("aria-selected", x.dataset.game === g));
+    starters[g]();
+  }
+  document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => { sfx.tap(); selectTab(t.dataset.game); }));
+  renderPet("idle", save.stars ? "今天也一起動腦吧！" : undefined);
+  selectTab("nono");
+  if (location.hash === "#selftest") window.__lgTest = { PICS, countNonoSolutions, cluesOf, makeRandomNono, makeStroke, hasEulerPath, makeSudoku, sudokuSolutions };
+})();
+</script>
