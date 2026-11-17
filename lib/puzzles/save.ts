@@ -20,6 +20,7 @@ export interface PlaySave {
   items: string[]; // 已擁有的裝扮
   look: Look; // 目前穿戴
   seenDemo: GameKind[]; // 看過示範的謎題
+  adv: number; // 冒險路線圖已經走過幾個點
 }
 
 const KEY = "logic-gym-play-v1";
@@ -40,6 +41,7 @@ export const emptySave = (): PlaySave => ({
   items: [],
   look: {},
   seenDemo: [],
+  adv: 0,
 });
 
 export function loadSave(): PlaySave {
@@ -57,6 +59,7 @@ export function loadSave(): PlaySave {
       seenDemo: Array.isArray(s.seenDemo) ? s.seenDemo : [],
       look: s.look ?? {},
       daily: s.daily ?? base.daily,
+      adv: typeof s.adv === "number" && s.adv >= 0 ? s.adv : 0,
     };
   } catch {
     return emptySave();

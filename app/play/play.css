@@ -205,6 +205,40 @@
 .lgp-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-soft); opacity: .35; }
 .lgp-dots i.on { opacity: 1; background: var(--grape); }
 
+/* 冒險路線圖 */
+.lgp-tabs { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.lgp-tab { font-size: .85rem; }
+.lgp-sheet-map { padding: 10px; }
+.lgp-map { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+.lgp-chapter { position: relative; width: 100%; border: 3px solid var(--ink); border-radius: 16px; overflow: hidden; }
+.lgp-chapter.locked { filter: grayscale(.75); opacity: .75; -webkit-mask-image: linear-gradient(#000 55%, transparent); mask-image: linear-gradient(#000 55%, transparent); }
+.lgp-chapter-head { position: absolute; top: 10px; left: 10px; right: 10px; z-index: 3; display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: wrap;
+  background: rgba(255,255,255,.88); border: 2px solid #23305a; border-radius: 12px; padding: 4px 10px; font-weight: 900; color: #23305a; font-size: .95rem; }
+.lgp-chapter-count { font: 800 .85rem var(--font-display); color: #66739c; }
+.lgp-trail { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+.lgp-decor { position: absolute; width: 34px; height: 34px; z-index: 1; transform: translateX(-50%); }
+.lgp-node-wrap { position: absolute; z-index: 2; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; }
+.lgp-stop {
+  width: 60px; height: 60px; border-radius: 50%; border: 3px solid #23305a; background: #fff; color: #23305a;
+  box-shadow: 0 5px 0 #23305a; cursor: pointer; position: relative; display: grid; place-items: center; padding: 0;
+  transition: transform .1s, box-shadow .1s;
+}
+.lgp-stop .ic { font-size: 1.6rem; line-height: 1; }
+.lgp-stop:active:not(:disabled) { transform: translateY(5px); box-shadow: 0 0 0 #23305a; }
+.lgp-stop.done { background: #5fd3a8; }
+.lgp-stop.current { background: #ffc93c; animation: lgp-glow 1.4s ease-in-out infinite; }
+.lgp-stop.locked { background: #e3e7f2; cursor: default; box-shadow: 0 5px 0 #9aa6c6; border-color: #9aa6c6; }
+.lgp-stop.locked .ic { font-size: 1.1rem; opacity: .7; }
+.lgp-stop.boss { width: 76px; height: 76px; }
+.lgp-stop.boss .ic { font-size: 2rem; }
+.lgp-stop.chest:not(.locked):not(.done) { background: #ff9ec4; }
+.lgp-stop-check { position: absolute; right: -4px; bottom: -4px; width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 2px solid #23305a; font: 900 .75rem var(--font-body); display: grid; place-items: center; color: #2fbf8a; }
+.lgp-stop-label { margin-top: 6px; font: 800 .8rem var(--font-display); color: #23305a; background: rgba(255,255,255,.8); border-radius: 999px; padding: 0 8px; }
+@keyframes lgp-glow { 0%,100% { box-shadow: 0 5px 0 #23305a, 0 0 0 0 rgba(255,201,60,.7); } 50% { box-shadow: 0 5px 0 #23305a, 0 0 0 12px rgba(255,201,60,0); } }
+.lgp-map-pet { position: absolute; top: -26px; width: 58px; height: 58px; overflow: visible; pointer-events: none; }
+.lgp-map-bar { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+@media (max-width: 380px) { .lgp-tab { font-size: .78rem; padding: 5px 0; } .lgp-tab .ic { font-size: 1.05rem; } }
+
 .lgp-footer { font-size: .8rem; color: var(--ink-soft); text-align: center; }
 .lgp-footer a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {

@@ -43,14 +43,16 @@ export function canOpenChest(s: PlaySave, today = todayStr()): boolean {
   return s.daily.date === today && s.daily.done >= DAILY_GOAL && !s.daily.opened;
 }
 
-/** 開寶箱：隨機給一件還沒有的裝扮；全部都有了就給星星 */
-export function openChest(s: PlaySave, rng: Rng = defaultRng): { save: PlaySave; item: WardrobeItem | null } {
+/** 寶箱獎勵：隨機給一件還沒有的裝扮（自動穿上）；全部都有了就給星星 */
+export function grantReward(s: PlaySave, rng: Rng = defaultRng): { save: PlaySave; item: WardrobeItem | null } {
   const missing = WARDROBE.filter((w) => !s.items.includes(w.id));
-  const daily = { ...s.daily, opened: true };
-  if (!missing.length) return { save: { ...s, daily, stars: s.stars + CHEST_BONUS_STARS }, item: null };
+  if (!missing.length) return { save: { ...s, stars: s.stars + CHEST_BONUS_STARS }, item: null };
   const item = missing[randInt(missing.length, rng)];
-  return {
-    save: { ...s, daily, items: [...s.items, item.id], look: { ...s.look, [item.slot]: item.id } },
-    item,
-  };
+  return { save: { ...s, items: [...s.items, item.id], look: { ...s.look, [item.slot]: item.id } }, item };
+}
+
+/** 開每日寶箱（一天一次） */
+export function openChest(s: PlaySave, rng: Rng = defaultRng): { save: PlaySave; item: WardrobeItem | null } {
+  const r = grantReward(s, rng);
+  return { save: { ...r.save, daily: { ...s.daily, opened: true } }, item: r.item };
 }

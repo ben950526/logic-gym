@@ -5,7 +5,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { NonogramBoard, StrokeBoard, SudokuBoard, type WinInfo } from "@/components/play/boards";
 import { DemoOverlay } from "@/components/play/demo";
 import { PixelPicture } from "@/components/play/pixel-picture";
-import { canOpenChest, CHEST_BONUS_STARS, currentStreak, DAILY_GOAL, openChest, recordSolve, rollDay } from "@/lib/puzzles/daily";
+import { AdventureMap } from "@/components/play/adventure-map";
+import { BOSS_BONUS_STARS, nodeAt } from "@/lib/puzzles/adventure";
+import { canOpenChest, CHEST_BONUS_STARS, currentStreak, DAILY_GOAL, grantReward, openChest, recordSolve, rollDay } from "@/lib/puzzles/daily";
 import { CHEERS, OOPS_LINES, PET_INTRO, PET_STAGES, petSvg, stageOf, type PetMood } from "@/lib/puzzles/pet";
 import { PICTURES } from "@/lib/puzzles/pictures";
 import { randInt } from "@/lib/puzzles/random";
@@ -14,9 +16,10 @@ import { setMuted, sfx } from "@/lib/puzzles/sound";
 import { speak } from "@/lib/puzzles/speech";
 import { WARDROBE, type ItemSlot, type Look, type WardrobeItem } from "@/lib/puzzles/wardrobe";
 
-type Tab = GameKind | "dex" | "wardrobe";
+type Tab = "map" | GameKind | "dex" | "wardrobe";
 
 const TABS: { id: Tab; icon: string; label: string }[] = [
+  { id: "map", icon: "🗺️", label: "冒險" },
   { id: "nono", icon: "🧩", label: "數織" },
   { id: "stroke", icon: "✏️", label: "一筆畫" },
   { id: "sudoku", icon: "🔢", label: "數獨" },
@@ -26,8 +29,8 @@ const TABS: { id: Tab; icon: string; label: string }[] = [
 const SLOT_LABEL: Record<ItemSlot, string> = { color: "顏色", hat: "帽子", face: "配件" };
 
 type Overlay =
-  | { kind: "win"; info: WinInfo; evolvedTo?: number; dailyDone: boolean }
-  | { kind: "chest"; item: WardrobeItem | null }
+  | { kind: "win"; info: WinInfo; evolvedTo?: number; dailyDone: boolean; gain: number; boss: boolean; fromMap: boolean }
+  | { kind: "chest"; item: WardrobeItem | null; source: "daily" | "adventure" }
   | { kind: "demo"; game: GameKind }
   | null;
 
@@ -70,7 +73,8 @@ function PetSvg({ stage, stars, mood, look, size = 112 }: { stage: number; stars
 
 export function PuzzleGame() {
   const [save, setSave] = useState<PlaySave | null>(null);
-  const [tab, setTab] = useState<Tab>("nono");
+  const [tab, setTab] = useState<Tab>("map");
+  const [playing, setPlaying] = useState<number | null>(null); // 冒險地圖上正在玩的關卡
   const [round, setRound] = useState(0);
   const [mood, setMood] = useState<PetMood>("idle");
   const [bubble, setBubble] = useState(PET_INTRO);
@@ -83,8 +87,7 @@ export function PuzzleGame() {
     setMuted(s.muted);
     setSave(s);
     writeSave(s);
-    if (s.stars) setBubble("今天也一起動腦吧！");
-    if (!s.seenDemo.includes("nono")) setOverlay({ kind: "demo", game: "nono" });
+    setBubble(s.stars ? "今天也一起動腦吧！" : "點地圖上發亮的那一關，我們出發吧！");
   }, []);
   useEffect(() => { if (overlay && overlay.kind !== "demo") primaryBtn.current?.focus(); }, [overlay]);
 
@@ -102,7 +105,8 @@ export function PuzzleGame() {
   const nextStage = PET_STAGES[stage + 1];
   const pct = nextStage ? ((save.stars - info.at) / (nextStage.at - info.at)) * 100 : 100;
   const nextPicture = PICTURES.find((p) => !save.dex.includes(p.name));
-  const game: GameKind | null = tab === "nono" || tab === "stroke" || tab === "sudoku" ? tab : null;
+  const mapNode = tab === "map" && playing !== null ? nodeAt(playing) : null;
+  const game: GameKind | null = mapNode?.game ?? (tab === "nono" || tab === "stroke" || tab === "sudoku" ? tab : null);
   const streak = currentStreak(save);
   const chestReady = canOpenChest(save);
   const dailyDone = Math.min(save.daily.done, DAILY_GOAL);
@@ -112,20 +116,24 @@ export function PuzzleGame() {
   const handleWin = (w: WinInfo) => {
     if (!game) return;
     const before = stageOf(save.stars);
+    const boss = !!mapNode?.boss;
+    const gain = 1 + (boss ? BOSS_BONUS_STARS : 0);
+    const advanced = mapNode !== null && mapNode.index === save.adv; // 重玩已過的關不會再往前走
     const base: PlaySave = {
       ...save,
-      stars: save.stars + 1,
+      stars: save.stars + gain,
       solved: { ...save.solved, [game]: save.solved[game] + 1 },
       dex: w.picture && !save.dex.includes(w.picture.name) ? [...save.dex, w.picture.name] : save.dex,
+      adv: advanced ? save.adv + 1 : save.adv,
     };
     const { save: next, justCompleted } = recordSolve(base);
     update(next);
     const after = stageOf(next.stars);
     const evolved = after > before;
-    (evolved ? sfx.evolve : sfx.win)();
+    (evolved || boss ? sfx.evolve : sfx.win)();
     fireConfetti();
-    react("happy", evolved ? `我長大了！現在是「${PET_STAGES[after].name}」！` : justCompleted ? "今日任務完成！快去開寶箱！" : CHEERS[randInt(CHEERS.length)]);
-    setOverlay({ kind: "win", info: w, evolvedTo: evolved ? after : undefined, dailyDone: justCompleted });
+    react("happy", evolved ? `我長大了！現在是「${PET_STAGES[after].name}」！` : boss ? "我們打倒 BOSS 了！下一章出發！" : justCompleted ? "今日任務完成！快去開寶箱！" : CHEERS[randInt(CHEERS.length)]);
+    setOverlay({ kind: "win", info: boss ? { ...w, title: "打倒 BOSS！" } : w, evolvedTo: evolved ? after : undefined, dailyDone: justCompleted, gain, boss, fromMap: mapNode !== null });
   };
   const handleOops = () => { sfx.wrong(); react("oops", OOPS_LINES[randInt(OOPS_LINES.length)]); };
 
@@ -137,13 +145,39 @@ export function PuzzleGame() {
     sfx.evolve();
     fireConfetti();
     react("happy", item ? `哇！我拿到「${item.name}」了！` : `寶箱裡有 ${CHEST_BONUS_STARS} 顆星星！`);
-    setOverlay({ kind: "chest", item });
+    setOverlay({ kind: "chest", item, source: "daily" });
   };
 
-  const goNext = () => { setOverlay(null); setRound((r) => r + 1); };
+  /** 點地圖上的點 */
+  const openNode = (k: number) => {
+    const n = nodeAt(k);
+    sfx.tap();
+    if (n.kind === "chest") {
+      if (k !== save.adv) { react("happy", "這個寶箱已經開過了！"); return; }
+      const { save: rewarded, item } = grantReward(save);
+      update({ ...rewarded, adv: save.adv + 1 });
+      sfx.evolve();
+      fireConfetti();
+      react("happy", item ? `路上的寶箱！我拿到「${item.name}」了！` : `寶箱裡有 ${CHEST_BONUS_STARS} 顆星星！`);
+      setOverlay({ kind: "chest", item, source: "adventure" });
+      return;
+    }
+    setPlaying(k);
+    setRound((r) => r + 1);
+    if (n.game && !save.seenDemo.includes(n.game)) setOverlay({ kind: "demo", game: n.game });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const backToMap = () => { setOverlay(null); setPlaying(null); setTab("map"); setRound((r) => r + 1); };
+
+  const goNext = () => {
+    if (playing !== null || (overlay?.kind === "chest" && overlay.source === "adventure")) return backToMap();
+    setOverlay(null);
+    setRound((r) => r + 1);
+  };
   const selectTab = (t: Tab) => {
     sfx.tap();
     setTab(t);
+    setPlaying(null);
     setRound((r) => r + 1);
     if ((t === "nono" || t === "stroke" || t === "sudoku") && !save.seenDemo.includes(t)) setOverlay({ kind: "demo", game: t });
   };
@@ -153,7 +187,7 @@ export function PuzzleGame() {
   };
 
   const boardProps = game ? {
-    level: save.solved[game] + 1,
+    level: mapNode ? mapNode.level : save.solved[game] + 1,
     howtoOpen: save.solved[game] < 2,
     onWin: handleWin,
     onOops: handleOops,
@@ -217,7 +251,24 @@ export function PuzzleGame() {
         ))}
       </nav>
 
-      <section className="lgp-sheet lgp-chunky">
+      <section className={tab === "map" && !mapNode ? "lgp-sheet lgp-chunky lgp-sheet-map" : "lgp-sheet lgp-chunky"}>
+        {tab === "map" && !mapNode && (
+          <AdventureMap adv={save.adv} stage={stage} stars={save.stars} look={save.look} mood={mood} onOpen={openNode} />
+        )}
+        {mapNode && boardProps && (
+          <>
+            <div className="lgp-map-bar">
+              <button className="lgp-key" onClick={backToMap}>← 回地圖</button>
+              <span className="lgp-qno">第 {mapNode.index + 1} 關{mapNode.boss ? " · 👑 BOSS" : ""}</span>
+            </div>
+            {mapNode.game === "nono" && (
+              <NonogramBoard key={`mn${round}`} {...boardProps} picture={mapNode.boss ? undefined : nextPicture}
+                dexIndex={save.dex.length + 1} dexTotal={PICTURES.length} />
+            )}
+            {mapNode.game === "stroke" && <StrokeBoard key={`ms${round}`} {...boardProps} />}
+            {mapNode.game === "sudoku" && <SudokuBoard key={`md${round}`} {...boardProps} />}
+          </>
+        )}
         {tab === "nono" && boardProps && (
           <NonogramBoard key={`n${round}`} {...boardProps} picture={nextPicture}
             dexIndex={save.dex.length + 1} dexTotal={PICTURES.length}
@@ -284,7 +335,7 @@ export function PuzzleGame() {
             <h3>{overlay.evolvedTo !== undefined ? "腦腦長大了！" : overlay.info.title}</h3>
             {overlay.info.picture && <PixelPicture picture={overlay.info.picture} />}
             <p>{overlay.info.text}</p>
-            <span className="gain">+1 ⭐</span>
+            <span className="gain">+{overlay.gain} ⭐{overlay.boss ? "（BOSS 加碼）" : ""}</span>
             {overlay.evolvedTo !== undefined && (
               <>
                 <PetSvg stage={overlay.evolvedTo} stars={save.stars} mood="happy" look={save.look} size={110} />
@@ -296,10 +347,10 @@ export function PuzzleGame() {
               {overlay.dailyDone ? (
                 <button ref={primaryBtn} className="lgp-key go" onClick={doOpenChest}>🎁 開寶箱</button>
               ) : (
-                <button ref={primaryBtn} className="lgp-key go" onClick={goNext}>下一題 →</button>
+                <button ref={primaryBtn} className="lgp-key go" onClick={goNext}>{overlay.fromMap ? "回地圖，繼續前進 →" : "下一題 →"}</button>
               )}
-              {overlay.dailyDone && <button className="lgp-key" onClick={goNext}>先玩下一題</button>}
-              {overlay.info.picture && !overlay.dailyDone && <button className="lgp-key" onClick={() => { setOverlay(null); setTab("dex"); }}>看圖鑑</button>}
+              {overlay.dailyDone && <button className="lgp-key" onClick={goNext}>{overlay.fromMap ? "先回地圖" : "先玩下一題"}</button>}
+              {overlay.info.picture && !overlay.dailyDone && <button className="lgp-key" onClick={() => { setOverlay(null); setPlaying(null); setTab("dex"); }}>看圖鑑</button>}
             </div>
           </div>
         </div>
@@ -316,10 +367,12 @@ export function PuzzleGame() {
                 <p>{stage === 0 ? "腦腦孵出來之後就能穿上囉！" : "已經幫腦腦穿上了，去衣櫃可以換。"}</p>
               </>
             ) : <p>衣服都收集齊了，寶箱改送星星！</p>}
-            <p className="lgp-win-daily">🔥 已經連續 {currentStreak(save)} 天，明天再來開新寶箱！</p>
+            {overlay.source === "daily"
+              ? <p className="lgp-win-daily">🔥 已經連續 {currentStreak(save)} 天，明天再來開新寶箱！</p>
+              : <p className="lgp-win-daily">🗺️ 路上撿到的寶箱！繼續往前走吧！</p>}
             <div className="lgp-keys">
-              <button ref={primaryBtn} className="lgp-key go" onClick={goNext}>繼續玩 →</button>
-              {overlay.item && <button className="lgp-key" onClick={() => { setOverlay(null); setTab("wardrobe"); }}>去衣櫃</button>}
+              <button ref={primaryBtn} className="lgp-key go" onClick={goNext}>{playing !== null || overlay.source === "adventure" ? "回地圖 →" : "繼續玩 →"}</button>
+              {overlay.item && <button className="lgp-key" onClick={() => { setOverlay(null); setPlaying(null); setTab("wardrobe"); }}>去衣櫃</button>}
             </div>
           </div>
         </div>

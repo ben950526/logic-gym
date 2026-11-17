@@ -2,6 +2,7 @@
  * 謎題引擎驗證：大量產生題目，確認每一題都「有解且只有一個解」（一筆畫：一定畫得完）。
  * 執行：npm run verify:puzzle-engine
  */
+import { BOSS_SLOT, CHEST_SLOT, nodeAt } from "../lib/puzzles/adventure";
 import { canOpenChest, CHEST_BONUS_STARS, currentStreak, DAILY_GOAL, openChest, recordSolve } from "../lib/puzzles/daily";
 import { countSolutions as nonoCount, isUnique, makeRandom } from "../lib/puzzles/nonogram";
 import { emptySave } from "../lib/puzzles/save";
@@ -92,6 +93,24 @@ console.log("=== 每日任務／連續天數／寶箱 ===");
   if (m.streak !== 6) fail(`跨月應接續連續天數，實際 ${m.streak}`);
 }
 console.log("  情境檢查完畢");
+
+console.log("=== 冒險路線圖 ===");
+{
+  for (let k = 0; k < 120; k++) {
+    const n = nodeAt(k);
+    if (n.slot === CHEST_SLOT && n.kind !== "chest") fail(`第 ${k + 1} 關應該是寶箱`);
+    if (n.slot === BOSS_SLOT && !n.boss) fail(`第 ${k + 1} 關應該是 BOSS`);
+    if (n.kind === "puzzle" && (!n.game || n.level < 1)) fail(`第 ${k + 1} 關缺少謎題種類或難度`);
+    if (k > 0 && n.kind === "puzzle" && n.game === nodeAt(k - 1).game) fail(`第 ${k}、${k + 1} 關是同一種謎題（應該輪流）`);
+    if (n.boss) {
+      const p = nodeAt(k - 1);
+      if (n.level <= p.level) fail(`第 ${k + 1} 關 BOSS 難度沒有比前一關高`);
+    }
+  }
+  // 難度不會倒退太多：每章的第一關不低於上一章第一關
+  for (let c = 1; c < 12; c++) if (nodeAt(c * 10).level < nodeAt((c - 1) * 10).level) fail(`第 ${c + 1} 章開頭難度比上一章低`);
+}
+console.log("  120 個點檢查完畢");
 
 if (failures) {
   console.log(`\n✗ ${failures} 個問題`);
