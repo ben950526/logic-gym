@@ -6,7 +6,8 @@
 > - 謎題引擎：`lib/puzzles/`；驗證：`npm run verify:puzzle-engine`
 > - 介面：`components/play/`、`app/play/play.css`
 > - 規劃：`docs/roadmap-2026-11.md`；設計：`docs/design-direction.md`；市場：`docs/market-research-2026-11.md`
-> - 分支：`v3-puzzle-book`（尚未合併、尚未部署）
+> - 分支：`v3-puzzle-book` 已合併到 `main`，2026-11-17 部署到正式網址 https://logic-gym-khaki.vercel.app
+> - 已加入：每日任務（3 題）、連續天數、寶箱、腦腦衣櫃（12 件）、「看我做一次」示範、語音朗讀
 > - 進度目前只存在瀏覽器（訪客模式），還沒接 Supabase。
 >
 > 以下第 1～9 節是 11/16 接手時的盤點，部分內容（產品定位、下一步）已被上面取代。
