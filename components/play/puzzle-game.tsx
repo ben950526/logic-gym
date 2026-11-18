@@ -166,7 +166,6 @@ export function PuzzleGame() {
 
   const boardProps = node ? {
     level: node.level,
-    howtoOpen: save.solved[node.game] < 2,
     onWin: handleWin,
     onOops: () => sfx.wrong(),
     onDemo: () => setOverlay({ kind: "demo", game: node.game }),
@@ -248,7 +247,7 @@ export function PuzzleGame() {
                 <span className="lgp-qno">第 {node.index + 1} 關{node.boss ? " · 👑 BOSS" : ""}</span>
               </div>
               {node.game === "nono" && (
-                <NonogramBoard key={`n${round}`} {...boardProps} picture={node.boss ? undefined : nextPicture} />
+                <NonogramBoard key={`n${round}`} {...boardProps} picture={nextPicture} />
               )}
               {node.game === "stroke" && <StrokeBoard key={`s${round}`} {...boardProps} />}
               {node.game === "sudoku" && <SudokuBoard key={`d${round}`} {...boardProps} />}

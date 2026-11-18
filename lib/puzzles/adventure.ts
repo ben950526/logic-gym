@@ -23,7 +23,8 @@ export function nodeAt(k: number): AdvNode {
   const slot = k % NODES_PER_CHAPTER;
   const boss = slot === BOSS_SLOT;
   const base = Math.floor(k / GAMES.length) + 1;
-  return { index: k, chapter, slot, game: GAMES[k % GAMES.length], boss, level: boss ? base + 4 : base };
+  // BOSS 只比平常難一點點（約等於往後兩題的程度），不會突然跳很難
+  return { index: k, chapter, slot, game: GAMES[k % GAMES.length], boss, level: boss ? base + 2 : base };
 }
 
 export interface ChapterTheme {

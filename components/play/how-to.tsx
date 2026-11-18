@@ -72,10 +72,11 @@ const SPOKEN: Record<GameKind, string> = {
   sudoku: "把空格填滿一、二、三、四。每一排、每一行、每一個粗線框起來的小方塊，一、二、三、四都只能出現一次。先點空格，再點下面的數字。",
 };
 
-export function HowTo({ game, open, onDemo }: { game: GameKind; open: boolean; onDemo?: () => void }) {
+/** 第一次玩會自動跳出示範，所以這裡平常都收起來，忘記時再點開 */
+export function HowTo({ game, onDemo }: { game: GameKind; onDemo?: () => void }) {
   return (
-    <details className="lgp-howto" open={open}>
-      <summary>怎麼玩？（點這裡打開／收起）</summary>
+    <details className="lgp-howto">
+      <summary>❓ 忘記怎麼玩？點這裡</summary>
       <div className="lgp-keys" style={{ justifyContent: "flex-start", margin: "8px 0 2px" }}>
         {onDemo && <button className="lgp-key" onClick={onDemo}>👀 看示範</button>}
         <button className="lgp-key" onClick={() => speak(SPOKEN[game])}>🔊 念給我聽</button>

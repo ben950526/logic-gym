@@ -57,7 +57,11 @@ export function hasConflict(state: number[], i: number): boolean {
   return false;
 }
 
-/** level 越高，給的提示越少 */
+/** 第 level 題給幾格提示：從 11 格（只空 5 格）開始，每兩題少 1 格，最少 5 格（循序漸進） */
+export function sudokuGivens(level: number): number {
+  return Math.max(5, 11 - Math.floor(Math.max(0, level - 1) / 2));
+}
+
 export function makeSudoku(level: number, rng: Rng = defaultRng): SudokuPuzzle {
   const base = [1, 2, 3, 4, 3, 4, 1, 2, 2, 1, 4, 3, 4, 3, 2, 1];
   const digits = shuffle([1, 2, 3, 4], rng);
@@ -71,7 +75,7 @@ export function makeSudoku(level: number, rng: Rng = defaultRng): SudokuPuzzle {
 
   const solution = g.slice();
   const givens = g.slice();
-  const target = level <= 2 ? 8 : level <= 5 ? 6 : 4;
+  const target = sudokuGivens(level);
   for (const i of shuffle([...Array(16).keys()], rng)) {
     if (givens.filter(Boolean).length <= target) break;
     const keep = givens[i];

@@ -98,6 +98,36 @@ export function isUnique(p: NonogramPuzzle): boolean {
   return countSolutions(p.n, p.rowClues, p.colClues) === 1;
 }
 
+/**
+ * 用「一排一排推理」的方式解（小孩實際的解法，不用猜）。
+ * 回傳能不能完全解開，以及要來回掃幾輪——輪數越多越難。
+ */
+export function lineSolve(p: NonogramPuzzle): { solved: boolean; sweeps: number } {
+  const { n } = p;
+  const know: number[][] = Array.from({ length: n }, () => Array(n).fill(-1));
+  const rowPats = p.rowClues.map((c) => linePatterns(n, c));
+  const colPats = p.colClues.map((c) => linePatterns(n, c));
+  const deduce = (cells: number[], pats: number[][]): number[] => {
+    const ok = pats.filter((pt) => pt.every((v, i) => cells[i] < 0 || cells[i] === v));
+    return cells.map((v, i) => (v >= 0 || !ok.length ? v : ok.every((pt) => pt[i] === ok[0][i]) ? ok[0][i] : -1));
+  };
+  let sweeps = 0;
+  for (;;) {
+    let changed = false;
+    for (let r = 0; r < n; r++) {
+      const next = deduce(know[r], rowPats[r]);
+      next.forEach((v, c) => { if (v !== know[r][c]) { know[r][c] = v; changed = true; } });
+    }
+    for (let c = 0; c < n; c++) {
+      const next = deduce(know.map((row) => row[c]), colPats[c]);
+      next.forEach((v, r) => { if (v !== know[r][c]) { know[r][c] = v; changed = true; } });
+    }
+    if (!changed) break;
+    sweeps++;
+  }
+  return { solved: know.every((row) => row.every((v) => v >= 0)), sweeps };
+}
+
 export function fromSolution(solution: Grid): NonogramPuzzle {
   return { n: solution.length, solution, ...cluesOf(solution) };
 }
@@ -108,7 +138,8 @@ export function makeRandom(n: number, rng: Rng = defaultRng): NonogramPuzzle {
     const solution = Array.from({ length: n }, () => Array.from({ length: n }, () => (rng() < 0.58 ? 1 : 0)));
     const p = fromSolution(solution);
     if (p.rowClues.some((c) => !c.length) || p.colClues.some((c) => !c.length)) continue;
-    if (isUnique(p)) return p;
+    // 一定要能一排一排推出來（不用猜），小孩才解得開
+    if (isUnique(p) && lineSolve(p).solved) return p;
   }
   throw new Error(`無法產生 ${n}×${n} 唯一解數織`);
 }

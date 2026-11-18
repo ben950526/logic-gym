@@ -40,11 +40,21 @@ export function hasEulerPath(nodes: number[], edges: [number, number][]): boolea
   return (odd === 0 || odd === 2) && seen.size === nodes.length;
 }
 
-/** level 越高，格點越多、線越多 */
+/** 第 level 題要幾條線：從 6 條開始，每兩題多 1 條，最多 16 條（循序漸進） */
+export function strokeTarget(level: number): number {
+  return Math.min(16, 6 + Math.floor(Math.max(0, level - 1) / 2));
+}
+
+/** 線越多，格點也跟著變大 */
+export function strokeGrid(target: number): { W: number; H: number } {
+  if (target <= 8) return { W: 3, H: 3 };
+  if (target <= 11) return { W: 4, H: 3 };
+  return { W: 4, H: 4 };
+}
+
 export function makeStroke(level: number, rng: Rng = defaultRng): StrokePuzzle {
-  const W = level <= 2 ? 3 : 4;
-  const H = level <= 5 ? 3 : 4;
-  const target = Math.min(level <= 2 ? 7 : level <= 5 ? 10 : 14, (W - 1) * H + (H - 1) * W);
+  const target = strokeTarget(level);
+  const { W, H } = strokeGrid(target);
   const id = (x: number, y: number) => y * W + x;
   const key = (a: number, b: number) => (a < b ? `${a}-${b}` : `${b}-${a}`);
   const dirs: [number, number][] = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [1, -1], [-1, 1]];
