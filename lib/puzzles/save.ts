@@ -1,50 +1,24 @@
 /** 玩家進度（訪客先存在這台裝置；之後登入再同步到 Supabase） */
-import { emptyGarden, normalize, type GardenState } from "../garden/logic";
-import type { Look } from "./wardrobe";
-
 export type GameKind = "nono" | "stroke" | "sudoku";
-
-export interface DailyState {
-  date: string; // YYYY-MM-DD（使用者當地日期）
-  done: number; // 今天解了幾題
-  opened: boolean; // 今天的寶箱開了沒
-}
 
 export interface PlaySave {
   solved: Record<GameKind, number>;
-  stars: number;
-  dex: string[]; // 已收集的圖鑑名稱
+  stars: number; // 樹喝到的水滴數（= 成長值）
+  dex: string[]; // 拼過的數織圖案（下一題就換新圖案）
   muted: boolean;
-  daily: DailyState;
-  streak: number; // 連續完成每日任務的天數
-  lastDoneDate: string | null; // 上次完成每日任務的日期
-  items: string[]; // 已擁有的裝扮
-  look: Look; // 目前穿戴
   seenDemo: GameKind[]; // 看過示範的謎題
   adv: number; // 冒險路線圖已經走過幾個點
-  garden: GardenState;
 }
 
 const KEY = "logic-gym-play-v1";
-
-export function todayStr(d = new Date()): string {
-  const p = (n: number) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
-}
 
 export const emptySave = (): PlaySave => ({
   solved: { nono: 0, stroke: 0, sudoku: 0 },
   stars: 0,
   dex: [],
   muted: false,
-  daily: { date: todayStr(), done: 0, opened: false },
-  streak: 0,
-  lastDoneDate: null,
-  items: [],
-  look: {},
   seenDemo: [],
   adv: 0,
-  garden: emptyGarden(),
 });
 
 export function loadSave(): PlaySave {
@@ -53,17 +27,14 @@ export function loadSave(): PlaySave {
     if (!raw) return emptySave();
     const s = JSON.parse(raw) as Partial<PlaySave>;
     const base = emptySave();
+    // 只取現在還在用的欄位（舊版的花園、每日任務、衣服等資料直接丟掉）
     return {
-      ...base,
-      ...s,
       solved: { ...base.solved, ...(s.solved ?? {}) },
+      stars: typeof s.stars === "number" && s.stars >= 0 ? s.stars : 0,
       dex: Array.isArray(s.dex) ? s.dex : [],
-      items: Array.isArray(s.items) ? s.items : [],
+      muted: !!s.muted,
       seenDemo: Array.isArray(s.seenDemo) ? s.seenDemo : [],
-      look: s.look ?? {},
-      daily: s.daily ?? base.daily,
       adv: typeof s.adv === "number" && s.adv >= 0 ? s.adv : 0,
-      garden: normalize({ ...emptyGarden(), ...(s.garden ?? {}) }),
     };
   } catch {
     return emptySave();

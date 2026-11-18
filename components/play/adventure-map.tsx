@@ -4,9 +4,7 @@ import { useEffect, useRef } from "react";
 import {
   CHAPTER_HEIGHT, chapterTheme, chapterTitle, nodeAt, nodePos, NODES_PER_CHAPTER, type ChapterTheme,
 } from "@/lib/puzzles/adventure";
-import { petSvg, type PetMood } from "@/lib/puzzles/pet";
 import { seededRng } from "@/lib/puzzles/random";
-import type { Look } from "@/lib/puzzles/wardrobe";
 
 const INK = "#23305a";
 const GAME_ICON = { nono: "🧩", stroke: "✏️", sudoku: "🔢" } as const;
@@ -44,14 +42,10 @@ function decorSvg(kind: ChapterTheme["decor"], variant: number): string {
 
 interface Props {
   adv: number;
-  stage: number;
-  stars: number;
-  look: Look;
-  mood: PetMood;
   onOpen: (k: number) => void;
 }
 
-export function AdventureMap({ adv, stage, stars, look, mood, onOpen }: Props) {
+export function AdventureMap({ adv, onOpen }: Props) {
   const currentRef = useRef<HTMLButtonElement>(null);
   const currentChapter = Math.floor(adv / NODES_PER_CHAPTER);
   const chapters = Array.from({ length: currentChapter + 2 }, (_, c) => c);
@@ -97,18 +91,13 @@ export function AdventureMap({ adv, stage, stars, look, mood, onOpen }: Props) {
               const n = nodeAt(k);
               const p = nodePos(k);
               const state = k < adv ? "done" : k === adv ? "current" : "locked";
-              const icon = n.kind === "chest" ? "🎁" : n.boss ? "👑" : GAME_ICON[n.game!];
-              const label = n.kind === "chest" ? "寶箱" : `${n.boss ? "BOSS · " : ""}${GAME_NAME[n.game!]}`;
+              const icon = n.boss ? "👑" : GAME_ICON[n.game];
+              const label = `${n.boss ? "BOSS · " : ""}${GAME_NAME[n.game]}`;
               return (
                 <div key={k} className="lgp-node-wrap" style={{ left: `${p.x}%`, top: p.y }}>
-                  {state === "current" && (
-                    <svg className={`lgp-map-pet lgp-mood-${mood}`} viewBox="0 0 120 120" aria-hidden="true"
-                      style={{ [p.x > 50 ? "right" : "left"]: "calc(100% - 4px)" }}
-                      dangerouslySetInnerHTML={{ __html: petSvg(stage, stars, mood, look) }} />
-                  )}
                   <button
                     ref={state === "current" ? currentRef : undefined}
-                    className={`lgp-stop ${state}${n.boss ? " boss" : ""}${n.kind === "chest" ? " chest" : ""}`}
+                    className={`lgp-stop ${state}${n.boss ? " boss" : ""}`}
                     disabled={state === "locked"}
                     aria-label={`第 ${k + 1} 關 ${label}${state === "done" ? "（已過關）" : state === "locked" ? "（還沒解鎖）" : ""}`}
                     onClick={() => onOpen(k)}

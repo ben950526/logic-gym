@@ -34,9 +34,9 @@ function shake(el: Element | null) {
 }
 
 /* ───────── 數織 ───────── */
-export function NonogramBoard(props: BoardProps & { picture?: Picture; dexIndex: number; dexTotal: number }) {
+export function NonogramBoard(props: BoardProps & { picture?: Picture }) {
   // 題目在這一題開始時就固定，過關後進度更新也不會換題
-  const [{ level, picture, dexIndex, dexTotal }] = useState(() => props);
+  const [{ level, picture }] = useState(() => props);
   const { howtoOpen, onWin, onDemo } = props;
   const [puzzle] = useState<NonogramPuzzle>(() => {
     if (picture) return picturePuzzle(picture);
@@ -55,7 +55,7 @@ export function NonogramBoard(props: BoardProps & { picture?: Picture; dexIndex:
     if (isSolved(next, puzzle)) {
       setDone(true);
       const info: WinInfo = picture
-        ? { title: "拼出來了！", text: `你拼出了「${picture.name}」，收進圖鑑了！`, picture }
+        ? { title: "拼出來了！", text: `你拼出了「${picture.name}」！`, picture }
         : { title: "拼出來了！", text: "挑戰題完成！" };
       setTimeout(() => onWin(info), reducedMotion() ? 0 : 700);
     }
@@ -84,7 +84,7 @@ export function NonogramBoard(props: BoardProps & { picture?: Picture; dexIndex:
     <>
       <div className="lgp-head">
         <h2>🧩 數織</h2>
-        <span className="lgp-qno">{picture ? `圖鑑 ${dexIndex}/${dexTotal}` : `挑戰題 ${level}`} · {n}×{n}</span>
+        <span className="lgp-qno">{picture ? "圖案題" : `挑戰題 ${level}`} · {n}×{n}</span>
       </div>
       <HowTo game="nono" open={howtoOpen} onDemo={onDemo} />
       <div className={done ? "lgp-nono solved" : "lgp-nono"} style={{ "--cs": `${cs}px`, "--pic": picture?.color ?? "#7c5cff", gridTemplateColumns: `auto repeat(${n}, var(--cs))` } as React.CSSProperties}>

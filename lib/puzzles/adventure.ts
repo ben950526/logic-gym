@@ -1,22 +1,19 @@
 /**
  * 冒險路線圖：一條往前走的路，每個點是一關。
- * 每章 10 關：第 5 關是寶箱，第 10 關是 BOSS（比較難、獎勵比較多）。
+ * 每章 10 關，第 10 關是 BOSS（比較難，樹會多喝幾滴水）。
  * 三種謎題輪流出現，難度隨著走越遠越高。
  */
 import type { GameKind } from "./save";
 
 export const NODES_PER_CHAPTER = 10;
-export const CHEST_SLOT = 4; // 每章第 5 個點
 export const BOSS_SLOT = 9; // 每章第 10 個點
-export const BOSS_BONUS_STARS = 2; // BOSS 額外多給的星星
 const GAMES: GameKind[] = ["nono", "stroke", "sudoku"];
 
 export interface AdvNode {
   index: number;
   chapter: number;
   slot: number;
-  kind: "puzzle" | "chest";
-  game?: GameKind;
+  game: GameKind;
   boss: boolean;
   level: number;
 }
@@ -24,12 +21,9 @@ export interface AdvNode {
 export function nodeAt(k: number): AdvNode {
   const chapter = Math.floor(k / NODES_PER_CHAPTER);
   const slot = k % NODES_PER_CHAPTER;
-  if (slot === CHEST_SLOT) return { index: k, chapter, slot, kind: "chest", boss: false, level: 0 };
-  const chestsBefore = chapter + (slot > CHEST_SLOT ? 1 : 0);
-  const p = k - chestsBefore; // 第幾道謎題（不算寶箱）
   const boss = slot === BOSS_SLOT;
-  const base = Math.floor(p / GAMES.length) + 1;
-  return { index: k, chapter, slot, kind: "puzzle", game: GAMES[p % GAMES.length], boss, level: boss ? base + 4 : base };
+  const base = Math.floor(k / GAMES.length) + 1;
+  return { index: k, chapter, slot, game: GAMES[k % GAMES.length], boss, level: boss ? base + 4 : base };
 }
 
 export interface ChapterTheme {
