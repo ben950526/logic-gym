@@ -1,0 +1,96 @@
+/* ───────── 圖示（兩種畫風共用） ───────── */
+.lgp-emo { display: inline-block; }
+.lgp-ico { display: inline-block; width: 1.3em; height: 1.3em; vertical-align: -.28em; overflow: visible; flex: none; }
+.lgp-tab .lgp-ico.ic { width: 1.55em; height: 1.55em; }
+.lgp-stop .lgp-ico.ic { width: 34px; height: 34px; }
+.lgp-stop.boss .lgp-ico.ic { width: 42px; height: 42px; }
+.lgp-stop.locked .lgp-ico.ic { width: 22px; height: 22px; opacity: .6; }
+.lgp-stop-check .lgp-ico { width: 15px; height: 15px; vertical-align: middle; }
+.lgp-t-diary .mark .lgp-ico { width: 1.1em; height: 1.1em; }
+.lgp-drop .lgp-ico { width: 30px; height: 30px; }
+.lgp-wrap { --ic-ink: #23305a; --ic-sky: #7cc4ff; --ic-leaf: #5fd3a8; --ic-sun: #ffd25e; --ic-red: #ff8a9a; --ic-paper: #fff; --ic-bark: #c48a5a; }
+
+/* ───────── 「印刷謎題本」畫風（?look=book） ───────── */
+.lgp:has(> .lgp-wrap[data-look="book"]) {
+  --bg: #f4eddd;
+  background-color: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .15 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+.lgp-wrap[data-look="book"] {
+  --ink: #2e2a33; --ink-soft: #6e665c;
+  --board: #fffcf4; --cell: #f3ebd9; --given: #e8dec7; --dot: #e3d8c0;
+  --sun: #f2b632; --sun-deep: #c98c0a; --berry: #d9482b; --mint: #3f8a52; --grape: #35589a;
+  --ic-ink: #2e2a33; --ic-sky: #8cc0e6; --ic-leaf: #8cc79a; --ic-sun: #f6cd5c; --ic-red: #ef8a73; --ic-paper: #fffcf4; --ic-bark: #c69466;
+  --font-display: var(--font-huninn), "jf open 粉圓", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-body: var(--font-huninn), "jf open 粉圓", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --r: 15px 18px 14px 17px / 17px 14px 18px 15px; /* 手剪的圓角，四個角不一樣 */
+  font-family: var(--font-body);
+  color: var(--ink);
+  letter-spacing: .02em;
+}
+/* 粉圓只有一種粗細：關掉假粗體，靠大小和顏色分層級 */
+.lgp-wrap[data-look="book"], .lgp-wrap[data-look="book"] * { font-weight: 400 !important; font-synthesis: none; }
+.lgp-wrap[data-look="book"] .lgp-chunky {
+  border: 2px solid var(--ink); border-radius: var(--r); background: var(--board);
+  box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 12px 24px -16px rgba(80,55,20,.55);
+}
+.lgp-wrap[data-look="book"] .lgp-tab, .lgp-wrap[data-look="book"] .lgp-key {
+  border: 2px solid var(--ink); border-radius: var(--r); box-shadow: 0 2px 0 var(--ink);
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+}
+.lgp-wrap[data-look="book"] .lgp-tab:active, .lgp-wrap[data-look="book"] .lgp-key:active { transform: translateY(2px); box-shadow: none; }
+.lgp-wrap[data-look="book"] .lgp-tab { background: transparent; border-style: dashed; color: var(--ink-soft); box-shadow: none; font-size: 1.1rem; }
+.lgp-wrap[data-look="book"] .lgp-tab[aria-selected="true"] { background: var(--board); border-style: solid; color: var(--ink); box-shadow: 0 2px 0 var(--ink); }
+.lgp-wrap[data-look="book"] .lgp-key.go { background: var(--sun); color: #2e2a33; }
+.lgp-wrap[data-look="book"] .lgp-key[aria-pressed="true"] { background: var(--berry); color: #fff; }
+.lgp-wrap[data-look="book"] .lgp-mute { border: 2px solid var(--ink); border-radius: var(--r); display: grid; place-items: center; }
+.lgp-wrap[data-look="book"] .lgp-top-tree { background: var(--cell); border-radius: var(--r); }
+.lgp-wrap[data-look="book"] .lgp-top-info strong { font-size: 1.15rem; }
+.lgp-wrap[data-look="book"] .lgp-head h2 { font-size: 1.45rem; }
+.lgp-wrap[data-look="book"] .lgp-bar { border: 2px solid var(--ink); height: 18px; background: var(--cell); }
+.lgp-wrap[data-look="book"] .lgp-bar i { background: repeating-linear-gradient(-45deg, #3f86c4 0 5px, #7fb2dd 5px 8px); border-right: 2px solid var(--ink); }
+.lgp-wrap[data-look="book"] .lgp-t-scene { border: 2px solid var(--ink); border-radius: var(--r); }
+.lgp-wrap[data-look="book"] .lgp-t-scene.sky-day { background: linear-gradient(#bfdcef, #e6f0ec 68%, #e9ecd2); }
+.lgp-wrap[data-look="book"] .lgp-t-scene.sky-morning { background: linear-gradient(#f4cdb0, #f6e6cc 68%, #e9ecd2); }
+.lgp-wrap[data-look="book"] .lgp-t-scene.sky-evening { background: linear-gradient(#eba27c, #f3d39f 68%, #eadfc3); }
+.lgp-wrap[data-look="book"] .lgp-t-sun { border: 2px solid #2e2a33; background: #f6cd5c; box-shadow: none; }
+.lgp-wrap[data-look="book"] .lgp-t-next { font-size: 1.02rem; }
+.lgp-wrap[data-look="book"] .lgp-t-go { font-size: 1.25rem; padding: 12px 14px; }
+.lgp-wrap[data-look="book"] .lgp-t-diary {
+  border: 0; border-radius: 0; padding: 4px 4px 0;
+  background: repeating-linear-gradient(transparent 0 29px, rgba(63,134,196,.22) 29px 30px);
+}
+.lgp-wrap[data-look="book"] .lgp-t-diary h3 { font-size: 1.1rem; }
+.lgp-wrap[data-look="book"] .lgp-t-diary ol { gap: 0; }
+.lgp-wrap[data-look="book"] .lgp-t-diary li { height: 30px; font-size: .98rem; }
+.lgp-wrap[data-look="book"] .lgp-howto, .lgp-wrap[data-look="book"] .lgp-pz-note { border-radius: var(--r); }
+.lgp-wrap[data-look="book"] .lgp-overlay { background: rgba(46,42,51,.45); }
+.lgp-wrap[data-look="book"] .lgp-win h3 { font-size: 2rem; }
+.lgp-wrap[data-look="book"] .lgp-win .gain { color: #3f86c4; }
+.lgp-wrap[data-look="book"] .lgp-win-tree { border-radius: var(--r); background: linear-gradient(#cfe4f1, #f3f1e2); }
+/* 冒險地圖 */
+.lgp-wrap[data-look="book"] .lgp-chapter { border: 2px solid var(--ink); border-radius: var(--r); }
+.lgp-wrap[data-look="book"] .lgp-chapter-head { background: rgba(255,252,244,.92); border: 2px solid var(--ink); border-radius: var(--r); color: var(--ink); }
+.lgp-wrap[data-look="book"] .lgp-stop { border: 2px solid var(--ink); background: var(--board); box-shadow: 0 3px 0 var(--ink); }
+.lgp-wrap[data-look="book"] .lgp-stop.done { background: #cfe7c9; }
+.lgp-wrap[data-look="book"] .lgp-stop.current { background: var(--sun); }
+.lgp-wrap[data-look="book"] .lgp-stop.locked { background: #ece4d2; border-color: #a99f8c; box-shadow: 0 3px 0 #a99f8c; }
+.lgp-wrap[data-look="book"] .lgp-stop-check { border: 2px solid var(--ink); background: var(--board); }
+.lgp-wrap[data-look="book"] .lgp-stop-label { color: var(--ink); background: rgba(255,252,244,.85); }
+/* 謎題板 */
+.lgp-wrap[data-look="book"] .lgp-cell { border-color: #b9ad97; background: var(--board); border-radius: 2px; }
+.lgp-wrap[data-look="book"] .lgp-sudoku { border: 2px solid var(--ink); border-radius: 6px; }
+.lgp-wrap[data-look="book"] .lgp-scell { border-color: #c9bda6; background: var(--board); }
+.lgp-wrap[data-look="book"] .lgp-scell.given { background: var(--given); }
+
+@media (prefers-color-scheme: dark) {
+  .lgp:has(> .lgp-wrap[data-look="book"]) { --bg: #1f1d22; }
+  .lgp-wrap[data-look="book"] {
+    --ink: #f1ebdf; --ink-soft: #b4ab9c; --board: #2a272e; --cell: #34303a; --given: #3d3843; --dot: #2a272e;
+    --ic-ink: #f1ebdf; --ic-paper: #2a272e; --mint: #7cc48c;
+  }
+  .lgp-wrap[data-look="book"] .lgp-chapter-head, .lgp-wrap[data-look="book"] .lgp-stop-label { background: rgba(42,39,46,.9); }
+  .lgp-wrap[data-look="book"] .lgp-stop.done { background: #3c5a41; }
+  .lgp-wrap[data-look="book"] .lgp-stop.locked { background: #34303a; }
+}

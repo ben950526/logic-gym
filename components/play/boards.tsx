@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import { HowTo } from "@/components/play/how-to";
+import { Ico } from "@/components/play/icons";
 import { isSolved, isUnique, makeRandom, runs, type NonogramPuzzle } from "@/lib/puzzles/nonogram";
 import { picturePuzzle, type Picture } from "@/lib/puzzles/pictures";
 import { randInt } from "@/lib/puzzles/random";
@@ -83,7 +84,7 @@ export function NonogramBoard(props: BoardProps & { picture?: Picture }) {
   return (
     <>
       <div className="lgp-head">
-        <h2>🧩 數織</h2>
+        <h2><Ico n="nono" /> 數織</h2>
         <span className="lgp-qno">{picture ? "圖案題" : `挑戰題 ${level}`} · {n}×{n}</span>
       </div>
       <HowTo game="nono" onDemo={onDemo} />
@@ -110,8 +111,8 @@ export function NonogramBoard(props: BoardProps & { picture?: Picture }) {
         ])}
       </div>
       <div className="lgp-keys">
-        <button className="lgp-key" aria-pressed={xMode} onClick={() => { setXMode(!xMode); sfx.tap(); }}>✕ 打叉</button>
-        <button className="lgp-key" onClick={hint}>💡 提示一格</button>
+        <button className="lgp-key" aria-pressed={xMode} onClick={() => { setXMode(!xMode); sfx.tap(); }}><Ico n="cross" /> 打叉</button>
+        <button className="lgp-key" onClick={hint}><Ico n="bulb" /> 提示一格</button>
         <button className="lgp-key" onClick={() => { if (!done) { setState(puzzle.solution.map((r) => r.map(() => 0))); sfx.erase(); } }}>清空</button>
       </div>
       <div className="lgp-status">{picture && !done ? "塗完會拼出什麼圖案呢？" : ""}</div>
@@ -158,7 +159,7 @@ export function StrokeBoard({ level: levelProp, onWin, onOops, onDemo, onHint }:
 
   return (
     <>
-      <div className="lgp-head"><h2>✏️ 一筆畫</h2><span className="lgp-qno">第 {level} 題 · {puzzle.edges.length} 條線</span></div>
+      <div className="lgp-head"><h2><Ico n="stroke" /> 一筆畫</h2><span className="lgp-qno">第 {level} 題 · {puzzle.edges.length} 條線</span></div>
       <HowTo game="stroke" onDemo={onDemo} />
       <svg className="lgp-stroke" viewBox={`0 0 ${vw} ${vh}`} role="img" aria-label="一筆畫圖形">
         {puzzle.edges.map(([a, b], k) => {
@@ -177,12 +178,12 @@ export function StrokeBoard({ level: levelProp, onWin, onOops, onDemo, onHint }:
         })}
       </svg>
       <div className="lgp-keys">
-        <button className="lgp-key" onClick={reset}>↺ 重來</button>
+        <button className="lgp-key" onClick={reset}><Ico n="reset" /> 重來</button>
         <button className="lgp-key" onClick={() => {
           if (!hintOn) onHint?.();
           setHintOn(true); sfx.tap();
           setMsg({ text: puzzle.oddNodes.length ? "紅框的點連著「單數」條線。從其中一個出發，就會在另一個結束。" : "每個點都連著雙數條線，從哪裡出發都可以。", err: false });
-        }}>💡 提示</button>
+        }}><Ico n="bulb" /> 提示</button>
       </div>
       <div className={msg.err ? "lgp-status err" : "lgp-status"}>{msg.text}</div>
       <span className="lgp-verified">{ok ? "✓ 程式已驗算：這張圖一定畫得完" : "⚠ 驗算失敗"}</span>
@@ -223,7 +224,7 @@ export function SudokuBoard({ level: levelProp, onWin, onOops, onDemo, onHint }:
 
   return (
     <>
-      <div className="lgp-head"><h2>🔢 數獨</h2><span className="lgp-qno">第 {level} 題 · 提示 {puzzle.givens.filter(Boolean).length} 格</span></div>
+      <div className="lgp-head"><h2><Ico n="sudoku" /> 數獨</h2><span className="lgp-qno">第 {level} 題 · 提示 {puzzle.givens.filter(Boolean).length} 格</span></div>
       <HowTo game="sudoku" onDemo={onDemo} />
       <div className="lgp-sudoku" style={{ "--ss": `${ss}px` } as React.CSSProperties}>
         {state.map((v, i) => {
@@ -241,7 +242,7 @@ export function SudokuBoard({ level: levelProp, onWin, onOops, onDemo, onHint }:
         {[1, 2, 3, 4].map((v) => <button key={v} className="lgp-key" onClick={() => set(sel, v)}>{v}</button>)}
         <button className="lgp-key erase" onClick={() => set(sel, 0)}>擦掉</button>
       </div>
-      <div className="lgp-keys"><button className="lgp-key" onClick={hint}>💡 提示一格</button></div>
+      <div className="lgp-keys"><button className="lgp-key" onClick={hint}><Ico n="bulb" /> 提示一格</button></div>
       <span className="lgp-verified">{unique ? "✓ 程式已驗算：只有一個解" : "⚠ 驗算失敗"}</span>
     </>
   );

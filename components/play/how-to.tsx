@@ -1,5 +1,6 @@
 "use client";
 
+import { Ico } from "@/components/play/icons";
 import type { GameKind } from "@/lib/puzzles/save";
 import { speak } from "@/lib/puzzles/speech";
 
@@ -76,10 +77,10 @@ const SPOKEN: Record<GameKind, string> = {
 export function HowTo({ game, onDemo }: { game: GameKind; onDemo?: () => void }) {
   return (
     <details className="lgp-howto">
-      <summary>❓ 忘記怎麼玩？點這裡</summary>
+      <summary><Ico n="question" /> 忘記怎麼玩？點這裡</summary>
       <div className="lgp-keys" style={{ justifyContent: "flex-start", margin: "8px 0 2px" }}>
         {onDemo && <button className="lgp-key" onClick={onDemo}>👀 看示範</button>}
-        <button className="lgp-key" onClick={() => speak(SPOKEN[game])}>🔊 念給我聽</button>
+        <button className="lgp-key" onClick={() => speak(SPOKEN[game])}><Ico n="sound" /> 念給我聽</button>
       </div>
       {BODY[game]}
     </details>

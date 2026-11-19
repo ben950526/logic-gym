@@ -5,9 +5,9 @@ import {
   CHAPTER_HEIGHT, chapterTheme, chapterTitle, nodeAt, nodePos, NODES_PER_CHAPTER, type ChapterTheme,
 } from "@/lib/puzzles/adventure";
 import { seededRng } from "@/lib/puzzles/random";
+import { bookTree, Ico, useLook } from "@/components/play/icons";
 
 const INK = "#23305a";
-const GAME_ICON = { nono: "🧩", stroke: "✏️", sudoku: "🔢" } as const;
 const GAME_NAME = { nono: "數織", stroke: "一筆畫", sudoku: "數獨" } as const;
 
 /** 路邊的小裝飾，全部用程式畫（viewBox 0 0 40 40） */
@@ -47,6 +47,8 @@ interface Props {
 
 export function AdventureMap({ adv, onOpen }: Props) {
   const currentRef = useRef<HTMLButtonElement>(null);
+  const look = useLook();
+  const tone = (x: string) => (look === "book" ? bookTree(x) : x);
   const currentChapter = Math.floor(adv / NODES_PER_CHAPTER);
   const chapters = Array.from({ length: currentChapter + 2 }, (_, c) => c);
 
@@ -74,24 +76,24 @@ export function AdventureMap({ adv, onOpen }: Props) {
           v: Math.floor(rng() * 2),
         }));
         return (
-          <section key={c} className={locked ? "lgp-chapter locked" : "lgp-chapter"} style={{ background: theme.ground, height: locked ? 300 : CHAPTER_HEIGHT }}>
+          <section key={c} className={locked ? "lgp-chapter locked" : "lgp-chapter"} style={{ background: tone(theme.ground), height: locked ? 300 : CHAPTER_HEIGHT }}>
             <header className="lgp-chapter-head">
               <span>{chapterTitle(c)}</span>
-              <span className="lgp-chapter-count">{locked ? "🔒 打倒上一章 BOSS 解鎖" : `${done}/${NODES_PER_CHAPTER}`}</span>
+              <span className="lgp-chapter-count">{locked ? <><Ico n="lock" /> 打倒上一章 BOSS 解鎖</> : `${done}/${NODES_PER_CHAPTER}`}</span>
             </header>
             {decor.map((d, i) => (
               <svg key={i} className="lgp-decor" viewBox="0 0 40 40" style={{ left: `${d.left}%`, top: d.top }} aria-hidden="true"
-                dangerouslySetInnerHTML={{ __html: decorSvg(theme.decor, d.v + i) }} />
+                dangerouslySetInnerHTML={{ __html: tone(decorSvg(theme.decor, d.v + i)) }} />
             ))}
             <svg className="lgp-trail" viewBox={`0 0 100 ${CHAPTER_HEIGHT}`} preserveAspectRatio="none" aria-hidden="true">
-              <polyline points={pts.map((p) => `${p.x},${p.y}`).join(" ")} fill="none" stroke={theme.path} strokeWidth="22" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+              <polyline points={pts.map((p) => `${p.x},${p.y}`).join(" ")} fill="none" stroke={tone(theme.path)} strokeWidth="22" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
               <polyline points={pts.map((p) => `${p.x},${p.y}`).join(" ")} fill="none" stroke="#fff" strokeOpacity=".7" strokeWidth="4" strokeDasharray="2 14" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
             </svg>
             {ks.map((k) => {
               const n = nodeAt(k);
               const p = nodePos(k);
               const state = k < adv ? "done" : k === adv ? "current" : "locked";
-              const icon = n.boss ? "👑" : GAME_ICON[n.game];
+              const icon = n.boss ? "crown" : n.game;
               const label = `${n.boss ? "BOSS · " : ""}${GAME_NAME[n.game]}`;
               return (
                 <div key={k} className="lgp-node-wrap" style={{ left: `${p.x}%`, top: p.y }}>
@@ -102,10 +104,10 @@ export function AdventureMap({ adv, onOpen }: Props) {
                     aria-label={`第 ${k + 1} 關 ${label}${state === "done" ? "（已過關）" : state === "locked" ? "（還沒解鎖）" : ""}`}
                     onClick={() => onOpen(k)}
                   >
-                    <span className="ic">{state === "locked" ? "🔒" : icon}</span>
-                    {state === "done" && <span className="lgp-stop-check">✓</span>}
+                    <Ico n={state === "locked" ? "lock" : icon} className="ic" />
+                    {state === "done" && <span className="lgp-stop-check"><Ico n="check" /></span>}
                   </button>
-                  <span className="lgp-stop-label">{state === "current" ? "▶ " : ""}{k + 1}</span>
+                  <span className="lgp-stop-label">{k + 1}</span>
                 </div>
               );
             })}

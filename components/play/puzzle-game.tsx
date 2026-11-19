@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { AdventureMap } from "@/components/play/adventure-map";
 import { NonogramBoard, StrokeBoard, SudokuBoard, type WinInfo } from "@/components/play/boards";
 import { DemoOverlay } from "@/components/play/demo";
+import { bookTree, Ico, LookContext, useLook, type Look } from "@/components/play/icons";
 import { ParentZone } from "@/components/play/parent-zone";
 import { PixelPicture } from "@/components/play/pixel-picture";
 import { nodeAt } from "@/lib/puzzles/adventure";
@@ -65,9 +66,10 @@ function skyNow(): "morning" | "day" | "evening" | "night" {
 }
 
 function TreeArt({ drops, newest = false, className = "" }: { drops: number; newest?: boolean; className?: string }) {
+  const look = useLook();
   return (
     <svg className={`lgp-tree ${className}`} viewBox={treeViewBox(drops)} aria-hidden="true"
-      dangerouslySetInnerHTML={{ __html: treeSvg(drops, newest) }} />
+      dangerouslySetInnerHTML={{ __html: look === "book" ? bookTree(treeSvg(drops, newest)) : treeSvg(drops, newest) }} />
   );
 }
 
@@ -88,6 +90,7 @@ export function PuzzleGame() {
   const [rustle, setRustle] = useState(0);
   const [sky, setSky] = useState<ReturnType<typeof skyNow>>("day");
   const [parentOpen, setParentOpen] = useState(false);
+  const [look, setLook] = useState<Look>("classic");
   const primaryBtn = useRef<HTMLButtonElement>(null);
   const saveRef = useRef<PlaySave | null>(null); // 最新的存檔（延遲觸發的過關、提示不會拿到舊的）
   saveRef.current = save;
@@ -99,6 +102,7 @@ export function PuzzleGame() {
     setSave(s);
     writeSave(s);
     setSky(skyNow());
+    if (new URLSearchParams(window.location.search).get("look") === "book") setLook("book");
   }, []);
   useEffect(() => { if (overlay?.kind === "win") primaryBtn.current?.focus(); }, [overlay]);
 
@@ -188,23 +192,24 @@ export function PuzzleGame() {
     : "";
 
   return (
-    <div className="lgp-wrap">
+    <LookContext.Provider value={look}>
+    <div className="lgp-wrap" data-look={look}>
       <header className="lgp-top lgp-chunky">
         <button className="lgp-top-tree" aria-label="看我的樹" onClick={toTree}>
           <TreeArt drops={drops} />
         </button>
         <div className="lgp-top-info">
           <strong>{stage.name}</strong>
-          <span>💧 {drops} 滴水</span>
+          <span><Ico n="drop" /> {drops} 滴水</span>
         </div>
         <button className="lgp-mute" aria-label="音效開關" onClick={() => {
           const muted = !save.muted; setMuted(muted); update({ ...save, muted }); if (!muted) sfx.tap();
-        }}>{save.muted ? "🔇" : "🔊"}</button>
+        }}><Ico n={save.muted ? "mute" : "sound"} /></button>
       </header>
 
       <nav className="lgp-tabs" role="tablist" aria-label="分頁">
-        <button role="tab" aria-selected={tab === "tree"} className="lgp-tab" onClick={toTree}><span className="ic">🌳</span>我的樹</button>
-        <button role="tab" aria-selected={tab === "map"} className="lgp-tab" onClick={toMap}><span className="ic">🗺️</span>冒險</button>
+        <button role="tab" aria-selected={tab === "tree"} className="lgp-tab" onClick={toTree}><Ico n="tree" className="ic" />我的樹</button>
+        <button role="tab" aria-selected={tab === "map"} className="lgp-tab" onClick={toMap}><Ico n="map" className="ic" />冒險</button>
       </nav>
 
       {tab === "tree" && (
@@ -218,29 +223,29 @@ export function PuzzleGame() {
           <div className="lgp-t-card">
             <div className="lgp-head">
               <h2>{stage.name}</h2>
-              <span className="lgp-qno">💧 {drops}</span>
+              <span className="lgp-qno"><Ico n="drop" /> {drops}</span>
             </div>
             <div className="lgp-meter">
               <div className="lgp-bar"><i style={{ width: `${stageProgress(drops) * 100}%` }} /></div>
             </div>
             <p className="lgp-t-next">
               {drops === 0 ? INTRO : nextLine(drops)}
-              <button className="lgp-say-inline" aria-label="念出來" onClick={() => speak(drops === 0 ? INTRO : nextLine(drops))}>🔊</button>
+              <button className="lgp-say-inline" aria-label="念出來" onClick={() => speak(drops === 0 ? INTRO : nextLine(drops))}><Ico n="sound" /></button>
             </p>
             <button className="lgp-key go lgp-t-go" onClick={() => openNode(save.adv)}>
-              ▶ 第 {save.adv + 1} 關：{upNext.boss ? "👑 BOSS " : ""}{GAME_NAME[upNext.game]}
+              <Ico n="play" /> 第 {save.adv + 1} 關：{upNext.boss ? <><Ico n="crown" /> BOSS </> : ""}{GAME_NAME[upNext.game]}
             </button>
           </div>
           <div className="lgp-t-diary">
-            <h3>🌱 成長日記</h3>
+            <h3><Ico n="sprout" /> 成長日記</h3>
             <ol>
               {TREE_STAGES.map((st) => {
                 const got = drops >= st.at;
                 return (
                   <li key={st.at} className={got ? "got" : ""}>
-                    <span className="mark">{got ? "✓" : "🔒"}</span>
+                    <span className="mark"><Ico n={got ? "check" : "lock"} /></span>
                     <span className="nm">{st.name}</span>
-                    <span className="at">💧 {st.at}</span>
+                    <span className="at"><Ico n="drop" /> {st.at}</span>
                   </li>
                 );
               })}
@@ -256,7 +261,7 @@ export function PuzzleGame() {
             <>
               <div className="lgp-map-bar">
                 <button className="lgp-key" onClick={toMap}>← 回地圖</button>
-                <span className="lgp-qno">第 {node.index + 1} 關{node.boss ? " · 👑 BOSS" : ""}</span>
+                <span className="lgp-qno">第 {node.index + 1} 關{node.boss ? <> · <Ico n="crown" /> BOSS</> : ""}</span>
               </div>
               {node.game === "nono" && (
                 <NonogramBoard key={`n${round}`} {...boardProps} picture={nextPicture} />
@@ -269,7 +274,7 @@ export function PuzzleGame() {
       )}
 
       <footer className="lgp-footer">
-        <button className="lgp-key lgp-parent-btn" onClick={() => { sfx.tap(); setParentOpen(true); }}>👨‍👩‍👧 家長專區</button>
+        <button className="lgp-key lgp-parent-btn" onClick={() => { sfx.tap(); setParentOpen(true); }}><Ico n="parent" /> 家長專區</button>
         <span>每一題都由程式產生，並驗算過答案只有一個 · 進度存在這台裝置</span>
       </footer>
 
@@ -286,23 +291,24 @@ export function PuzzleGame() {
             {overlay.info.picture && <PixelPicture picture={overlay.info.picture} />}
             <div className="lgp-win-tree">
               <TreeArt drops={overlay.drops} newest />
-              <span className="lgp-drop" aria-hidden="true">💧</span>
+              <span className="lgp-drop" aria-hidden="true"><Ico n="drop" /></span>
             </div>
-            <span className="gain">+{overlay.gain} 💧{overlay.boss ? "（BOSS 加碼）" : ""}</span>
+            <span className="gain">+{overlay.gain} <Ico n="drop" />{overlay.boss ? "（BOSS 加碼）" : ""}</span>
             {overlay.grewTo !== undefined ? (
-              <p className="lgp-win-grew">🌳 {TREE_STAGES[overlay.grewTo].say}</p>
+              <p className="lgp-win-grew"><Ico n="tree" /> {TREE_STAGES[overlay.grewTo].say}</p>
             ) : (
               <p>{growthNote(overlay.drops)}</p>
             )}
             <p className="lgp-t-next">{nextLine(overlay.drops)}</p>
             <div className="lgp-keys">
               <button ref={primaryBtn} className="lgp-key go" onClick={() => openNode(save.adv)}>下一關 →</button>
-              <button className="lgp-key" onClick={toTree}>🌳 看我的樹</button>
-              <button className="lgp-key" aria-label="念出來" onClick={() => speak(winSay)}>🔊</button>
+              <button className="lgp-key" onClick={toTree}><Ico n="tree" /> 看我的樹</button>
+              <button className="lgp-key" aria-label="念出來" onClick={() => speak(winSay)}><Ico n="sound" /></button>
             </div>
           </div>
         </div>
       )}
     </div>
+    </LookContext.Provider>
   );
 }
