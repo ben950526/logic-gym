@@ -79,10 +79,11 @@
 .lgp-wrap[data-look="book"] .lgp-stop-check { border: 2px solid var(--ink); background: var(--board); }
 .lgp-wrap[data-look="book"] .lgp-stop-label { color: var(--ink); background: rgba(255,252,244,.85); }
 /* 謎題板 */
-.lgp-wrap[data-look="book"] .lgp-cell { border-color: #b9ad97; background: var(--board); border-radius: 2px; }
+/* 用 :where 把權重壓低，塗滿、提示、過關的顏色才蓋得過底色 */
+:where(.lgp-wrap[data-look="book"]) .lgp-cell { border-color: #b9ad97; background: var(--board); border-radius: 2px; }
 .lgp-wrap[data-look="book"] .lgp-sudoku { border: 2px solid var(--ink); border-radius: 6px; }
-.lgp-wrap[data-look="book"] .lgp-scell { border-color: #c9bda6; background: var(--board); }
-.lgp-wrap[data-look="book"] .lgp-scell.given { background: var(--given); }
+:where(.lgp-wrap[data-look="book"]) .lgp-scell { border-color: #c9bda6; background: var(--board); }
+:where(.lgp-wrap[data-look="book"]) .lgp-scell.given { background: var(--given); }
 
 @media (prefers-color-scheme: dark) {
   .lgp:has(> .lgp-wrap[data-look="book"]) { --bg: #1f1d22; }
@@ -94,3 +95,21 @@
   .lgp-wrap[data-look="book"] .lgp-stop.done { background: #3c5a41; }
   .lgp-wrap[data-look="book"] .lgp-stop.locked { background: #34303a; }
 }
+
+/* 家長專區、示範 */
+.lgp-wrap[data-look="book"] .lgp-parent { border-radius: var(--r); }
+.lgp-wrap[data-look="book"] .lgp-pz-head h3 { font-size: 1.4rem; }
+.lgp-wrap[data-look="book"] .lgp-pz-gate .q { font-size: 1.6rem; }
+.lgp-wrap[data-look="book"] .lgp-pz-gate input { border: 2px solid var(--ink); border-radius: var(--r); }
+.lgp-wrap[data-look="book"] .lgp-pz-week li { border-radius: 8px 10px 8px 11px; }
+.lgp-wrap[data-look="book"] .lgp-pz-week li.on { background: #dcebcf; color: #2e2a33; }
+.lgp-wrap[data-look="book"] .lgp-pz-body b { color: var(--berry); }
+.lgp-wrap[data-look="book"] .lgp-pz-games .ic .lgp-ico { width: 26px; height: 26px; }
+.lgp-wrap[data-look="book"] .lgp-pz-code { border-radius: var(--r); border-color: #b9ad97; }
+.lgp-wrap[data-look="book"] .lgp-hand { filter: none; }
+.lgp-wrap[data-look="book"] .lgp-hand .lgp-ico { width: 34px; height: 34px; }
+.lgp-wrap[data-look="book"] .lgp-dots i.on { background: var(--berry); }
+@media (prefers-color-scheme: dark) {
+  .lgp-wrap[data-look="book"] .lgp-pz-week li.on { background: #3c5a41; color: #f1ebdf; }
+}
+.lgp-wrap[data-look="book"] .lgp-pz-games .nm b { color: var(--ink); font-size: 1.05rem; }

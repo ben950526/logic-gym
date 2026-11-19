@@ -37,7 +37,7 @@ function fireConfetti() {
   cv.width = window.innerWidth * dpr;
   cv.height = window.innerHeight * dpr;
   ctx.scale(dpr, dpr);
-  const cols = ["#ff5d73", "#ffc93c", "#5fd3a8", "#7c5cff", "#4d9fff"];
+  const cols = ["#d9573f", "#e9b23a", "#4f8645", "#3f86c4", "#9a86c4"]; // 印刷謎題本配色
   const ps = Array.from({ length: 90 }, () => ({
     x: window.innerWidth / 2, y: window.innerHeight * 0.45,
     vx: (Math.random() - 0.5) * 12, vy: -Math.random() * 12 - 4,
@@ -90,7 +90,7 @@ export function PuzzleGame() {
   const [rustle, setRustle] = useState(0);
   const [sky, setSky] = useState<ReturnType<typeof skyNow>>("day");
   const [parentOpen, setParentOpen] = useState(false);
-  const [look, setLook] = useState<Look>("classic");
+  const [look, setLook] = useState<Look>("book");
   const primaryBtn = useRef<HTMLButtonElement>(null);
   const saveRef = useRef<PlaySave | null>(null); // 最新的存檔（延遲觸發的過關、提示不會拿到舊的）
   saveRef.current = save;
@@ -102,7 +102,7 @@ export function PuzzleGame() {
     setSave(s);
     writeSave(s);
     setSky(skyNow());
-    if (new URLSearchParams(window.location.search).get("look") === "book") setLook("book");
+    if (new URLSearchParams(window.location.search).get("look") === "classic") setLook("classic");
   }, []);
   useEffect(() => { if (overlay?.kind === "win") primaryBtn.current?.focus(); }, [overlay]);
 

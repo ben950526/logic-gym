@@ -7,11 +7,12 @@ import {
   dayKey, exportBackup, GAME_KINDS, importBackup, mergeSaves, type GameKind, type PlaySave,
 } from "@/lib/puzzles/save";
 import { sfx } from "@/lib/puzzles/sound";
+import { Ico, type IconName } from "@/components/play/icons";
 
-const GAME_INFO: Record<GameKind, { icon: string; name: string; skill: string }> = {
-  nono: { icon: "🧩", name: "數織", skill: "看數字線索推理，一格一格排除" },
-  stroke: { icon: "✏️", name: "一筆畫", skill: "先想好路線再動手，練習規劃" },
-  sudoku: { icon: "🔢", name: "數獨", skill: "每列、每行不重複，練習排除法" },
+const GAME_INFO: Record<GameKind, { icon: IconName; name: string; skill: string }> = {
+  nono: { icon: "nono", name: "數織", skill: "看數字線索推理，一格一格排除" },
+  stroke: { icon: "stroke", name: "一筆畫", skill: "先想好路線再動手，練習規劃" },
+  sudoku: { icon: "sudoku", name: "數獨", skill: "每列、每行不重複，練習排除法" },
 };
 
 /* ───────── 家長關卡：國字題目、填阿拉伯數字 ───────── */
@@ -71,8 +72,8 @@ export function ParentZone({ save, onMerge, onClose }: {
     <div className="lgp-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div ref={dialogRef} className="lgp-parent lgp-chunky" role="dialog" aria-modal="true" aria-label="家長專區">
         <div className="lgp-pz-head">
-          <h3>👨‍👩‍👧 家長專區</h3>
-          <button className="lgp-key" onClick={onClose} aria-label="關閉">✕</button>
+          <h3><Ico n="parent" /> 家長專區</h3>
+          <button className="lgp-key" onClick={onClose} aria-label="關閉"><Ico n="cross" /></button>
         </div>
         {!open ? (
           <form className="lgp-pz-gate" onSubmit={check}>
@@ -129,7 +130,7 @@ function ParentBody({ save, onMerge }: { save: PlaySave; onMerge: (s: PlaySave) 
         <ul className="lgp-pz-games">
           {GAME_KINDS.map((g) => (
             <li key={g}>
-              <span className="ic" aria-hidden="true">{GAME_INFO[g].icon}</span>
+              <span className="ic" aria-hidden="true"><Ico n={GAME_INFO[g].icon} /></span>
               <span className="nm"><b>{GAME_INFO[g].name}</b><small>{GAME_INFO[g].skill}</small></span>
               <span className="st">解了 {save.solved[g]} 題<small>現在第 {levelOf(g, save.adv)} 級・{save.hints[g]} 題用了提示</small></span>
             </li>
@@ -151,7 +152,7 @@ function ParentBody({ save, onMerge }: { save: PlaySave; onMerge: (s: PlaySave) 
           <li>每天玩 10～15 分鐘就夠了。每解一題，孩子的樹就長大一點。</li>
           <li>每種謎題第一次出現時會有「看我做一次」示範。第一次可以陪孩子一起看。</li>
           <li>題目由程式產生，每一題都驗算過答案只有一個。難度會隨關卡慢慢提高。</li>
-          <li>卡住時鼓勵孩子先按「💡 提示」，不用直接告訴答案。</li>
+          <li>卡住時鼓勵孩子先按「提示」，不用直接告訴答案。</li>
         </ul>
       </section>
 
@@ -186,11 +187,11 @@ function InstallSection() {
     <section>
       <h4>加到手機主畫面</h4>
       {env === "standalone" ? (
-        <p>✓ 已經加到主畫面了，孩子點圖示就能直接玩。</p>
+        <p><Ico n="check" /> 已經加到主畫面了，孩子點圖示就能直接玩。</p>
       ) : (
         <>
           <p>加到主畫面後，孩子點圖示就能直接開，不用找網址；iPhone 上也比較不會因為很久沒開而清掉進度。</p>
-          {canPrompt && <button className="lgp-key go" onClick={install}>📲 加到主畫面</button>}
+          {canPrompt && <button className="lgp-key go" onClick={install}><Ico n="phone" /> 加到主畫面</button>}
           {!canPrompt && (
             <ul className="lgp-pz-tips">
               {env !== "android" && <li><b>iPhone／iPad（Safari）</b>：按下方的「分享」按鈕 → 選「加入主畫面」。</li>}
@@ -221,7 +222,7 @@ function BackupSection({ save, onMerge }: { save: PlaySave; onMerge: (s: PlaySav
     const merged = mergeSaves(save, other);
     onMerge(merged);
     setPaste("");
-    setMsg({ text: `已經合併好了：現在有 💧 ${merged.stars} 滴水，走到第 ${merged.adv + 1} 關。`, err: false });
+    setMsg({ text: `已經合併好了：現在有 ${merged.stars} 滴水，走到第 ${merged.adv + 1} 關。`, err: false });
   };
 
   return (
@@ -230,11 +231,11 @@ function BackupSection({ save, onMerge }: { save: PlaySave; onMerge: (s: PlaySav
       <p>換手機、換瀏覽器或清除瀏覽紀錄，進度會不見。可以先把備份碼複製起來（傳給自己的 LINE 或記事本），到新裝置貼上就能接著玩。</p>
       <textarea ref={codeRef} className="lgp-pz-code" readOnly value={code} rows={3} aria-label="這台裝置的備份碼"
         onFocus={(e) => e.currentTarget.select()} />
-      <button className="lgp-key" onClick={copy}>{copied ? "✓ 已複製" : "📋 複製備份碼"}</button>
+      <button className="lgp-key" onClick={copy}>{copied ? <><Ico n="check" /> 已複製</> : <><Ico n="copy" /> 複製備份碼</>}</button>
       <label className="lgp-pz-label" htmlFor="lgp-restore">從別的裝置接過來：</label>
       <textarea id="lgp-restore" className="lgp-pz-code" rows={2} placeholder="把備份碼貼在這裡" value={paste}
         onChange={(e) => { setPaste(e.target.value); setMsg(null); }} />
-      <button className="lgp-key" disabled={!paste.trim()} onClick={restore}>⤵ 合併進度</button>
+      <button className="lgp-key" disabled={!paste.trim()} onClick={restore}><Ico n="merge" /> 合併進度</button>
       {msg && <p className={msg.err ? "err" : "ok"} role="status">{msg.text}</p>}
       <p className="lgp-pz-small">合併只會讓進度變多，不會把這台裝置上的進度蓋掉。</p>
     </section>

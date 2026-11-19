@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Ico } from "@/components/play/icons";
 import type { GameKind } from "@/lib/puzzles/save";
 import { speak, stopSpeaking } from "@/lib/puzzles/speech";
 
@@ -52,7 +53,7 @@ const SUDOKU_FRAMES: SudokuFrame[] = [
 const FRAMES: Record<GameKind, { say: string }[]> = { nono: NONO_FRAMES, stroke: STROKE_FRAMES, sudoku: SUDOKU_FRAMES };
 const TITLES: Record<GameKind, string> = { nono: "數織怎麼玩", stroke: "一筆畫怎麼玩", sudoku: "數獨怎麼玩" };
 
-const Hand = () => <span className="lgp-hand" aria-hidden="true">👆</span>;
+const Hand = () => <span className="lgp-hand" aria-hidden="true"><Ico n="hand" /></span>;
 
 function NonoDemo({ f }: { f: NonoFrame }) {
   return (
@@ -95,7 +96,7 @@ function StrokeDemo({ f }: { f: StrokeFrame }) {
           <circle key={k} cx={x} cy={y} r={13} className={f.cur === k ? "lgp-node cur" : "lgp-node"} />
         ))}
       </svg>
-      <span className="lgp-hand" aria-hidden="true" style={{ left: hx - 6, top: hy + 4 }}>👆</span>
+      <span className="lgp-hand" aria-hidden="true" style={{ left: hx - 6, top: hy + 4 }}><Ico n="hand" /></span>
     </div>
   );
 }
@@ -161,7 +162,7 @@ export function DemoOverlay({ game, onClose }: { game: GameKind; onClose: () => 
   return (
     <div className="lgp-overlay">
       <div className="lgp-win lgp-chunky lgp-demo-card" role="dialog" aria-label={TITLES[game]}>
-        <h3 style={{ fontSize: "1.3rem" }}>👀 {TITLES[game]}</h3>
+        <h3 style={{ fontSize: "1.3rem" }}><Ico n="eye" /> {TITLES[game]}</h3>
         {game === "nono" && <NonoDemo f={NONO_FRAMES[i]} />}
         {game === "stroke" && <StrokeDemo f={STROKE_FRAMES[i]} />}
         {game === "sudoku" && <SudokuDemo f={SUDOKU_FRAMES[i]} />}
@@ -176,9 +177,9 @@ export function DemoOverlay({ game, onClose }: { game: GameKind; onClose: () => 
               speak(frames[i].say, () => pendingNext.current?.());
             } else stopSpeaking();
           }}>
-            🔊 {voice ? "朗讀中" : "念給我聽"}
+            <Ico n="sound" /> {voice ? "朗讀中" : "念給我聽"}
           </button>
-          <button className="lgp-key" onClick={() => { stopSpeaking(); setI(0); }}>↺ 再看一次</button>
+          <button className="lgp-key" onClick={() => { stopSpeaking(); setI(0); }}><Ico n="reset" /> 再看一次</button>
           <button className="lgp-key go" onClick={() => { stopSpeaking(); onClose(); }}>我會了！</button>
         </div>
       </div>

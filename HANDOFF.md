@@ -12,6 +12,7 @@
 >   樹的程式：`lib/puzzles/tree.ts`，規格見 `docs/tree-design.md`。「看我做一次」示範和語音朗讀保留。
 >   舊存檔的星星直接變成水滴數，其他舊欄位載入時丟掉。
 > - 進度目前只存在瀏覽器（訪客模式），還沒接 Supabase。
+> - **2026-11-19 新畫風「印刷謎題本」**（使用者覺得原本 AI 感太強）：表情符號換成手繪雙色 SVG 圖示（`components/play/icons.tsx`），字型改 jf 粉圓（Google Fonts「Huninn」，SIL OFL），紙張底色與暖色配色（`app/play/look-book.css`）。樹和地圖的顏色在 `bookTree()` 換掉。舊畫風網址加 `?look=classic` 還看得到，確定不用可整段刪掉。
 > - **2026-11-19 MVP 補齊**：
 >   - 「👨‍👩‍👧 家長專區」（`components/play/parent-zone.tsx`）：先答一題國字加法，再看最近 7 天每天解幾題、三種謎題各解幾題／幾題用了提示、使用建議、加到主畫面教學、進度備份碼（複製／貼上合併）。
 >   - 存檔多了 `hints`、`log`（每天解幾題，留 60 天），`mergeSaves` 已完成並有測試。

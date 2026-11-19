@@ -3,20 +3,22 @@
 import { createContext, useContext } from "react";
 
 /**
- * 畫風切換：classic = 原本的表情符號版；book = 「印刷謎題本」版（手繪線條圖示＋套色偏移）。
- * 對照頁用 ?look=book 切換，確定後再把預設改掉。
+ * 畫風：book =「印刷謎題本」（手繪線條圖示＋套色偏移，2026-11-19 起的預設）；
+ * classic = 舊的表情符號版，網址加 ?look=classic 還看得到，確定不用再整段刪掉。
  */
 export type Look = "classic" | "book";
-export const LookContext = createContext<Look>("classic");
+export const LookContext = createContext<Look>("book");
 export const useLook = () => useContext(LookContext);
 
 export type IconName =
   | "drop" | "tree" | "map" | "sound" | "mute" | "crown" | "nono" | "stroke" | "sudoku"
-  | "lock" | "check" | "bulb" | "play" | "sprout" | "parent" | "reset" | "cross" | "question";
+  | "lock" | "check" | "bulb" | "play" | "sprout" | "parent" | "reset" | "cross" | "question"
+  | "hand" | "copy" | "phone" | "merge" | "eye";
 
 const EMOJI: Record<IconName, string> = {
   drop: "💧", tree: "🌳", map: "🗺️", sound: "🔊", mute: "🔇", crown: "👑", nono: "🧩", stroke: "✏️", sudoku: "🔢",
   lock: "🔒", check: "✓", bulb: "💡", play: "▶", sprout: "🌱", parent: "👨‍👩‍👧", reset: "↺", cross: "✕", question: "❓",
+  hand: "👆", copy: "📋", phone: "📲", merge: "⤵", eye: "👀",
 };
 
 /* 每個圖示兩層：底色（往右下偏一點，像印刷套色沒對準）＋墨線。viewBox 0 0 24 24 */
@@ -80,6 +82,26 @@ const ART: Record<IconName, Art> = {
   },
   reset: { ink: "M5.6 12a6.4 6.4 0 1 0 2-4.6 M4.8 4.4l.6 3.6 3.6-.4" },
   cross: { ink: "M6.4 6.4l11.2 11.2 M17.6 6.4L6.4 17.6" },
+  hand: {
+    fill: [[C.paper, "M9.5 4.8a1.5 1.5 0 0 1 3 0v5.4a1.5 1.5 0 0 1 3 .6 1.5 1.5 0 0 1 3 0v3.4c0 3.6-2.4 6.4-6 6.4h-.6c-2 0-3.4-.9-4.6-2.6l-2.6-3.8a1.4 1.4 0 0 1 2.2-1.7L9.5 15z"]],
+    ink: "M9.5 15V4.8a1.5 1.5 0 0 1 3 0V11 M12.5 10.8a1.5 1.5 0 0 1 3 0v.6 M15.5 11a1.5 1.5 0 0 1 3 0v3.2c0 3.6-2.4 6.4-6 6.4h-.6c-2 0-3.4-.9-4.6-2.6l-2.6-3.8a1.4 1.4 0 0 1 2.2-1.7L9.5 15",
+  },
+  copy: {
+    fill: [[C.sun, "M8.6 8.4h10.6v11.8H8.6z"]],
+    ink: "M8.6 8.4h10.6v11.8H8.6z M15.4 8.4V4H4.8v11.8h3.8 M11.2 12.4h5.4 M11.2 15.6h4",
+  },
+  phone: {
+    fill: [[C.sky, "M7 3.4h10v17.2H7z"]],
+    ink: "M7 3.4h10v17.2H7z M10.6 18h2.8 M12 7v6.6 M9.4 11l2.6 2.6 2.6-2.6",
+  },
+  merge: {
+    fill: [[C.leaf, "M4.4 14.6h15.2v5.4H4.4z"]],
+    ink: "M12 3.8v9.4 M8.4 9.8l3.6 3.6 3.6-3.6 M4.4 14.6v5.4h15.2v-5.4",
+  },
+  eye: {
+    fill: [[C.sky, "M12 8.6a3.4 3.4 0 1 1 0 6.8 3.4 3.4 0 0 1 0-6.8z"]],
+    ink: "M2.8 12c2.4-4 5.6-6 9.2-6s6.8 2 9.2 6c-2.4 4-5.6 6-9.2 6s-6.8-2-9.2-6z M12 8.6a3.4 3.4 0 1 1 0 6.8 3.4 3.4 0 0 1 0-6.8z",
+  },
   question: {
     fill: [[C.paper, "M12 3.6a8.4 8.4 0 1 1 0 16.8 8.4 8.4 0 0 1 0-16.8z"]],
     ink: "M12 3.6a8.4 8.4 0 1 1 0 16.8 8.4 8.4 0 0 1 0-16.8z M9.6 9.8c0-1.6 1.1-2.6 2.5-2.6 1.5 0 2.5 1 2.5 2.3 0 1.9-2.6 2-2.6 4 M12 16.6v.2",

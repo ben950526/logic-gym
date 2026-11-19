@@ -3,9 +3,9 @@
 /* 全站只剩 /play，樣式都在 app/play/play.css（包在 .lgp 底下） */
 body {
   margin: 0;
-  background: #e6f0ff;
-  color: #23305a;
+  background: #f4eddd;
+  color: #2e2a33;
 }
 @media (prefers-color-scheme: dark) {
-  body { background: #12172b; color: #eef2ff; }
+  body { background: #1f1d22; color: #f1ebdf; }
 }
