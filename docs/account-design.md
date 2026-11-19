@@ -19,7 +19,7 @@
   | `muted` | 靜音 | 會切換（偏好設定） |
 
 - 換裝置、清瀏覽器資料、無痕模式都會讓進度不見。
-- 舊的 Cursor 時期已經有 Supabase 登入（email＋密碼）和 `profiles` 表（`plan` 欄位 `free`／`paid`），在 `app/login/`、`lib/supabase/`、`supabase/migrations/`。Supabase 專案目前暫停中。
+- 舊的 Cursor 時期已經有 Supabase 登入（email＋密碼）和 `profiles` 表（`plan` 欄位 `free`／`paid`），資料表在 `supabase/migrations/`；登入頁和 Supabase 連線程式已在 2026-11-19 刪除（git tag `legacy-before-cleanup` 找得回來），實作時重寫。Supabase 專案目前暫停中。
 
 ## 2. 原則
 

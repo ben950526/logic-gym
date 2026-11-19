@@ -2,7 +2,7 @@
 
 > **2026-11-17 方向更新（V3）**：放棄「劇情破關＋人工美術」，改做「互動謎題本」：
 > 程式產生、驗算過唯一解的數織／一筆畫／數獨，搭配「我的樹」成長與冒險地圖。
-> - 新遊戲頁：`/play`（首頁 `/` 直接導過去；舊頁面現在都導回 /play，舊星球地圖程式都還在）
+> - 新遊戲頁：`/play`（首頁 `/` 直接導過去；舊頁面已刪除，舊網址導回 /play）
 > - 謎題引擎：`lib/puzzles/`；驗證：`npm run verify:puzzle-engine`
 > - 介面：`components/play/`、`app/play/play.css`
 > - 規劃：`docs/roadmap-2026-11.md`；設計：`docs/design-direction.md`；市場：`docs/market-research-2026-11.md`
@@ -15,7 +15,7 @@
 > - **2026-11-19 MVP 補齊**：
 >   - 「👨‍👩‍👧 家長專區」（`components/play/parent-zone.tsx`）：先答一題國字加法，再看最近 7 天每天解幾題、三種謎題各解幾題／幾題用了提示、使用建議、加到主畫面教學、進度備份碼（複製／貼上合併）。
 >   - 存檔多了 `hints`、`log`（每天解幾題，留 60 天），`mergeSaves` 已完成並有測試。
->   - 舊頁面（/login、/pricing、/galaxy、/old-home 等）一律導回 /play（`middleware.ts`）；/admin 不受影響。舊程式都還在。
+>   - **舊版程式已刪除**（星球地圖、登入、價目頁、後台、Stripe、舊題庫與腳本）。舊網址在 `next.config.ts` 導回 /play。要找回舊程式：git tag `legacy-before-cleanup`。`supabase/migrations/` 保留，做帳號時沿用。
 >   - 可以加到手機主畫面（`app/manifest.ts`、`app/icon*.tsx`、`lib/app-icon.tsx`）。
 > - 帳號／雲端存檔／付款：已決定「收費前一起做」，規格在 `docs/account-design.md`（含舊 profiles 表可能讓使用者自己把 plan 設成 paid 的漏洞，實作時要修）。
 >
@@ -28,7 +28,7 @@
 > 6. 真的卡住、非得別的專案馬上處理時，告訴使用者，由使用者決定。
 > 7. **回報要精簡**（2026-11-19）：最多 3–5 行，只寫「結果一句話＋需要使用者做的事（沒有就寫「不用動」）」，不列過程；使用者有問題會自己問。
 >
-> 以下第 1～9 節是 11/16 接手時的盤點，部分內容（產品定位、下一步）已被上面取代。
+> 以下第 1～9 節是 11/16 接手時的盤點，部分內容（產品定位、下一步、舊程式位置）已被上面取代；提到的舊檔案多半已刪除。
 
 > 寫於 2026-11-16。上一次在 Cursor 開發是 2026-07-20 深夜，中間停了約四個月。
 > 程式就在 `C:\邏輯思考網站\logic-gym` 原地，Cursor 和 Claude Code 都能開。

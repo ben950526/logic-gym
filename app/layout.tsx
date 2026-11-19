@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-Hant">
-      <body className="min-h-screen antialiased">{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
