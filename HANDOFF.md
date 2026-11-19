@@ -2,7 +2,7 @@
 
 > **2026-11-17 方向更新（V3）**：放棄「劇情破關＋人工美術」，改做「互動謎題本」：
 > 程式產生、驗算過唯一解的數織／一筆畫／數獨，搭配「我的樹」成長與冒險地圖。
-> - 新遊戲頁：`/play`（首頁 `/` 直接導過去；舊首頁在 `/old-home`，舊星球地圖程式都還在）
+> - 新遊戲頁：`/play`（首頁 `/` 直接導過去；舊頁面現在都導回 /play，舊星球地圖程式都還在）
 > - 謎題引擎：`lib/puzzles/`；驗證：`npm run verify:puzzle-engine`
 > - 介面：`components/play/`、`app/play/play.css`
 > - 規劃：`docs/roadmap-2026-11.md`；設計：`docs/design-direction.md`；市場：`docs/market-research-2026-11.md`
@@ -12,6 +12,11 @@
 >   樹的程式：`lib/puzzles/tree.ts`，規格見 `docs/tree-design.md`。「看我做一次」示範和語音朗讀保留。
 >   舊存檔的星星直接變成水滴數，其他舊欄位載入時丟掉。
 > - 進度目前只存在瀏覽器（訪客模式），還沒接 Supabase。
+> - **2026-11-19 MVP 補齊**：
+>   - 「👨‍👩‍👧 家長專區」（`components/play/parent-zone.tsx`）：先答一題國字加法，再看最近 7 天每天解幾題、三種謎題各解幾題／幾題用了提示、使用建議、加到主畫面教學、進度備份碼（複製／貼上合併）。
+>   - 存檔多了 `hints`、`log`（每天解幾題，留 60 天），`mergeSaves` 已完成並有測試。
+>   - 舊頁面（/login、/pricing、/galaxy、/old-home 等）一律導回 /play（`middleware.ts`）；/admin 不受影響。舊程式都還在。
+>   - 可以加到手機主畫面（`app/manifest.ts`、`app/icon*.tsx`、`lib/app-icon.tsx`）。
 > - 帳號／雲端存檔／付款：已決定「收費前一起做」，規格在 `docs/account-design.md`（含舊 profiles 表可能讓使用者自己把 plan 設成 paid 的漏洞，實作時要修）。
 >
 > **2026-11-19 起的工作流規則**（全文：`C:\Users\BEN\OneDrive\Desktop\CLAUDE技能學習\_專案需求信箱\00_工作流規則.md`）：

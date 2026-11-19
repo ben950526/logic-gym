@@ -1,15 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { AdventureMap } from "@/components/play/adventure-map";
 import { NonogramBoard, StrokeBoard, SudokuBoard, type WinInfo } from "@/components/play/boards";
 import { DemoOverlay } from "@/components/play/demo";
+import { ParentZone } from "@/components/play/parent-zone";
 import { PixelPicture } from "@/components/play/pixel-picture";
 import { nodeAt } from "@/lib/puzzles/adventure";
 import { PICTURES } from "@/lib/puzzles/pictures";
 import { randInt } from "@/lib/puzzles/random";
-import { loadSave, writeSave, type GameKind, type PlaySave } from "@/lib/puzzles/save";
+import { loadSave, recordSolve, writeSave, type GameKind, type PlaySave } from "@/lib/puzzles/save";
 import { setMuted, sfx } from "@/lib/puzzles/sound";
 import { speak } from "@/lib/puzzles/speech";
 import {
@@ -87,7 +87,11 @@ export function PuzzleGame() {
   const [overlay, setOverlay] = useState<Overlay>(null);
   const [rustle, setRustle] = useState(0);
   const [sky, setSky] = useState<ReturnType<typeof skyNow>>("day");
+  const [parentOpen, setParentOpen] = useState(false);
   const primaryBtn = useRef<HTMLButtonElement>(null);
+  const saveRef = useRef<PlaySave | null>(null); // 最新的存檔（延遲觸發的過關、提示不會拿到舊的）
+  saveRef.current = save;
+  const hintedRef = useRef(false); // 這一題按過提示了沒（每題最多算一次）
 
   useEffect(() => {
     const s = loadSave();
@@ -106,7 +110,7 @@ export function PuzzleGame() {
   const nextPicture = PICTURES.find((p) => !save.dex.includes(p.name));
   const upNext = nodeAt(save.adv);
 
-  const update = (s: PlaySave) => { setSave(s); writeSave(s); };
+  const update = (s: PlaySave) => { saveRef.current = s; setSave(s); writeSave(s); };
 
   const openNode = (k: number) => {
     const n = nodeAt(k);
@@ -115,18 +119,21 @@ export function PuzzleGame() {
     setTab("map");
     setPlaying(k);
     setRound((r) => r + 1);
+    hintedRef.current = false;
     if (!save.seenDemo.includes(n.game)) setOverlay({ kind: "demo", game: n.game });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleWin = (w: WinInfo) => {
-    if (!node) return;
+    const save = saveRef.current;
+    if (!node || !save) return;
+    const drops = save.stars;
     const gain = node.boss && node.index === save.adv ? BOSS_DROPS : 1; // BOSS 加碼只算第一次
     const before = treeStageOf(drops);
     const next: PlaySave = {
       ...save,
       stars: drops + gain,
-      solved: { ...save.solved, [node.game]: save.solved[node.game] + 1 },
+      ...recordSolve(save, node.game),
       dex: w.picture && !save.dex.includes(w.picture.name) ? [...save.dex, w.picture.name] : save.dex,
       adv: node.index === save.adv ? save.adv + 1 : save.adv, // 重玩已過的關不會再往前走
     };
@@ -169,6 +176,11 @@ export function PuzzleGame() {
     onWin: handleWin,
     onOops: () => sfx.wrong(),
     onDemo: () => setOverlay({ kind: "demo", game: node.game }),
+    onHint: () => {
+      if (hintedRef.current) return;
+      hintedRef.current = true;
+      const s = saveRef.current!;
+      update({ ...s, hints: { ...s.hints, [node.game]: s.hints[node.game] + 1 } }); },
   } : null;
 
   const winSay = overlay?.kind === "win"
@@ -257,10 +269,13 @@ export function PuzzleGame() {
       )}
 
       <footer className="lgp-footer">
-        每一題都由程式產生，並驗算過答案只有一個 · 進度先存在這台裝置
-        <br />
-        <Link href="/pricing">家長專區</Link>
+        <button className="lgp-key lgp-parent-btn" onClick={() => { sfx.tap(); setParentOpen(true); }}>👨‍👩‍👧 家長專區</button>
+        <span>每一題都由程式產生，並驗算過答案只有一個 · 進度存在這台裝置</span>
       </footer>
+
+      {parentOpen && (
+        <ParentZone save={save} onMerge={(s) => { setMuted(s.muted); update(s); }} onClose={() => setParentOpen(false)} />
+      )}
 
       {overlay?.kind === "demo" && <DemoOverlay game={overlay.game} onClose={() => closeDemo(overlay.game)} />}
 

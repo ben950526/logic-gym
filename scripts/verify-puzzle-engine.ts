@@ -8,6 +8,7 @@ import { PICTURES, picturePuzzle } from "../lib/puzzles/pictures";
 import { seededRng } from "../lib/puzzles/random";
 import { hasEulerPath, makeStroke, strokeGrid, strokeTarget } from "../lib/puzzles/stroke";
 import { countSolutions as sudokuCount, isValidSolution, makeSudoku, sudokuGivens } from "../lib/puzzles/sudoku";
+import { emptySave, exportBackup, importBackup, mergeSaves, normalizeSave, recordSolve, type PlaySave } from "../lib/puzzles/save";
 import { growthNote, nextTreeStage, stageProgress, TREE_STAGES, treeCounts, treeStageOf, treeSvg } from "../lib/puzzles/tree";
 
 let failures = 0;
@@ -140,6 +141,47 @@ console.log("=== 我的樹 ===");
   if (!treeSvg(100).includes("lgp-t-star") || !treeSvg(70).includes("#ffe1b0")) fail("100 滴應該有星星、70 滴應該有樹屋");
 }
 console.log("  1～160 滴檢查完畢");
+
+console.log("=== 存檔合併與備份碼 ===");
+{
+  const r = seededRng(20261119);
+  const games = ["nono", "stroke", "sudoku"] as const;
+  const randSave = (): PlaySave => {
+    let s = emptySave();
+    const steps = Math.floor(r() * 40);
+    for (let i = 0; i < steps; i++) {
+      const g = games[Math.floor(r() * 3)];
+      const day = `2026-11-${String(1 + Math.floor(r() * 20)).padStart(2, "0")}`;
+      s = { ...s, ...recordSolve(s, g, day), stars: s.stars + 1, adv: s.adv + (r() < 0.7 ? 1 : 0) };
+      if (r() < 0.3) s = { ...s, hints: { ...s.hints, [g]: s.hints[g] + 1 } };
+      if (r() < 0.2) s = { ...s, dex: [...new Set([...s.dex, "P" + Math.floor(r() * 6)])] };
+      if (r() < 0.1) s = { ...s, seenDemo: [...new Set([...s.seenDemo, g])] };
+    }
+    return s;
+  };
+  const geq = (m: PlaySave, x: PlaySave) =>
+    m.stars >= x.stars && m.adv >= x.adv &&
+    games.every((g) => m.solved[g] >= x.solved[g] && m.hints[g] >= x.hints[g]) &&
+    x.dex.every((d) => m.dex.includes(d)) && x.seenDemo.every((d) => m.seenDemo.includes(d)) &&
+    Object.entries(x.log).every(([k, v]) => games.every((g) => (m.log[k]?.[g] ?? 0) >= (v[g] ?? 0)));
+  const norm = (s: PlaySave) => JSON.stringify({ ...s, dex: [...s.dex].sort(), seenDemo: [...s.seenDemo].sort(), log: Object.fromEntries(Object.entries(s.log).sort()) });
+  for (let i = 0; i < 300; i++) {
+    const a = randSave(), b = randSave();
+    const m = mergeSaves(a, b);
+    if (!geq(m, a) || !geq(m, b)) fail(`合併第 ${i + 1} 組：有欄位變少了`);
+    if (norm(mergeSaves(m, b)) !== norm(m)) fail(`合併第 ${i + 1} 組：合併兩次結果不一樣`);
+    if (norm({ ...mergeSaves(b, a), muted: m.muted }) !== norm(m)) fail(`合併第 ${i + 1} 組：順序對調結果不一樣`);
+    const back = importBackup(exportBackup(a));
+    if (!back || norm({ ...back, muted: a.muted }) !== norm(normalizeSave(a))) fail(`備份碼第 ${i + 1} 組：還原後不一樣`);
+  }
+  if (importBackup("亂打的字") !== null || importBackup("LG1-@@@") !== null) fail("壞掉的備份碼應該讀不出來");
+  const weird = normalizeSave({ stars: -3, adv: "x", solved: { nono: 2.7 }, dex: [1, "A", "A"], log: { bad: { nono: 1 }, "2026-11-01": { nono: 2, foo: 9 } }, garden: {} });
+  if (weird.stars !== 0 || weird.adv !== 0 || weird.solved.nono !== 2 || weird.dex.join() !== "A" || Object.keys(weird.log).join() !== "2026-11-01") fail("normalizeSave 沒有把怪資料整理好");
+  const many = emptySave();
+  for (let d = 0; d < 90; d++) many.log[`2026-${String(1 + Math.floor(d / 28)).padStart(2, "0")}-${String(1 + (d % 28)).padStart(2, "0")}`] = { nono: 1 };
+  if (Object.keys(normalizeSave(many).log).length !== 60) fail("每日紀錄應該只留最近 60 天");
+  console.log("  300 組合併＋備份碼檢查完畢");
+}
 
 if (failures) {
   console.log(`\n✗ ${failures} 個問題`);

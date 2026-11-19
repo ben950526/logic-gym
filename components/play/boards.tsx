@@ -20,6 +20,7 @@ interface BoardProps {
   onWin: (w: WinInfo) => void;
   onOops: () => void;
   onDemo: () => void;
+  onHint?: () => void;
 }
 
 const reducedMotion = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -36,7 +37,7 @@ function shake(el: Element | null) {
 export function NonogramBoard(props: BoardProps & { picture?: Picture }) {
   // 題目在這一題開始時就固定，過關後進度更新也不會換題
   const [{ level, picture }] = useState(() => props);
-  const { onWin, onDemo } = props;
+  const { onWin, onDemo, onHint } = props;
   const [puzzle] = useState<NonogramPuzzle>(() => {
     if (picture) return picturePuzzle(picture);
     return makeRandom(7); // 圖案題全部做完以後（最後幾張已經是 7×7），挑戰題維持 7×7
@@ -72,6 +73,7 @@ export function NonogramBoard(props: BoardProps & { picture?: Picture }) {
     for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if ((state[r][c] === 1) !== (puzzle.solution[r][c] === 1)) wrong.push([r, c]);
     if (!wrong.length) return;
     const [r, c] = wrong[randInt(wrong.length)];
+    onHint?.();
     const next = state.map((row) => row.slice());
     next[r][c] = puzzle.solution[r][c] === 1 ? 1 : 2;
     sfx.tap();
@@ -119,7 +121,7 @@ export function NonogramBoard(props: BoardProps & { picture?: Picture }) {
 }
 
 /* ───────── 一筆畫 ───────── */
-export function StrokeBoard({ level: levelProp, onWin, onOops, onDemo }: BoardProps) {
+export function StrokeBoard({ level: levelProp, onWin, onOops, onDemo, onHint }: BoardProps) {
   const [level] = useState(levelProp);
   const [puzzle] = useState(() => makeStroke(level));
   const ok = useMemo(() => hasEulerPath(puzzle.nodes, puzzle.edges), [puzzle]);
@@ -177,6 +179,7 @@ export function StrokeBoard({ level: levelProp, onWin, onOops, onDemo }: BoardPr
       <div className="lgp-keys">
         <button className="lgp-key" onClick={reset}>↺ 重來</button>
         <button className="lgp-key" onClick={() => {
+          if (!hintOn) onHint?.();
           setHintOn(true); sfx.tap();
           setMsg({ text: puzzle.oddNodes.length ? "紅框的點連著「單數」條線。從其中一個出發，就會在另一個結束。" : "每個點都連著雙數條線，從哪裡出發都可以。", err: false });
         }}>💡 提示</button>
@@ -188,7 +191,7 @@ export function StrokeBoard({ level: levelProp, onWin, onOops, onDemo }: BoardPr
 }
 
 /* ───────── 4×4 數獨 ───────── */
-export function SudokuBoard({ level: levelProp, onWin, onOops, onDemo }: BoardProps) {
+export function SudokuBoard({ level: levelProp, onWin, onOops, onDemo, onHint }: BoardProps) {
   const [level] = useState(levelProp);
   const [puzzle] = useState(() => makeSudoku(level));
   const unique = useMemo(() => countSolutions(puzzle.givens) === 1, [puzzle]);
@@ -214,6 +217,7 @@ export function SudokuBoard({ level: levelProp, onWin, onOops, onDemo }: BoardPr
     const wrong = state.map((_, i) => i).filter((i) => state[i] !== puzzle.solution[i]);
     if (!wrong.length || done) return;
     const i = wrong[randInt(wrong.length)];
+    onHint?.();
     setSel(i); set(i, puzzle.solution[i]);
   };
 
